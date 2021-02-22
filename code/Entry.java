@@ -3,7 +3,7 @@
 The purpose of the class is to act as an abstract superclass for all Entry Subtypes 
 specifically NumEntry and StringEntry. We need to consider what it is that all of our 
 entries must be able to do.  They will all need a toString() method an equalEntry() 
-method.  The problem is that 
+method and a way to get and set themselves.  
 
 */
 

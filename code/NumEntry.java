@@ -17,6 +17,16 @@ public class NumEntry extends Entry<NumEntry>
 	}//end constructor
 
 	
+	public NumEntry(NumEntry entry)
+	{
+	
+	
+		this.num = entry.getNum(); 
+		this.den = entry.getDen(); 
+		
+	
+	}//end NumEntry
+	
 	public long getNum()
 	{
 		
