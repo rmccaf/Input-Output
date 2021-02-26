@@ -27,11 +27,12 @@ public abstract class Vector<T1 extends Vector, T2 extends Entry>
 {
 
 
-	ArrayList<T2> entryList;
+	ArrayList<T2> entryList = new ArrayList<T2>();
 	int length; 
 	
 	public Vector(ArrayList<T2> entryList)
 	{
+	
 		
 		for(int i = 0 ; i < entryList.size() ; i++)
 		{

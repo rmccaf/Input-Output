@@ -59,6 +59,21 @@ public class NumEntry extends Entry<NumEntry>
 	
 	}
 	
+	
+	public void setNum(long num)
+	{
+		
+		this.num = num; 
+	
+	}//end setNum() 
+	
+	
+	public void setDen(long den)
+	{
+		
+		this.den = den; 
+	
+	}//end setDen() 
 		
 
 	public String toString()

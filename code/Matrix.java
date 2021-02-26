@@ -24,8 +24,8 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 {
 	
 	
-	ArrayList<T2> rowVectors; 
-	ArrayList<T2> columnVectors; 
+	ArrayList<T2> rowVectors = new ArrayList<T2>(); 
+	ArrayList<T2> columnVectors = new ArrayList<T2>(); 
 	int rowDimension; 
 	int colDimension; 
 	
@@ -33,17 +33,39 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	public Matrix(ArrayList<T2> rowVectorList)
 	{
 		
-		this.rowVectors = rowVectorList; 
+		
+		
+		for(int i = 0 ; i < rowVectorList.size() ; i++)
+		{
+			
+			this.rowVectors.add(rowVectorList.get(i)); 
+		
+		}//end for  
 		
 		this.rowDimension = rowVectors.size(); 
 		
-		rowsToColumns(this.rowVectors);
+		//rowsToColumns(this.rowVectors);
 		
-		this.colDimension = this.columnVectors.size(); 
+		//this.colDimension = this.columnVectors.size(); 
 				
 	}//end constructor 
 
-
+	public int getRowDim()
+	{
+	
+		return this.rowDimension; 
+	
+	}//end getRowDim()
+	
+	
+	public int getColDim()
+	{
+		
+		return this.colDimension; 
+	
+	}//end getColDim() 
+	
+	
 
 	public abstract T1 getMatrix();
 	

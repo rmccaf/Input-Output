@@ -2,23 +2,19 @@ import java.util.ArrayList;
 public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 {
 
-	ArrayList<NumVector> rowVectors; 
-	ArrayList<NumVector> colVectors; 
-	int rowDimension;
-	int colDimension; 
 	
 	
-	public NumMatrix(ArrayList<NumVector> rowVectors)
+	public NumMatrix(ArrayList<NumVector> rowVectorList)
 	{
 	
-		super(rowVectors); 
+		super(rowVectorList); 
 	
 	}//end constructor 
 	
 	
 	public NumMatrix getMatrix()
 	{
-		
+
 		return new NumMatrix(this.rowVectors); 
 	
 	}//end getMatrix()
