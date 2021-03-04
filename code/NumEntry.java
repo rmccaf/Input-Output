@@ -1,3 +1,8 @@
+import java.lang.Math; 
+
+import java.math.BigInteger; 
+
+
 public class NumEntry extends Entry<NumEntry>
 {
 	
@@ -8,24 +13,54 @@ public class NumEntry extends Entry<NumEntry>
 	{
 		
 		//select for division by zero 
+		if(den == 0)
+		{
 		
-		this.num = num; 
-		this.den = den; 
-	
-		//lowest terms
-	
+			throw new IllegalArgumentException("The Denominator is zero check input");
+		
+		
+		}//end if 
+		
+		//check for double negatives and put negatives in the numerator
+		if(den < 0 && num < 0)
+		{
+			
+			den *= -1;
+			num *= -1;  
+				
+			
+		}//end if 
+		else if(den < 0 && num > 0)
+		{
+			
+			num *= -1; 
+			den *= -1; 	
+		
+		}//end else if 
+		
+		//find lowest terms
+		BigInteger numerator = new BigInteger(Long.toString(num));
+		BigInteger denominator = new BigInteger(Long.toString(den)); 
+		BigInteger gcd = numerator.gcd(denominator); 
+		numerator.divide(gcd);
+		denominator.divide(gcd);
+		
+		//set global variables
+		this.num = numerator.longValue(); 
+		this.den = denominator.longValue(); 
+		  
 	}//end constructor
 
 	
 	public NumEntry(NumEntry entry)
 	{
-	
-	
+		
 		this.num = entry.getNum(); 
 		this.den = entry.getDen(); 
-		
 	
 	}//end NumEntry
+	
+	
 	
 	public long getNum()
 	{

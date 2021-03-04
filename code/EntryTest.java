@@ -17,65 +17,62 @@ public class EntryTest
 	public static void main(String[] args)
 	{
 	
-		//run test for references
-		if(referenceTest())
-			System.out.println("referenceTest() PASSED."); 
+		//check lowestTerms 
 		
-		//run value test 
+		//check getters 
+	
+		//check equality
 		
-		//run test for calling ops
-		operationsTest(); 
+		//check setters 
+			
+		//print preview
 	
 	}//end main() 
 	
-	
-	//referenceTest 
-	public static boolean referenceTest()
+
+	public static boolean checkLowestTerms()
 	{
 	
-		boolean returnValue = true; 
-		
-		//create entry values
-		NumEntry numberEntry = new NumEntry(0,0);
-		
-		NumEntry entryToChange = numberEntry.getObj(); 
-		
-		
-		entryToChange.setNum(2);
-		entryToChange.setDen(3);
-		
-		//check the value of numberentry making sure it is still  0 0 
-		if(numberEntry.getNum() != 0 && numberEntry.getDen() != 0)
-			return false;
-			
-		//check the value of the entry to change make sure it is 2/3 
-		if(entryToChange.getNum() != 2 && entryToChange.getDen() != 3)  
-			return false; 
-		
-		
-		//test string Entry
-		
-		
-		
-		
-		return returnValue; 
-			
-	}//end reference test() 
 	
+	}//end checkLowestTerms() 
+
 	
-	//calling operations test
-	public static boolean operationsTest()
+	public static boolean checkGet()
 	{
+		returnBoolean = false; 
 		
-		//test number entry 
-		EntryOps.addition(new NumEntry(2,3) , new NumEntry(2,3) );
-		
-		
-		//test string entry
-		EntryOps.addition(new StringEntry("2","3"),new StringEntry("2","3")); 
+		return returnBoolean; 
+	
+	}//end checkGet() 
+	
+	
+	
+	public static boolean checkEquals()
+	{
+	
+	
+	
+	}//end checkEquals()
+	
+	
+	public static boolean checkSet()
+	{
+	
+	
 		return true; 
 	
-	}//end operationsTest()
-
+	}//end checkSet() 
+		
+		
+	
+	public static void printPreview()
+	{
+	
+	
+	
+	
+	}//end printPreview() 
+		
+		
 
 }//end EntryTest class 

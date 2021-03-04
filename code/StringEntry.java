@@ -1,15 +1,53 @@
+import java.math.BigInteger;
+
+
 public class StringEntry extends Entry<StringEntry>
 {
 
-	String num, den; 
+	BigInteger num, den; 
 
 
 	public StringEntry(String num, String den)
 	{
+		
+		
+		this.num = new BigInteger(num);
+		this.den = new BigInteger(den);
+		
+		//check for division by zero case
+		if(BigInteger.ZERO.equals(new BigInteger(den)))
+		{
+			
+			throw new IllegalArgumentException("The denominator is zero check input"); 
+		
+		}//end if
+		
 	
-		this.num = num; 
-		this.den = den; 
-	
+		//make sure numerator is negative if the number is negative
+		if(BigInteger.ZERO.compareTo(this.num) > 0 && BigInteger.ZERO.compareTo(this.den) > 0)
+		{
+			
+			//set as positive
+			this.num.negate();
+			this.den.negate(); 
+		
+		}//end if
+		else if(BigInteger.ZERO.compareTo(this.num) < 0 && BigInteger.ZERO.compareTo(this.den) > 0)
+		{
+		
+			//set to positive
+			this.num.negate(); 
+			this.den.negate(); 
+			
+		}//end else if
+				
+		//put into lowest terms
+		BigInteger gcd = this.num.gcd(this.den);
+		
+		//set the num and den
+		this.num = this.num.divide(gcd);
+		this.den = this.den.divide(gcd);
+		
 	}//end StringEntry 
 
 
@@ -27,25 +65,25 @@ public class StringEntry extends Entry<StringEntry>
 	public StringEntry getObj()
 	{
 		
-		return new StringEntry(this.num,this.den);
+		return new StringEntry(this.num.toString(),this.den.toString());
 	
 	}//end getObj() 
 	
 
-	public String getNum()
+	public BigInteger getNum()
 	{
 	
-		return this.num; 
+		return new BigInteger(this.num.toString());   
 		
 	
 	}//end getNum() 
 	
 	
 	
-	public String getDen()
+	public BigInteger getDen()
 	{
 	
-		return this.den; 
+		return new BigInteger(this.den.toString()); 
 	
 	}//end getDen()
 	
@@ -59,7 +97,7 @@ public class StringEntry extends Entry<StringEntry>
 	}//end setObj
 
 	
-	public void setNum(String num)
+	public void setNum(BigInteger num)
 	{
 		
 		this.num = num; 
@@ -67,7 +105,7 @@ public class StringEntry extends Entry<StringEntry>
 	}//end setNum()
 	
 	
-	public void setDen(String den)
+	public void setDen(BigInteger den)
 	{
 		
 		this.den = den; 
@@ -78,7 +116,7 @@ public class StringEntry extends Entry<StringEntry>
 	public String toString()
 	{
 	
-		return this.num + "/" + this.den; 
+		return this.num.toString() + "/" + this.den.toString(); 
 		
 	
 	}//end toString() 
@@ -88,12 +126,13 @@ public class StringEntry extends Entry<StringEntry>
 	public boolean equal(StringEntry other)
 	{
 	
-		if(other.num.equals(this.num) && other.num.equals(this.den))
+		if(other.getNum().equals(this.num) && other.getDen().equals(this.den))
 			return true;
 		
 	
 		return false; 
 	
 	}//end equal() 
+
 
 }//end StringEntry class 
