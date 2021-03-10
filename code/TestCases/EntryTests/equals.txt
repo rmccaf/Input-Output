@@ -1,0 +1,39 @@
+12
+
+1 2 
+1 2 
+
+3 4
+2 3
+ 
+-1 -4
+1 4
+
+1 -4
+-1 4
+
+50 100
+1 2
+
+-50 100
+-1 2
+
+
+
+
+FORMAT 
+
+	NUMBER OF TEST CASES 
+	
+		NUMERATOR DENOMINATOR 
+
+CASES
+	NORMAL CASES: 
+		-check for false case
+		-check for true case 
+
+	EDGE CASES: 
+		-numerator and denominator both negative compared with a positive version 
+		-denominator negative compared with its negative counterpart
+		-two equivalent lowest terms fractions compared
+		

@@ -1,0 +1,19 @@
+1
+
+2 3
+
+
+
+FORMAT 
+
+	NUMBER OF TEST CASES 
+		
+		NUMERATOR DENOMINATOR 
+	
+	CASES 
+		NORMAL CASES
+			-make sure the changes stick 
+			-change numerator 
+			-change the denominator 
+		
+	
