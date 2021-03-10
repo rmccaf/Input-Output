@@ -42,13 +42,14 @@ public class NumEntry extends Entry<NumEntry>
 		BigInteger numerator = new BigInteger(Long.toString(num));
 		BigInteger denominator = new BigInteger(Long.toString(den)); 
 		BigInteger gcd = numerator.gcd(denominator); 
-		numerator.divide(gcd);
-		denominator.divide(gcd);
+		numerator = numerator.divide(gcd);
+		denominator = denominator.divide(gcd);
 		
 		//set global variables
 		this.num = numerator.longValue(); 
 		this.den = denominator.longValue(); 
 		  
+
 	}//end constructor
 
 	
@@ -105,9 +106,31 @@ public class NumEntry extends Entry<NumEntry>
 	
 	public void setDen(long den)
 	{
+		//check for negative denominators 
+		if(den < 0)
+		{
+			
+			if(this.num > 0)
+			{
+				
+				this.num *= -1;
+				den *= -1; 
+			}
+			else
+			{
+				
+				this.num *= -1; 
+				den *= -1; 
+				
+			}//end else
 		
+		}//end if 
+		else if(den == 0)
+			throw new IllegalArgumentException("You cannot set the denominator to zero.");
+			
 		this.den = den; 
-	
+			
+		 
 	}//end setDen() 
 		
 
