@@ -12,6 +12,7 @@ import java.util.Scanner;
 import java.io.File; 
 import java.io.FileNotFoundException;
 import java.util.ArrayList; 
+import java.math.BigInteger; 
 
 public class EntryTest
 {
@@ -24,39 +25,66 @@ public class EntryTest
 		//testNumber Entries
  		//build test cases and test equal() method 
  		Scanner scan = testType(1);
- 		numberEntList = buildTest(scan); 
- 		if(checkEquals(numberEntList))
- 			System.out.println("Test for equal() PASSED"); 
+ 		numberEntList = buildNumTest(scan); 
+ 		if(checkNumEquals(numberEntList))
+ 			System.out.println("Test for numEntry equal() PASSED"); 
  		else
- 		 	System.out.println("Test for equal() FAILED.");
+ 		 	System.out.println("Test for numEntry equal() FAILED.");
 		numberEntList.clear(); 
 		
 		
 		//check getters  
 		scan = testType(2);
-		numberEntList = buildTest(scan); 
-		if(checkGet(numberEntList))
-			System.out.println("Test for get() PASSED.");
+		numberEntList = buildNumTest(scan); 
+		if(checkNumGet(numberEntList))
+			System.out.println("Test for numEntry get() PASSED.");
 		else
-			System.out.println("Test for get() FAILED.");
+			System.out.println("Test for numEntry get() FAILED.");
 		numberEntList.clear(); 
 		
 		
 		//check setters
 		scan = testType(3);
-		numberEntList = buildTest(scan); 
-		if(checkSet(numberEntList))
-			System.out.println("Test for set() PASSED.");
+		numberEntList = buildNumTest(scan); 
+		if(checkNumSet(numberEntList))
+			System.out.println("Test for numEntry set() PASSED.");
 		else
-			System.out.println("Test for set() FAILED.");
+			System.out.println("Test for numEntry set() FAILED.");
 	
 				
 		
 		
 		
 		ArrayList<StringEntry> stringEntList = new ArrayList<StringEntry>(); 
-		//test StringEntries 
 		
+		//test StringEntries
+		//test eqaul method
+		scan = testType(1); 
+		stringEntList = buildStringTest(scan);
+		if(checkStringEquals(stringEntList))
+			System.out.println("Test for stringEntry equal() PASSED."); 
+		else
+			System.out.println("Test for stringEntry equal() FAILED."); 
+		stringEntList.clear(); 
+		
+		//test getters
+		scan = testType(2);
+		stringEntList = buildStringTest(scan);
+		if(checkStringGet(stringEntList))
+			System.out.println("Test for stringEntry get() PASSED");
+		else   
+			System.out.println("Test for stringEntry get() FAILED");
+		stringEntList.clear(); 
+				
+		//test setters 
+		scan = testType(3);
+		stringEntList = buildStringTest(scan);
+		if(checkStringSet(stringEntList)) 
+			System.out.println("Test for stringEntry set() PASSED");
+		else
+			System.out.println("Test for stringEntry set() FAILED"); 
+			
+		 
 		
 	}//end main() 
 
@@ -102,7 +130,7 @@ public class EntryTest
 	}//end testCases() 
 	 
 	
-	public static ArrayList<NumEntry> buildTest(Scanner scan)
+	public static ArrayList<NumEntry> buildNumTest(Scanner scan)
 	{
 		
 		//create a local arraylist
@@ -121,8 +149,34 @@ public class EntryTest
 	}//end buildTest()
 	
 
+	public static ArrayList<StringEntry> buildStringTest(Scanner scan)
+	{
+		
+		//create local arraylist
+		ArrayList<StringEntry> localList = new ArrayList<StringEntry>(); 
+		
+		//number of cases 
+		long numberOfCases = scan.nextLong(); 
+		
+		//create a new StringEntry and add it to the list
+		for(;numberOfCases > 0; numberOfCases--)
+		{
+		
+			Long num = scan.nextLong();
+			Long den = scan.nextLong(); 
+		
+			localList.add(new StringEntry( num.toString() , den.toString() ) );		
+		
+		}//end for loop 
 
-	public static boolean checkEquals(ArrayList<NumEntry> testCases)
+		
+		//return the list 
+		return localList; 
+		
+	}//end buildStringTest() 
+
+
+	public static boolean checkNumEquals(ArrayList<NumEntry> testCases)
 	{
 	
 		boolean returnBoolean = false; 
@@ -174,8 +228,59 @@ public class EntryTest
 	}//end checkEquals()
 	
 	
+	public static boolean checkStringEquals(ArrayList<StringEntry> testCases)
+	{
 	
-	public static boolean checkGet(ArrayList<NumEntry> testCases)
+		boolean returnBoolean = false; 
+		
+		int size = testCases.size(); 
+		
+		for(int index = 0 ; index < size; index += 2)
+		{
+		
+			StringEntry case1 = testCases.get(index);
+			StringEntry case2 = testCases.get(index + 1);
+
+			if(index != 2)
+			{
+			
+				if(!case1.equal(case2))
+				{
+				
+					debug("equal()",(index + 1));
+					System.out.println(case1.toString()); 
+					System.out.println(case2.toString()); 
+					break; 
+							
+				}//end if 
+				
+				if(index == size - 2)
+				{
+					
+					returnBoolean = true; 
+					
+				}//end if 
+						
+			}
+			else if(index == 2)
+			{
+				if(case1.equal(case2))
+				{
+					debug("equal()", 2);
+					break;  
+				 
+				}//end if 
+
+			}//end if 
+		
+		}//end for loop 
+			
+		return returnBoolean;	
+	
+	}//end checkStringEqual() 
+	
+	
+	public static boolean checkNumGet(ArrayList<NumEntry> testCases)
 	{
 		 
 		
@@ -193,9 +298,20 @@ public class EntryTest
 		
 	}//end checkGet() 
 	
-
 	
-	public static boolean checkSet(ArrayList<NumEntry> testCases)
+	public static boolean checkStringGet(ArrayList<StringEntry> testCases)
+	{
+	
+		if(testCases.get(0).equal(new StringEntry("2","3")))
+			return true;
+		else 
+			return false; 	
+		
+	
+	}//end checkStringGet() 
+	
+	
+	public static boolean checkNumSet(ArrayList<NumEntry> testCases)
 	{
 			
 		//create an entry
@@ -248,6 +364,59 @@ public class EntryTest
 	}//end checkSet() 
 		
 		
+	public static boolean checkStringSet(ArrayList<StringEntry> testCases)
+	{
+	
+		//create an entry
+		StringEntry entry = new StringEntry("1","2");
+		
+		//change values and see if it matches list cases 
+		entry.setNum(new BigInteger("2"));
+		entry.setDen(new BigInteger("3"));
+		if(!testCases.get(0).equal(entry))
+		{
+			
+			debug("checkSet()",1);
+			return false;  
+			
+		}
+		
+		entry.setNum(new BigInteger("-1"));
+		entry.setDen(new BigInteger("-3"));
+		if(!testCases.get(1).equal(entry))
+		{
+						
+			debug("checkSet()",2);
+			return false; 
+		
+		}//end if 
+		
+		entry.setNum(new BigInteger("-1"));
+		entry.setDen(new BigInteger("3")); 
+		
+		if(!testCases.get(2).equal(entry))
+		{
+						
+			debug("checkSet()",3);
+			return false; 
+		
+		}//end if 		
+		
+		entry.setNum(new BigInteger("1"));
+		entry.setDen(new BigInteger("-3"));
+		if(!testCases.get(3).equal(entry))
+		{
+						
+			debug("checkSet()",4);
+			return false; 
+		
+		}//end if 
+		
+		return true; 
+		
+	
+	}//end checkStringSet() 
+	
 	
 	public static void printPreview(ArrayList<NumEntry> testCases)
 	{

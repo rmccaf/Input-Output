@@ -28,16 +28,16 @@ public class StringEntry extends Entry<StringEntry>
 		{
 			
 			//set as positive
-			this.num.negate();
-			this.den.negate(); 
+			this.num = this.num.negate();
+			this.den = this.den.negate(); 
 		
 		}//end if
 		else if(BigInteger.ZERO.compareTo(this.num) < 0 && BigInteger.ZERO.compareTo(this.den) > 0)
 		{
 		
 			//set to positive
-			this.num.negate(); 
-			this.den.negate(); 
+			this.num = this.num.negate(); 
+			this.den = this.den.negate(); 
 			
 		}//end else if
 				
@@ -107,8 +107,34 @@ public class StringEntry extends Entry<StringEntry>
 	
 	public void setDen(BigInteger den)
 	{
+		if(den.equals(BigInteger.ZERO))
+		{
+			
+			throw new IllegalArgumentException("You cannot set the denominator to zero.");
+			
+		}	
+		//check if the new denominator is zero 
+		if(den.compareTo(BigInteger.ZERO) < 0)
+		{
+		
+			//numerator is negative
+			if(this.num.compareTo(BigInteger.ZERO) < 0 )
+			{
+				
+				den = den.negate(); 
+				this.num = this.num.negate(); 
+			
+			}//end if 
+			else
+			{
+				this.num = this.num.negate(); 
+				den = den.negate(); 
+			}
+		
+		}
 		
 		this.den = den; 
+		
 	
 	}//end setDen()
 	
