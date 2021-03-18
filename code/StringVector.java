@@ -24,9 +24,20 @@ public class StringVector extends Vector<StringVector,StringEntry>
 	public void setVector(StringVector newVector)
 	{
 		
-		this.entryList = newVector.entryList; 
-		this.length = this.entryList.size(); 
-	
+		int vectorLength = newVector.length; 
+		
+		this.entryList.clear(); 
+		
+		for(int index = 0 ; index < vectorLength ; index++)
+		{
+		
+			this.entryList.add(newVector.entryList.get(index));
+		
+		}//end for 
+		
+		
+		this.length = vectorLength; 
+		
 	}//end setVector() 
 
 
