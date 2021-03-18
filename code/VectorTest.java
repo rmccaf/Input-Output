@@ -12,10 +12,10 @@ public class VectorTest
 	
 		ArrayList<NumVector> numVecCases = new ArrayList<NumVector>(); 
 		ArrayList<NumVector> numSolCases = new ArrayList<NumVector>(); 
-		
-		ArrayList<NumVector> numVecSol = new ArrayList<NumVector>(); 
 		ArrayList<StringVector> stringVecSol = new ArrayList<StringVector>(); 
+		ArrayList<StringVector> stringVecCases = new ArrayList<StringVector>(); 		
 		
+				
 		//test NumVector 		
 		//build testcases
 		//build solutioncases
@@ -82,14 +82,63 @@ public class VectorTest
 			System.out.println("setEntry() test FAILED.");
 		
 		
+
+		//TEST STRING CASES
+		
+		//TEST STRING EQUAL 
+		File stringEqualFile = testFileMaker(1);
+		Scanner stringEqualScan = scanBuild(stringEqualFile);
+		stringVecCases = stringCaseBuilder(stringEqualScan);
+		stringEqualFile = solFileMaker(1);
+		stringEqualScan = scanBuild(stringEqualFile);
+		stringVecSol = stringCaseBuilder(stringEqualScan);
+		if(stringVecEqual(stringVecCases,stringVecSol))
+			System.out.println("String Vector equal() test PASSED."); 
+		else
+			System.out.println("String Vector equal() test FAILED."); 
+		
+		//TEST STRING VECTOR GET
+		File stringGetFile = testFileMaker(2);
+		Scanner stringGetScan = scanBuild(stringGetFile);
+		stringVecCases = stringCaseBuilder(stringGetScan);
+		stringGetFile = solFileMaker(2);
+		stringGetScan = scanBuild(stringGetFile);
+		stringVecSol = stringCaseBuilder(stringGetScan);
+		if(stringGetVector(stringVecCases,stringVecSol))
+			System.out.println("String Vector getVector() test PASSED.");
+		else
+			System.out.println("String Vector getVector() test FAILED.");
+			
+		 
+		 //TEST STRING VECTOR SET 
+		 File stringSetFile = testFileMaker(3);
+		 Scanner stringSetScan = scanBuild(stringSetFile);
+		 stringVecCases = stringCaseBuilder(stringSetScan);
+		 stringSetFile = solFileMaker(3);
+		 stringSetScan = scanBuild(stringSetFile);
+		 stringVecSol = stringCaseBuilder(stringSetScan);
+		 if(stringSetVector(stringVecCases,stringVecSol))
+		 	System.out.println("String Vector setVector() test PASSED."); 
+		 else
+		 	System.out.println("String Vector setVector() test FAILED.");      
+		
+		//TEST STRING VECTOR ENTRY GET 
+		File stringGetEnt = testFileMaker(4);
+		Scanner stringGetEntScan = scanBuild(stringGetEnt);
+		stringVecCases = stringCaseBuilder(stringGetEntScan);
+		if(stringGetEntry(stringVecCases))
+			System.out.println("String Vector getVectorEntry() test PASSED."); 
+		else 
+			System.out.println("String Vector getVectorEntry() test FAILED."); 
 		
 		
-		//test StringVector
-		
-		
-		
-		
-		
+		File stringSetEnt = testFileMaker(5);
+		Scanner stringSetEntScan = scanBuild(stringSetEnt);
+		stringVecCases = stringCaseBuilder(stringSetEntScan);
+		if(stringSetEntry(stringVecCases))
+			System.out.println("String Vector setVectorEntry() test PASSED."); 
+		else
+			System.out.println("String Vector setVectorEntry() test FAILED.");   
 	
 	}//end main() 
 	
@@ -732,7 +781,7 @@ public class VectorTest
 		testCases.get(0).setEntry(1,new StringEntry("2","3")); 
 		testCases.get(1).setEntry(3,new StringEntry("1","4")); 
 		testCases.get(2).setEntry(2,new StringEntry("1","2")); 
-		testCases.get(3).setEntry(6,new StringEntry("3","1")); 
+		testCases.get(3).setEntry(5,new StringEntry("3","1")); 
 		testCases.get(4).setEntry(2,new StringEntry("1","1")); 
 		testCases.get(5).setEntry(3,new StringEntry("1","1"));
 		 
@@ -757,7 +806,7 @@ public class VectorTest
 			return false;			
 		
 		}
-		if(!testCases.get(3).getEntry(6).equal(new StringEntry( "3" , "1" )))
+		if(!testCases.get(3).getEntry(5).equal(new StringEntry( "3" , "1" )))
 		{
 			
 			debug("stringSetEntry()",4);
