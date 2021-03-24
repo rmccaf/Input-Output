@@ -50,6 +50,34 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 				
 	}//end constructor 
 
+
+
+	public Matrix(Matrix<T1,T2,T3> otherMatrix)
+	{
+		
+		this.rowDimension = otherMatrix.getRowDim(); 	
+	
+		for(int i = 1 ; i <= this.rowDimension ; i++)
+		{
+		
+			this.rowVectors.add(otherMatrix.getRowVector(i)); 
+		
+		}//end for loop 
+	
+		this.colDimension = otherMatrix.getColDim(); 
+	
+		for(int i = 1 ; i <= this.colDimension ; i++)
+		{
+		
+			this.columnVectors.add(otherMatrix.getColumnVector(i));
+		
+		}//end for loop 
+		
+	
+	
+	}//end constructor 
+	
+
 	public int getRowDim()
 	{
 	
@@ -70,40 +98,81 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	public abstract T1 getMatrix();
 	
 	
-	public abstract void setMatrix(T1 otherMatrix); 	
+	public void setMatrix(Matrix<T1,T2,T3> otherMatrix)
+	{
+	
+		this.rowVectors.clear(); 
+		
+		this.rowDimension = otherMatrix.getRowDim(); 
+		
+		for(int i = 1 ; i <= this.rowDimension ; i++)
+		{
+			
+			this.rowVectors.add(otherMatrix.getRowVector(i)); 
+			
+		}//end for
+		
+		this.colDimension = otherMatrix.getColDim(); 
+		
+		for(int i = 1 ; i <= this.colDimension ; i++)
+		{
+		
+			this.columnVectors.add(otherMatrix.getRowVector(i));
+		
+		}//end for  
 	
 	
-	public abstract void rowsToColumns(ArrayList<T2> rowVectorList );
+	}//setMatrix() 
 
+	
+	public abstract void rowsToColumns();
+
+	
+
+	public abstract void colsToRows();
+  
+	
 	
 	
 	public T2 getRowVector(int index)
 	{
 	
-		return this.rowVectors.get(index-1);
-		
-	}//end getRowVector() 
+		return this.rowVectors.get(index - 1); 
 	
+	}//end getRowVector() 
 	
 	
 	public T2 getColumnVector(int index)
 	{
 	
-		return columnVectors.get(index-1); 
+		return this.columnVectors.get(index - 1);
 		
-	}//end getColumnVector() 
-	
-	
+	}//end setRowVector() 
+ 	
 	
 	public void setRowVector(int index, T2 newVector)
 	{
 	
-		rowVectors.set(index-1,newVector); 
+		this.rowVectors.set(index-1,newVector); 
 	
 		//reset the columnVectors
 	
 	}//end setRowVector
 	
+	
+	public void setColumnVector(int index, T2 newVector)
+	{
+		
+		this.columnVectors.set(index - 1 , newVector); 
+	
+	}//end setColumnVector() 
+	
+	
+	public abstract T3 getEntry(int rowIndex, int colIndex); 
+
+	
+	
+	public abstract void setEntry(int rowIndex, int colIndex, T3 newEntry); 
 	
 	
 	public boolean equal(Matrix other)

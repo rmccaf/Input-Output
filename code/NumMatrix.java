@@ -12,6 +12,15 @@ public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 	}//end constructor 
 	
 	
+	public NumMatrix(NumMatrix newMatrix)
+	{
+	
+		super(newMatrix);
+	
+	}//end constructor
+	
+	
+	
 	public NumMatrix getMatrix()
 	{
 
@@ -19,40 +28,74 @@ public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 	
 	}//end getMatrix()
 	
-	public void rowsToColumns(ArrayList<NumVector> rowVectorList)
+	
+	public NumEntry getEntry(int rowIndex, int columnIndex)
 	{
-		columnVectors.clear(); 
+	
+		return getRowVector(rowIndex).getEntry(columnIndex);
+	
+	}//end getEntry() 
+	
+	
+	
+	public void setEntry(int rowIndex, int columnIndex, NumEntry newEntry)
+	{
+	
+	
+	
+	}//end setEntry() 
+	
+	
+	public void rowsToColumns()
+	{
 		
-		//iterate through the first column 
-		for(int j = 0 ; j < rowDimension ; j++)
+		int columnDimension = this.rowVectors.get(0).vectorLength(); 
+		
+		//iterate over the vector columns 
+		for(int i = 1  ; i <= columnDimension ; i++)
 		{
-			ArrayList<NumEntry> entryList = new ArrayList<NumEntry>(); 			
-			
-			for(int i = 0 ; i <= rowVectors.get(i).vectorLength()  ; i++)
+			ArrayList<NumEntry> localNumList = new ArrayList<NumEntry>(); 
+		
+			//iterate over the vector rows		
+			for(int j = 1 ; j <= this.rowDimension ; j++)
 			{
-				entryList.add(rowVectors.get(i).getEntry(j+1)); 
+				
+				localNumList.add(getRowVector(j).getEntry(i)); 
+			
 			}//end for 
 			
-		columnVectors.set( j,new NumVector(entryList) );
+			this.columnVectors.add(new NumVector(localNumList)); 
 			
-	}//end for 
+		}//end for
+
 	
 	}//end rowsToColumns() 
-	 	
-	public void setMatrix(NumMatrix other)
+	
+	
+	
+	public void colsToRows()
 	{
 	
-		for(int i = 0 ; i < other.rowDimension ; i++)
+		int localRowDim = this.columnVectors.get(0).vectorLength(); 
+
+
+		for(int i = 1 ; i <= localRowDim ; i++)
 		{
-			this.rowVectors.set(i,other.rowVectors.get(i)); 
+			
+			ArrayList<NumEntry> localNumList = new ArrayList<NumEntry>(); 
 		
-		}//end for loop
+			for(int j = 1 ; j <= this.colDimension ; j++)
+			{
+			
+				localNumList.add(getColumnVector(j).getEntry(i)); 
+			
+			}//end for 
 		
-		this.rowDimension = other.rowVectors.size(); 
+			this.rowVectors.add(new NumVector(localNumList)); 
 		
-		//call the set col vectors method 
+		}//end for 
 	
-	}//end setMatrix() 
+	}//end columnsToRows() 
 	
 
 }//end class 
