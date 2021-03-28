@@ -29,10 +29,26 @@ public class MatrixTest
 		//test rows to columns 
 		File rowToColCaseFile = caseFile(1);
 		Scanner rowToColCaseScan = scanBuild(rowToColCaseFile); 
-		ArrayList<NumMatrix> testCases = numTestCaseBuild(rowToColCaseScan);
+		ArrayList<NumMatrix> testCases = numMatrixCaseBuild(rowToColCaseScan,true);
+		File rowToColSolFile = solutionFile(1); 
+		Scanner rowToColSolScan = scanBuild(rowToColSolFile); 
+		ArrayList<NumVector> solCases = numVectorCaseBuild(rowToColSolScan); 
+		if(numRowsToColsTest(testCases,solCases))
+			System.out.println("Test for numRowsToColsTest() PASSED.");
+		else
+			System.out.println("Test for numRowsToColsTest() FAILED."); 
 		
 		//test columns to rows 
-		
+		File colToRowCaseFile = caseFile(2);
+		Scanner colToRowCaseScan = scanBuild(colToRowCaseFile); 
+		testCases = numMatrixCaseBuild(colRoRowCaseScan);
+		File colToRowSolFile = solutionFile(2);
+		Scanner colToRowSolScan = scanBuild(colToRowSolFile);
+		solCases = numVectorCaseBuild(colToRowSolScan);
+		if(numColsToRowsTest(testCases,solCases))     
+			System.out.println("Test for numColsToRowsTest() PASSED.");
+		else 
+			System.out.println("Test for numColsToRowsTest() FAILED.");  
 		//test equal
 		
 		//test  getRowVector
@@ -109,7 +125,7 @@ public class MatrixTest
 		{
 		
 			case 1:
-				return new File("./TestCases/MatrixTests/rowsToColsSol.txt"); 
+				return new File("./TestCases/MatrixTests/rowToColsSol.txt"); 
 
 			case 2: 
 
@@ -162,7 +178,7 @@ public class MatrixTest
 	
 	
 	
-	public static ArrayList<NumMatrix> numTestCaseBuild(Scanner scan)
+	public static ArrayList<NumMatrix> numMatrixCaseBuild(Scanner scan, boolean caseType)
 	{
 	
 		ArrayList<NumMatrix> caseList = new ArrayList<NumMatrix>(); 
@@ -218,7 +234,7 @@ public class MatrixTest
 			}//end for 
 
 			//create a matrix and add it the the matrix list					
-			caseList.add(new NumMatrix(vectorList));		
+			caseList.add( new NumMatrix(vectorList,caseType)  );		
 			
 		}//end for 
  
@@ -228,5 +244,142 @@ public class MatrixTest
 	 
 	
 	
+	public static ArrayList<NumVector> numVectorCaseBuild(Scanner scan)
+	{
+	
+		//create an arraylist of vector 
+		ArrayList<NumVector> localVectorList = new ArrayList<NumVector>();
+		
+		//scan for the number of cases 
+		int caseNumber = scan.nextInt(); 
 
+		
+		//iterate until all vectors are built 
+		for(int i = 0 ; i < caseNumber ; i++)
+		{
+		
+			//create local arraylist of entries 
+			ArrayList<NumEntry> localEntryList = new ArrayList<NumEntry>(); 	
+			
+			int vectorLen = scan.nextInt(); 
+
+			//scan to build entries 
+			for(int j = 0 ; j < vectorLen ; j++)
+			{
+			
+				//scan for numerator and denominator 
+				long numerator = scan.nextLong(); 
+				long denominator = scan.nextLong(); 
+								
+				//create an entry and add it to the list 			
+				localEntryList.add(new NumEntry(numerator,denominator)); 
+				
+			}//end for 
+				
+			//add entry list to a vector and add vector to the vector list 
+			localVectorList.add(new NumVector(localEntryList)); 
+		
+		}//end for 
+
+		//return the vector list
+		return localVectorList; 
+		
+	}//end numVectorCaseBuild
+	
+
+	public static ArrayList<NumEntry> numEntryCaseBuild(Scanner scan)
+	{
+		
+		//create a local arraylist of numEntries 
+		ArrayList<NumEntry> numList = new ArrayList<NumEntry>(); 
+		
+		//scan for the number of cases 
+		int cases = scan.nextInt(); 
+		
+		//iterate to build the cases 
+		for(int i = 0 ; i < cases; i++)
+		{
+			//scan for numerator and denominaotr 
+			long numerator = scan.nextLong(); 
+			long denominator = scan.nextLong(); 
+			
+			//add the entry to the list 		
+			numList.add(new NumEntry(numerator,denominator)); 
+		}//end for 
+
+		return numList; 
+			
+			
+		//return the list
+	
+	}//end numEntryCaseBuild() 
+
+
+	
+	public static void debug(String testName, int caseNumber)
+	{
+	
+		System.out.println("Test FAILED for method " + testName + " case numeber " + caseNumber); 
+	
+	}//end debug()
+	
+	
+	
+	public static boolean numRowsToColsTest(ArrayList<NumMatrix> matrixCases , ArrayList<NumVector> vectorCases)
+	{
+	
+		int caseNum = matrixCases.size(); 
+		
+		boolean returnBoolean = false; 
+		
+		//test true cases
+		for(int i = 0 ; i < 2 ; i++)
+		{
+		
+		
+			if(!matrixCases.get(i).getColumnVector(i+1).equal(vectorCases.get(i)))
+			{
+
+				//debug output 
+				debug("numRowsToColsTest()", (i+1));			
+				return false; 				
+			
+			}
+
+	
+		}//end for 
+	
+	
+		//test false cases
+		for(int i = 2 ; i < caseNum ; i++)
+		{
+		
+			if(matrixCases.get(i).getColumnVector(i + 1).equal(vectorCases.get(i)))
+			{
+				//debug output 
+				debug("numRowsToColsTest()" ,(i + 1));		
+				return false; 			
+			
+			}//end for 
+
+
+			if(i == caseNum - 1)
+				returnBoolean = true; 
+		
+		}//end for 
+			
+	
+		return returnBoolean; 
+	
+	}//end rowsToColsTest() 
+	
+	
+	public static boolean numColsToRowsTest(ArrayList<NumMatrix> matrixCases, ArrayList<NumVector> vectorCases)
+	{
+	
+	
+		return false; 
+	
+	}//end numColsToRowsTest() 
+	
 }//end MatrixTest class 

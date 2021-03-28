@@ -12,10 +12,10 @@ public class StringMatrix extends Matrix<StringMatrix,StringVector,StringEntry>
 
 
 
-	public StringMatrix(ArrayList<StringVector> rowVectors)
+	public StringMatrix(ArrayList<StringVector> vectors,boolean type)
 	{
 			
-		super(rowVectors);
+		super(vectors,type);
 
 		
 	}//end constructor

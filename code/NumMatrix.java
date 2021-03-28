@@ -4,10 +4,10 @@ public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 
 	
 	
-	public NumMatrix(ArrayList<NumVector> rowVectorList)
+	public NumMatrix(ArrayList<NumVector> vectorList,boolean type)
 	{
 	
-		super(rowVectorList); 
+		super(vectorList,type); 
 	
 	}//end constructor 
 	
@@ -24,7 +24,7 @@ public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 	public NumMatrix getMatrix()
 	{
 
-		return new NumMatrix(this.rowVectors); 
+		return new NumMatrix(this.rowVectors,true); 
 	
 	}//end getMatrix()
 	

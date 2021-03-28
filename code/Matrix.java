@@ -30,23 +30,38 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	int colDimension; 
 	
 	
-	public Matrix(ArrayList<T2> rowVectorList)
+	public Matrix(ArrayList<T2> vectorList,boolean vectorType)
 	{
 		
+		if(vectorType)
+		{
 		
+			for(int i = 0 ; i < vectorList.size() ; i++)
+			{
+			
+				this.rowVectors.add(vectorList.get(i)); 
 		
-		for(int i = 0 ; i < rowVectorList.size() ; i++)
+			}//end for  
+
+			this.rowDimension = vectorList.size(); 
+		
+			rowsToColumns();
+		
+			this.colDimension = this.columnVectors.size(); 
+		
+		}//end if
+		else
 		{
 			
-			this.rowVectors.add(rowVectorList.get(i)); 
-		
-		}//end for  
-		
-		this.rowDimension = rowVectors.size(); 
-		
-		//rowsToColumns(this.rowVectors);
-		
-		//this.colDimension = this.columnVectors.size(); 
+			for(int i = 0 ; i < rowVectorList.size() ; i++)
+				this.columnVectors.add(vectorList.get(i));
+				
+			this.colDimension = this.columnVectors.size(); 
+			colsToRows(); 
+			this.rowDimension = this.rowVectors.size(); 
+			
+		}//end else 
+
 				
 	}//end constructor 
 
