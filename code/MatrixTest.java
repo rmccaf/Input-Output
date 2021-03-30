@@ -41,7 +41,7 @@ public class MatrixTest
 		//test columns to rows 
 		File colToRowCaseFile = caseFile(2);
 		Scanner colToRowCaseScan = scanBuild(colToRowCaseFile); 
-		testCases = numMatrixCaseBuild(colRoRowCaseScan);
+		testCases = numMatrixCaseBuild(colToRowCaseScan,false);
 		File colToRowSolFile = solutionFile(2);
 		Scanner colToRowSolScan = scanBuild(colToRowSolFile);
 		solCases = numVectorCaseBuild(colToRowSolScan);
@@ -49,7 +49,18 @@ public class MatrixTest
 			System.out.println("Test for numColsToRowsTest() PASSED.");
 		else 
 			System.out.println("Test for numColsToRowsTest() FAILED.");  
+		
 		//test equal
+		File equalCaseFile = caseFile(3);
+		Scanner equalScan = scanBuild(equalCaseFile);
+		ArrayList<NumMatrix> equalTestCases = numMatrixCaseBuild(equalScan,true);
+		File equalSolFile = solutionFile(3);
+		Scanner equalSolScan = scanBuild(equalSolFile);
+		ArrayList<NumMatrix> equalSolCases = numMatrixCaseBuild(equalSolScan,true);
+		if(numEqualTest(equalTestCases,equalSolCases))
+			System.out.println("Test for numEqualTest() PASSED.");      
+		else
+			System.out.println("Test for numEqualTest() FAILED.");
 		
 		//test  getRowVector
 		
@@ -88,9 +99,9 @@ public class MatrixTest
 				return new File("./TestCases/MatrixTests/rowToColsCases.txt");
 				
 			case 2: 
-
+				return new File("./TestCases/MatrixTests/colToRowCases.txt");
 			case 3:
-
+				return new File("./TestCases/MatrixTests/equalCases.txt"); 
 			case 4:
 
 			case 5:
@@ -126,11 +137,10 @@ public class MatrixTest
 		
 			case 1:
 				return new File("./TestCases/MatrixTests/rowToColsSol.txt"); 
-
 			case 2: 
-
+				return new File("./TestCases/MatrixTests/colToRowSol.txt"); 
 			case 3:
-
+				return new File("./TestCases/MatrixTests/equalSol.txt"); 
 			case 4:
 
 			case 5:
@@ -185,17 +195,18 @@ public class MatrixTest
 		
 		//scan the number of cases 
 		int numberOfCases = scan.nextInt(); 
-		
+
 		//create a for loop to build the matricies 
 		for(int i = 0 ; i < numberOfCases ; i++)
 		{
-		
+
 			//scan number of rows 	
 			int rowDimension = scan.nextInt(); 
 			
 			//scan number of columns 
 			int colDimension = scan.nextInt(); 
 
+				
 			//create a local arrayList of Vectors 
 			ArrayList<NumVector> vectorList = new ArrayList<NumVector>(); 
 			
@@ -378,8 +389,102 @@ public class MatrixTest
 	{
 	
 	
-		return false; 
+		int caseNum = matrixCases.size(); 
+		boolean returnBoolean = false; 		
+	
+	
+		//TRUE CASES 
+		for(int i = 0 ; i < 3 ; i++)
+		{
+		
+			if(!matrixCases.get(i).getRowVector(i+1).equal(vectorCases.get(i)))
+			{
+			
+				debug("numColsToRowsTest()",(i+1));
+				return false; 
+			
+			}//end if 
+		
+		}//end for 
+		
+		//FALSE CASES 
+		for(int i = 3 ; i < 6; i++)
+		{
+		
+			if(matrixCases.get(i).getRowVector(i+1).equal(vectorCases.get(i)))
+			{
+			
+				debug("numColsToRowsTest()",(i+1));
+				return false; 	 
+			
+			}//end if 
+			
+			if(i == 5)
+			{
+			
+				returnBoolean = true; 		
+		
+			}//end if 
+			
+		
+		}//end for 
+		
+		return returnBoolean; 
+	
+	
 	
 	}//end numColsToRowsTest() 
+	
+	
+	
+	public static boolean numEqualTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
+	{
+	
+	
+		boolean returnBoolean = false; 
+	
+		//TRUE CASES 
+		//iterate over the cases
+		for(int i = 0 ; i < 3 ; i++)
+		{
+
+			//if false return false 	
+			if(!testCases.get(i).equal(solCases.get(i)))
+			{
+				
+				debug("numEqualTest()",(i+1)); 
+				return false; 	
+			
+			}//end if 
+			
+			
+		}//end for 
+	
+		//FALSE CASES 
+		//iterate over the cases 
+		for(int i = 3 ; i < 9 ; i++)
+		{
+		
+			//if true return false 
+			if(testCases.get(i).equal(solCases.get(i)))
+			{
+				debug("numEqualTest()",(i+1));
+				return false; 
+			
+			}//end if 
+			
+			
+			if(i == 8)
+				returnBoolean = true; 	
+				
+		}//end for 
+		
+		
+		return returnBoolean; 
+		
+	}//end numEqualTest() 
+	
+	
+	
 	
 }//end MatrixTest class 

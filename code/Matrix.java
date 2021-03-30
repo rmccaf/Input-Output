@@ -53,11 +53,13 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 		else
 		{
 			
-			for(int i = 0 ; i < rowVectorList.size() ; i++)
+			for(int i = 0 ; i < vectorList.size() ; i++)
 				this.columnVectors.add(vectorList.get(i));
 				
-			this.colDimension = this.columnVectors.size(); 
+			this.colDimension = this.columnVectors.size();
+			 
 			colsToRows(); 
+			
 			this.rowDimension = this.rowVectors.size(); 
 			
 		}//end else 
@@ -194,13 +196,23 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	{
 	
 		boolean returnBoolean = false; 
+		
+		if(this.rowDimension != other.rowDimension || this.colDimension != other.colDimension)
+			return false; 
+			
+		
 	
-		for(int i = 0 ; i < this.rowDimension ; i++)
+		for(int i = 1 ; i <= this.rowDimension ; i++)
 		{
 			
-			if(!this.rowVectors.get(i).equals(other.rowVectors.get(i)))
+			if(getRowVector(i).equal(other.getRowVector(i)) == false)
+			{
+							
 				return false; 
-			if(i == this.rowDimension -1)
+			
+			}
+
+			if(i == this.rowDimension)
 				returnBoolean = true; 
 			
 		}//end for loop 
@@ -211,6 +223,21 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	}//end equal() 
 
 
-
+	public String toString()
+	{
+		String returnString = " ";  
+	
+		for(int i = 1 ; i <= this.rowDimension  ;i++)
+		{
+			
+			returnString += getRowVector(i).toString() + "\n";
+		
+		}//end for 
+	
+		return returnString; 
+	
+	}//end toString() 
+	
+	
 
 }//end Matrix class 
