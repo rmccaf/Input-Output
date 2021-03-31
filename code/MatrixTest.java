@@ -63,12 +63,36 @@ public class MatrixTest
 			System.out.println("Test for numEqualTest() FAILED.");
 		
 		//test  getRowVector
-		
+		File getRowCaseFile = caseFile(4);
+		Scanner getRowScan = scanBuild(getRowCaseFile);
+		ArrayList<NumMatrix> getRowCases = numMatrixCaseBuild(getRowScan,true);
+		File getRowSol = solutionFile(4); 
+		Scanner getRowSolScan = scanBuild(getRowSol);
+		ArrayList<NumVector> getRowSolCases = numVectorCaseBuild(getRowSolScan);
+		if(numGetRowTest(getRowCases,getRowSolCases))
+			System.out.println("Test for numGetRowTest() PASSED.");
+		else
+			System.out.println("Test for numGetRowTest() FAILED.");  
+		 
+		 
 		//test getColVector 
-		
+		File getColCaseFile = caseFile(5);
+		Scanner getColScan = scanBuild(getColCaseFile);
+		ArrayList<NumMatrix> getColCases = numMatrixCaseBuild(getColScan,true);
+		File getColSolFile = caseFile(5);
+		Scanner getColSolScan = scanBuild(getColSolFile);
+		ArrayList<NumVector> getColSolCases = numVectorCaseBuild(getColSolScan);
+		if(numGetColTest(getColCases,getColSolCases))
+			System.out.println("Test for numGetColTest() PASSED.");
+		else
+			System.out.println("Test for numGetColTest() FAILED");     
 		//test setRowVector
 		
+		//test getEntry
 		
+		//test setEntry
+	
+	
 	
 		//STRINGMATRIX TESTS
 		//test rows to columns 
@@ -97,15 +121,14 @@ public class MatrixTest
 		
 			case 1:
 				return new File("./TestCases/MatrixTests/rowToColsCases.txt");
-				
 			case 2: 
 				return new File("./TestCases/MatrixTests/colToRowCases.txt");
 			case 3:
 				return new File("./TestCases/MatrixTests/equalCases.txt"); 
 			case 4:
-
+				return new File("./TestCases/MatrixTests/getRowVectorCases.txt");
 			case 5:
-
+				return new File("./TestCases/MatrixTests/getColVectorCases.txt"); 
 			case 6:
 
 			case 7:
@@ -142,9 +165,9 @@ public class MatrixTest
 			case 3:
 				return new File("./TestCases/MatrixTests/equalSol.txt"); 
 			case 4:
-
+				return new File("./TestCases/MatrixTests/getRowVectorSol.txt"); 
 			case 5:
-
+				return new File("./TestCases/MatrixTests/getColVectorSol.txt"); 
 			case 6:
 
 			case 7:
@@ -486,5 +509,98 @@ public class MatrixTest
 	
 	
 	
+	
+	public static boolean numGetRowTest(ArrayList<NumMatrix> testCases , ArrayList<NumVector> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		
+		for(int i = 0 ; i < 3 ; i++)
+		{
+			
+			if(!testCases.get(i).getRowVector(i+1).equal(solCases.get(i)))
+			{
+				
+				debug("numGetRowTest()",(i+1)); 			
+				return false; 			
+			
+			}
+
+			
+		}//end for 
+		
+		
+		for(int i = 3 ; i < 6 ; i++)
+		{
+		
+			if(testCases.get(i).getRowVector(i+1).equal(solCases.get(i)))
+			{
+				
+				debug("numGetRowTest()",(i+1)); 
+				return false; 
+			
+			}//end if 
+			if(i == 5)
+			{
+			
+				returnBoolean = true; 
+			
+			}//end if 
+		
+		}//end for 
+		
+		return returnBoolean; 
+	
+	
+	}//end numGetRowTest() 
+	
+	
+	
+	public static boolean numGetColTest(ArrayList<NumMatrix> testCases, ArrayList<NumVector> solCases)
+	{
+	
+	
+		boolean returnBoolean = false; 
+		
+		
+		for(int i = 0 ; i < 3 ; i++)
+		{
+			
+			if(!testCases.get(i).getColumnVector(i+1).equal(solCases.get(i)))
+			{
+				
+				debug("numGetRowTest()",(i+1)); 			
+				return false; 			
+			
+			}
+
+			
+		}//end for 
+		
+		
+		for(int i = 3 ; i < 6 ; i++)
+		{
+		
+			if(testCases.get(i).getColumnVector(i+1).equal(solCases.get(i)))
+			{
+				
+				debug("numGetRowTest()",(i+1)); 
+				return false; 
+			
+			}//end if 
+			if(i == 5)
+			{
+			
+				returnBoolean = true; 
+			
+			}//end if 
+		
+		}//end for 
+		
+		return returnBoolean; 
+	
+	
+	}//end numGetColTest() 
 	
 }//end MatrixTest class 
