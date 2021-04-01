@@ -79,7 +79,7 @@ public class MatrixTest
 		File getColCaseFile = caseFile(5);
 		Scanner getColScan = scanBuild(getColCaseFile);
 		ArrayList<NumMatrix> getColCases = numMatrixCaseBuild(getColScan,true);
-		File getColSolFile = caseFile(5);
+		File getColSolFile = solutionFile(5);
 		Scanner getColSolScan = scanBuild(getColSolFile);
 		ArrayList<NumVector> getColSolCases = numVectorCaseBuild(getColSolScan);
 		if(numGetColTest(getColCases,getColSolCases))
@@ -563,7 +563,9 @@ public class MatrixTest
 	
 		boolean returnBoolean = false; 
 		
-		
+
+	
+			
 		for(int i = 0 ; i < 3 ; i++)
 		{
 			
@@ -581,7 +583,7 @@ public class MatrixTest
 		
 		for(int i = 3 ; i < 6 ; i++)
 		{
-		
+
 			if(testCases.get(i).getColumnVector(i+1).equal(solCases.get(i)))
 			{
 				

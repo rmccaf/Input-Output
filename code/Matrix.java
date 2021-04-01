@@ -225,7 +225,7 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 
 	public String toString()
 	{
-		String returnString = " ";  
+		String returnString = "";  
 	
 		for(int i = 1 ; i <= this.rowDimension  ;i++)
 		{
