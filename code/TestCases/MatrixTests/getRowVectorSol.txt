@@ -1,0 +1,32 @@
+6
+
+2
+1 1 1 1 
+
+2
+1 1 8 1
+
+6
+1 2 3 4 5 6 4 6 8 9 9 1
+
+4
+0 1 0 1 0 1 0 1 
+
+2
+0 1 0 1 
+
+7
+0 1 0 1 0 1 0 1 0 1 0 1 0 1
+
+
+FORMAT 
+	NUMBER OF CASES 
+	
+		NUMERATOR, DENOMINATOR UNTIL FINISHED
+		
+		
+CASES 
+	TRUE CASES 
+	
+	
+	FALSE CASES
