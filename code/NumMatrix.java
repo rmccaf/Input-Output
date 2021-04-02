@@ -97,5 +97,24 @@ public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 	
 	}//end columnsToRows() 
 	
+	
+	public void rowsToColumns(ArrayList<NumVector> rows)
+	{
+	
+		this.rowVectors = rows; 
+		this.columnVectors.clear(); 
+		rowsToColumns();
+	
+	}//end rowsToColumns
+	
+	public void colsToRows(ArrayList<NumVector> cols)
+	{
+	
+		this.columnVectors = cols; 
+		this.rowVectors.clear();
+		colsToRows(); 
+	
+	}//end colsToRows() 	
+	
 
 }//end class 

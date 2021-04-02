@@ -86,7 +86,18 @@ public class MatrixTest
 			System.out.println("Test for numGetColTest() PASSED.");
 		else
 			System.out.println("Test for numGetColTest() FAILED");     
-		//test setRowVector
+		
+		//test setColVector
+		File setColVectorFile = caseFile(6);
+		Scanner setColVectorScan = scanBuild(setColVectorFile);
+		ArrayList<NumMatrix> setColVecCases = numMatrixCaseBuild(setColVectorScan,true); 
+		File setColVectorSolFile = solutionFile(6);
+		Scanner setColVectorSolScan = scanBuild(setColVectorSolFile);
+		ArrayList<NumMatrix> setColVecSol = numMatrixCaseBuild(setColVectorSolScan,true);
+		if(numSetColTest(setColVecCases,setColVecSol))
+			System.out.println("test for numSetColTest() PASSED."); 
+		else     
+			System.out.println("test for numSetColTest() FAILED."); 		
 		
 		//test getEntry
 		
@@ -130,7 +141,7 @@ public class MatrixTest
 			case 5:
 				return new File("./TestCases/MatrixTests/getColVectorCases.txt"); 
 			case 6:
-
+				return new File("./TestCases/MatrixTests/setColVectorCases.txt"); 
 			case 7:
 
 			case 8:
@@ -169,7 +180,7 @@ public class MatrixTest
 			case 5:
 				return new File("./TestCases/MatrixTests/getColVectorSol.txt"); 
 			case 6:
-
+				return new File("./TestCases/MatrixTests/setColVectorSol.txt");
 			case 7:
 
 			case 8:
@@ -604,5 +615,60 @@ public class MatrixTest
 	
 	
 	}//end numGetColTest() 
+	
+	
+	
+	public static boolean numSetColTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
+	{
+	
+		
+		boolean returnBoolean = false; 
+		
+		
+		for(int i = 1 ; i < 4 ; i++)
+		{
+			
+			Matrix testMatrix = new NumMatrix(testCases.get(i-1));
+			
+			testMatrix.setColumnVector(i,testMatrix.getColumnVector(i+1)); 
+			
+				 
+			if(!testMatrix.equal(solCases.get(i-1)))	
+			{
+ 
+				debug("numbSetColTest()",i);
+				return false; 
+			
+			} 
+			
+	
+			
+			
+		}//end for 
+		
+		
+		for(int i = 4 ; i < 7 ; i++)
+		{
+		
+			testCases.get(i-1).setColumnVector((i),testCases.get(i-1).getColumnVector(i+1));	
+			
+			if(testCases.get(i-1).equal(solCases.get(i-1)))
+			{
+				debug("numbSetColTest()",(i+1));
+				return false; 
+			
+			}//end if 
+			
+			if(i == 6)
+				returnBoolean = true; 
+				
+		}//end for 
+		
+		
+		
+		return returnBoolean; 
+		
+	
+	}//end numSetColTest() 
 	
 }//end MatrixTest class 

@@ -149,7 +149,9 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	public abstract void colsToRows();
   
 	
+	public abstract void rowsToColumns(ArrayList<T2> rows);
 	
+	public abstract void colsToRows(ArrayList<T2> cols); 
 	
 	public T2 getRowVector(int index)
 	{
@@ -161,7 +163,7 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	
 	public T2 getColumnVector(int index)
 	{
-	
+		
 		return this.columnVectors.get(index - 1);
 		
 	}//end setRowVector() 
@@ -172,8 +174,10 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	
 		this.rowVectors.set(index-1,newVector); 
 	
-		//reset the columnVectors
-	
+		rowsToColumns(this.rowVectors); 
+		
+		
+
 	}//end setRowVector
 	
 	
@@ -181,7 +185,10 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	{
 		
 		this.columnVectors.set(index - 1 , newVector); 
-	
+		
+		colsToRows(this.columnVectors);
+		
+
 	}//end setColumnVector() 
 	
 	
@@ -233,6 +240,7 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 			returnString += getRowVector(i).toString() + "\n";
 		
 		}//end for 
+	
 	
 		return returnString; 
 	
