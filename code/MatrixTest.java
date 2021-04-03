@@ -99,6 +99,19 @@ public class MatrixTest
 		else     
 			System.out.println("test for numSetColTest() FAILED."); 		
 		
+		
+		//test setRowVector
+		File setRowVectorFile = caseFile(7);
+		Scanner setRowVectorScan = scanBuild(setRowVectorFile);
+		ArrayList<NumMatrix> setRowVectorCases = numMatrixCaseBuild(setRowVectorScan,true);
+		File setRowVectorSolFile = solutionFile(7);
+		Scanner setRowVectorSolScan = scanBuild(setRowVectorSolFile);
+		ArrayList<NumMatrix> setRowVectorSolCases = numMatrixCaseBuild(setRowVectorSolScan,true);
+		if(numSetRowTest(setRowVectorCases,setRowVectorSolCases))
+			System.out.println("test for numSetRowTest() PASSED.");
+		else
+			System.out.println("test for numSetRowTest() FAILED.");			     
+		
 		//test getEntry
 		
 		//test setEntry
@@ -143,7 +156,7 @@ public class MatrixTest
 			case 6:
 				return new File("./TestCases/MatrixTests/setColVectorCases.txt"); 
 			case 7:
-
+				return new File("./TestCases/MatrixTests/setRowVectorCases.txt");
 			case 8:
 
 			case 9:
@@ -182,7 +195,7 @@ public class MatrixTest
 			case 6:
 				return new File("./TestCases/MatrixTests/setColVectorSol.txt");
 			case 7:
-
+				return new File("./TestCases/MatrixTests/setRowVectorSol.txt"); 
 			case 8:
 
 			case 9:
@@ -229,10 +242,13 @@ public class MatrixTest
 		
 		//scan the number of cases 
 		int numberOfCases = scan.nextInt(); 
+		
 
+		
 		//create a for loop to build the matricies 
 		for(int i = 0 ; i < numberOfCases ; i++)
 		{
+			
 
 			//scan number of rows 	
 			int rowDimension = scan.nextInt(); 
@@ -240,7 +256,7 @@ public class MatrixTest
 			//scan number of columns 
 			int colDimension = scan.nextInt(); 
 
-				
+		
 			//create a local arrayList of Vectors 
 			ArrayList<NumVector> vectorList = new ArrayList<NumVector>(); 
 			
@@ -670,5 +686,62 @@ public class MatrixTest
 		
 	
 	}//end numSetColTest() 
+	
+	
+	
+	public static boolean numSetRowTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+	
+		
+		//TRUE CASES 
+		for(int i = 1 ; i < 4 ; i++)
+		{
+			NumMatrix testMatrix = testCases.get(i-1);
+			
+			testMatrix.setRowVector(i,testCases.get(i-1).getRowVector(i+1));   
+				
+			if(!testMatrix.equal(solCases.get(i-1)))
+			{
+				debug("numSetRowTest()",i); 
+				return false; 
+			}	
+		}//end for 
+		
+		//FALSE CASES
+		for(int i = 4 ; i < 7 ; i++)
+		{
+			
+			NumMatrix testMatrix = testCases.get(i-1);			
+
+			
+			testMatrix.setRowVector(i,testCases.get(i-1).getRowVector(i+1));   
+			
+
+			
+
+			if(testMatrix.equal(solCases.get(i-1)))
+			{
+
+				debug("numSetRowTest()",i); 			
+				return false; 						
+			
+			}
+
+			
+			
+			//switch the returnBoolean when at the end 
+			if(i == 6)
+				returnBoolean = true;	
+		
+		}//end for 
+		
+		
+		return returnBoolean; 
+		
+	}//end numSetRowTest()
+	
+	
 	
 }//end MatrixTest class 

@@ -218,11 +218,19 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 				return false; 
 			
 			}
-
-			if(i == this.rowDimension)
-				returnBoolean = true; 
+ 
 			
 		}//end for loop 
+	
+	
+		for(int i = 1 ; i <= this.colDimension ; i++)
+		{
+		
+			if(!getColumnVector(i).equal(other.getColumnVector(i)))
+				return false; 
+			if(i == this.colDimension)
+				returnBoolean = true; 		
+		}//end for 
 	
 	
 		return returnBoolean; 
