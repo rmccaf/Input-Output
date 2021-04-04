@@ -1,0 +1,31 @@
+6
+
+2 1
+
+1 1 
+
+0 1
+
+0 1
+
+0 1
+
+0 1 
+
+
+FORMAT 
+	NUMBER OF CASES 
+	
+		NUMERATOR DENOMINATOR 
+		
+TEST CASES 
+	TRUE CASES 
+		-
+		-
+		-
+		
+	FALSE CASES
+		-
+		-
+		-
+		
