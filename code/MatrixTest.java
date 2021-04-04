@@ -126,7 +126,16 @@ public class MatrixTest
 		
 		
 		//test setEntry
-	
+		File setEntryFile = caseFile(9);
+		Scanner setEntryScan = scanBuild(setEntryFile);
+		ArrayList<NumMatrix> setEntry = numMatrixCaseBuild(setEntryScan,true);
+		File setEntrySolFile = solutionFile(9);
+		Scanner setEntrySolScan = scanBuild(setEntrySolFile);
+		ArrayList<NumEntry> setEntrySol = numEntryCaseBuild(setEntrySolScan);
+		if(numSetEntryTest(setEntry,setEntrySol))
+			System.out.println("test for numSetEntryTest() PASSED.");
+		else
+			System.out.println("test for numSetEntryTest() FAILED.");			    
 	
 	
 		//STRINGMATRIX TESTS
@@ -171,8 +180,8 @@ public class MatrixTest
 			case 8:
 				return new File("./TestCases/MatrixTests/getEntryCases.txt");
 			case 9:
-
-			default:
+				return new File("./TestCases/MatrixTests/setEntryCases.txt"); 
+			default:	
 				System.out.println("You did not choose a valid test case for caseFile()"); 
 		
 		
@@ -210,7 +219,7 @@ public class MatrixTest
 			case 8:
 				return new File("./TestCases/MatrixTests/getEntrySol.txt"); 
 			case 9:
-
+				return new File("./TestCases/MatrixTests/setEntrySol.txt");
 			default:
 				System.out.println("You did not choose a valid test case for solutionFile()"); 
 		
@@ -802,5 +811,57 @@ public class MatrixTest
 		
 	
 	}//end numGetEntryTest
+	
+	
+	
+	public static boolean numSetEntryTest(ArrayList<NumMatrix> testCases, ArrayList<NumEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+			
+		
+		for(int i = 1 ; i < 4 ; i++)
+		{
+		
+			NumMatrix testMatrix = testCases.get(i-1);
+			testMatrix.setEntry(i,2,solCases.get(i-1));  
+	
+			if(!testMatrix.getEntry(i,2).equal(solCases.get(i-1)))
+			{
+				
+				debug("numSetEntryTest()",i);
+				return false; 
+				
+			}//end if 
+		
+	
+		}//end for 
+	
+		for(int i = 4 ; i < 7 ; i++)
+		{
+		
+			NumMatrix testMatrix = testCases.get(i-1);
+			 
+			testMatrix.setEntry(i,2,new NumEntry(0 , 1));
+			
+			if(testMatrix.getEntry(i,2).equal(solCases.get(i-1)))
+			{
+			
+				debug("numSetEntryTest()",i);
+				return false;
+			
+			}//end if 	
+		
+			if(i == 6)
+				returnBoolean = true; 
+		
+		}//end for 
+	
+		return returnBoolean;
+	
+	}//end numSetEntryTest() 
+	
+	
+	
 	
 }//end MatrixTest class 
