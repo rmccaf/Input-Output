@@ -192,7 +192,7 @@ public abstract class Matrix<T1 extends Matrix, T2 extends Vector, T3 extends En
 	}//end setColumnVector() 
 	
 	
-	public abstract T3 getEntry(int rowIndex, int colIndex); 
+	public abstract T3 getEntry(int rowIndex, int colIndex);
 
 	
 	

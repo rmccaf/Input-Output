@@ -113,6 +113,17 @@ public class MatrixTest
 			System.out.println("test for numSetRowTest() FAILED.");			     
 		
 		//test getEntry
+		File getEntryFile = caseFile(8);
+		Scanner getEntryScan = scanBuild(getEntryFile);
+		ArrayList<NumMatrix> getEntryCases = numMatrixCaseBuild(getEntryScan,true);
+		File getEntrySolFile = solutionFile(8);
+		Scanner getEntrySolScan = scanBuild(getEntrySolFile);
+		ArrayList<NumEntry> getEntrySol = numEntryCaseBuild(getEntrySolScan);
+		if(numGetEntryTest(getEntryCases,getEntrySol))
+			System.out.println("test for numGetEntryTest() PASSED.");
+		else
+			System.out.println("test for numGetEntryTest() FAILED.");			      
+		
 		
 		//test setEntry
 	
@@ -158,7 +169,7 @@ public class MatrixTest
 			case 7:
 				return new File("./TestCases/MatrixTests/setRowVectorCases.txt");
 			case 8:
-
+				return new File("./TestCases/MatrixTests/getEntryCases.txt");
 			case 9:
 
 			default:
@@ -197,7 +208,7 @@ public class MatrixTest
 			case 7:
 				return new File("./TestCases/MatrixTests/setRowVectorSol.txt"); 
 			case 8:
-
+				return new File("./TestCases/MatrixTests/getEntrySol.txt"); 
 			case 9:
 
 			default:
@@ -743,5 +754,53 @@ public class MatrixTest
 	}//end numSetRowTest()
 	
 	
+	
+	public static boolean numGetEntryTest(ArrayList<NumMatrix> testCases, ArrayList<NumEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		
+		
+		//TRUE CASES 
+		for(int i = 1 ; i < 4 ; i++)
+		{
+			
+			if(!testCases.get(i - 1).getEntry(1,i).equal(solCases.get(i-1)))
+			{
+
+				debug("numGetEntryTest()" , i); 
+			
+				return false; 			
+			
+			}
+
+
+		}//end for 
+		
+		//FALSE CASES 
+		for(int i = 4 ; i < 7 ; i++)
+		{
+		
+			if(testCases.get(i-1).getEntry(1,i).equal(solCases.get(i-1)))
+			{
+
+				debug("numGetEntryTest()",i); 			
+				return false; 			
+			
+			}//end if
+
+		
+		
+			if(i == 6)
+				returnBoolean = true; 
+				
+		}//end for 
+		
+		
+		return returnBoolean; 
+		
+	
+	}//end numGetEntryTest
 	
 }//end MatrixTest class 

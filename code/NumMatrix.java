@@ -41,7 +41,12 @@ public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 	public void setEntry(int rowIndex, int columnIndex, NumEntry newEntry)
 	{
 	
-	
+		//update the rowVector 
+		getRowVector(rowIndex).setEntry(columnIndex,newEntry);
+		
+		//update the columnVector
+		getColumnVector(columnIndex).setEntry(rowIndex,newEntry);
+
 	
 	}//end setEntry() 
 	
