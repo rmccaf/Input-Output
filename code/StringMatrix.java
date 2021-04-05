@@ -33,7 +33,7 @@ public class StringMatrix extends Matrix<StringMatrix,StringVector,StringEntry>
 	public StringMatrix getMatrix()
 	{
 		
-		return new StringMatrix(this.rowVectors); 
+		return new StringMatrix(this.rowVectors,true); 
 	
 	}//end getMatrix() 
 	
@@ -105,6 +105,25 @@ public class StringMatrix extends Matrix<StringMatrix,StringVector,StringEntry>
 	
 	}//end rowsToCols()
 
+
+	public void rowsToColumns(ArrayList<StringVector> rows)
+	{
+	
+		this.rowVectors = rows; 
+		this.columnVectors.clear(); 
+		rowsToColumns();
+	
+	}//end rowsToColumns
+	
+	public void colsToRows(ArrayList<StringVector> cols)
+	{
+	
+		this.columnVectors = cols; 
+		this.rowVectors.clear();
+		colsToRows(); 
+	
+	}//end colsToRows() 	
+	
 
 }//end StringMatrix class 
 
