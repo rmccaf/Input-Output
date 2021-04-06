@@ -4,10 +4,6 @@ import java.util.ArrayList;
 public class StringMatrix extends Matrix<StringMatrix,StringVector,StringEntry>
 {
 
-	ArrayList<StringVector> rowVectors; 
-	ArrayList<StringVector> colVectors; 
-	int rowDimension; 
-	int colDimension; 
 
 
 

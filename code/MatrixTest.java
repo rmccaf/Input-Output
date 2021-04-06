@@ -153,9 +153,29 @@ public class MatrixTest
 			System.out.println("Test for stringRowsToColsTest() FAILED."); 
 		
 		
-		//test columns to rows 
+		//test columns to rows
+		File stringColToRowCaseFile = caseFile(2);
+		Scanner stringColToRowCaseScan = scanBuild(stringColToRowCaseFile);
+		ArrayList<StringMatrix> stringColToRowCases = stringMatrixCaseBuild(stringColToRowCaseScan,false);
+		File stringColToRowSolFile = solutionFile(2);
+		Scanner stringColToRowScan = scanBuild(stringColToRowSolFile);
+		ArrayList<StringVector> stringColToRowSol = stringVectorCaseBuild(stringColToRowScan);      
+		if(stringColToRowTest(stringColToRowCases,stringColToRowSol))
+			System.out.println("Test for stringColToRowTest() PASSED.");
+		else
+			System.out.println("Test for stringColToRowTest() FAILED.");
 		
 		//test equal 
+		File stringEqualCaseFile = caseFile(3);
+		Scanner stringEqualScan = scanBuild(stringEqualCaseFile);
+		ArrayList<StringMatrix> stringEqualCases = stringMatrixCaseBuild(stringEqualScan,true);
+		File stringEqualSolFile = solutionFile(3);
+		Scanner stringEqualSolScan = scanBuild(stringEqualSolFile);
+		ArrayList<StringMatrix> stringEqualSol = stringMatrixCaseBuild(stringEqualSolScan,true);
+		if(stringEqualTest(stringEqualCases,stringEqualSol))
+			System.out.println("Test for stringEqualTest() PASSED.");
+		else
+			System.out.println("Test for stringEqualTest() FAILED.");			    
 		
 		//test getRowVector
 		
@@ -680,6 +700,55 @@ public class MatrixTest
 	}//end numColsToRowsTest() 
 	
 	
+	public static boolean stringColToRowTest(ArrayList<StringMatrix> matrixCases, ArrayList<StringVector> vectorCases)
+	{
+	
+		int caseNum = matrixCases.size(); 
+		boolean returnBoolean = false; 		
+	
+	
+		//TRUE CASES 
+		for(int i = 0 ; i < 3 ; i++)
+		{
+		
+			if(!matrixCases.get(i).getRowVector(i+1).equal(vectorCases.get(i)))
+			{
+			
+				debug("stringColsToRowsTest()",(i+1));
+				return false; 
+			
+			}//end if 
+		
+		}//end for 
+		
+		//FALSE CASES 
+		for(int i = 3 ; i < 6; i++)
+		{
+		
+			if(matrixCases.get(i).getRowVector(i+1).equal(vectorCases.get(i)))
+			{
+			
+				debug("stringColsToRowsTest()",(i+1));
+				return false; 	 
+			
+			}//end if 
+			
+			if(i == 5)
+			{
+			
+				returnBoolean = true; 		
+		
+			}//end if 
+			
+		
+		}//end for 
+		
+		return returnBoolean; 
+	
+	
+	}//end stringColToRowTest() 
+	
+		
 	
 	public static boolean numEqualTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
 	{
@@ -728,6 +797,52 @@ public class MatrixTest
 		
 	}//end numEqualTest() 
 	
+	
+	public static boolean stringEqualTest(ArrayList<StringMatrix> testCases, ArrayList<StringMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+	
+		//TRUE CASES 
+		//iterate over the cases
+		for(int i = 0 ; i < 3 ; i++)
+		{
+
+			//if false return false 	
+			if(!testCases.get(i).equal(solCases.get(i)))
+			{
+				
+				debug("numEqualTest()",(i+1)); 
+				return false; 	
+			
+			}//end if 
+			
+			
+		}//end for 
+	
+		//FALSE CASES 
+		//iterate over the cases 
+		for(int i = 3 ; i < 9 ; i++)
+		{
+		
+			//if true return false 
+			if(testCases.get(i).equal(solCases.get(i)))
+			{
+				debug("numEqualTest()",(i+1));
+				return false; 
+			
+			}//end if 
+			
+			
+			if(i == 8)
+				returnBoolean = true; 	
+				
+		}//end for 
+		
+		
+		return returnBoolean;
+	
+	}//end stringEqualTest() 
 	
 	
 	
