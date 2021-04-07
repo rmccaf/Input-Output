@@ -1,3 +1,9 @@
+import java.util.ArrayList; 
+import java.io.File;
+import java.util.Scanner; 
+import java.io.FileNotFoundException; 
+
+
 public class EntryOpsTest
 {
 
@@ -5,7 +11,28 @@ public class EntryOpsTest
 	{
 		
 		//check numAddition() 
-				
+		File numAdditionCaseFile = testFileBuilder(1);
+		Scanner numAdditionScan = scanBuild(numAdditionCaseFile);
+		ArrayList<NumEntry> numAdditionCases = caseBuild(numAdditionScan);
+		File numAdditionSolFile = solFileBuilder(1);
+		Scanner numAdditionSolScan = scanBuild(numAdditionSolFile);
+		ArrayList<NumEntry> numAdditionSolutions = caseBuild(numAdditionSolScan);
+		if(numAdditionTest(numAdditionCases,numAdditionSolutions))
+			System.out.println("numAddition test PASSED."); 
+		else
+			System.out.println("numAddition test FAILED."); 
+		
+		File numMultiplicationFile = testFileBuilder(2);
+		Scanner numMultScan = scanBuild(numMultiplicationFile);
+		ArrayList<NumEntry> numMultCases = caseBuild(numMultScan);
+		File numMultSolFile = solFileBuilder(2);
+		Scanner numMultSolScan = scanBuild(numMultSolFile); 
+		ArrayList<NumEntry> numMultSolCases = caseBuild(numMultSolScan);
+		if(numMultiplicationTest(numMultCases,numMultSolCases))
+			System.out.println("numMultiplication test PASSED.");
+		else
+			System.out.println("numMultiplication test FAILED.");			 
+ 		 		
 		
 		
 	}//end main() 
@@ -20,6 +47,9 @@ public class EntryOpsTest
 			
 			case 1: 
 				return new File("./TestCases/EntryOpsTests/AdditionCases.txt");
+		
+			case 2:
+				return new File("./TestCases/EntryOpsTests/MultiplicationCases.txt");
 		
 			default:
 				return (File) null; 
@@ -38,6 +68,9 @@ public class EntryOpsTest
 			
 			case 1: 
 				return new File("./TestCases/EntryOpsTests/AdditionSol.txt");
+			
+			case 2:
+				return new File("./TestCases/EntryOpsTests/MultiplicationSol.txt"); 
 			default:
 				return (File) null; 
 				
@@ -93,15 +126,93 @@ public class EntryOpsTest
 	
 	
 	
+	public static void debug(String testName, int caseNumber)
+	{
+	
+		System.out.println("Test " + testName + " FAILED for case number " + caseNumber); 
+	
+	}//end debug() 
+	
+	
 	public static boolean numAdditionTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+
+		int j = 0; 
+		
+		for(int i  = 0 ; i < 6 ; i += 2 )
+		{
+			 
+			if(!EntryOps.addition(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			{
+				debug("numAdditionTest()", (j+1)); 
+				return false; 
+			}//end if 
+			
+			j++; 
+		
+		}//end for 
+		
+		
+		
+		if(EntryOps.addition(testCases.get(6),testCases.get(7) ) != null)
+			return false; 
+
+		if(EntryOps.addition(testCases.get(8),testCases.get(9) ) != null)
+			return false; 
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 	
+	
+	}//end numAdditionTest() 
+	
+	
+	
+	
+	public static boolean numMultiplicationTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
 	{
 	
 		boolean returnBoolean = false; 
 		
 		
-		return returnBoolean; 	
+		int j = 0; 
+		
+		
+		for(int i = 0 ; i < 8 ; i += 2)
+		{
+		
+			if(!EntryOps.multiplication(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			{
+			
+				debug("numMultiplicationTest()", (j+1));
+				return false;  
+			
+			}//end if 
+			
+			j++; 
+			
+		}//end for 
+	
+
+		
+		 	
+		if(EntryOps.multiplication(testCases.get(8),testCases.get(9)) != null)
+			return false;
+		
+		if(EntryOps.multiplication(testCases.get(10),testCases.get(11)) != null)
+			return false;
+			
+		
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
 	
 	}//end numAdditionTest() 
+	
+	
 	
 	
 	
