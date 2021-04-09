@@ -22,6 +22,7 @@ public class EntryOpsTest
 		else
 			System.out.println("numAddition test FAILED."); 
 		
+		
 		File numMultiplicationFile = testFileBuilder(2);
 		Scanner numMultScan = scanBuild(numMultiplicationFile);
 		ArrayList<NumEntry> numMultCases = caseBuild(numMultScan);
@@ -32,9 +33,30 @@ public class EntryOpsTest
 			System.out.println("numMultiplication test PASSED.");
 		else
 			System.out.println("numMultiplication test FAILED.");			 
+ 		
  		 		
-		
-		
+		File numSubFile = testFileBuilder(3);
+		Scanner numSubScan = scanBuild(numSubFile);
+		ArrayList<NumEntry> numSubCases = caseBuild(numSubScan);
+		File numSubSolFile = solFileBuilder(3);
+		Scanner numSubSolScan = scanBuild(numSubSolFile);
+		ArrayList<NumEntry> numSubSol = caseBuild(numSubSolScan);
+		if(numSubtractionTest(numSubCases,numSubSol))
+			System.out.println("numSubtractionTest test PASSED.");
+		else
+			System.out.println("numSubtractionTest test FAILED.");
+			
+		File numDivFile = testFileBuilder(4);
+		Scanner numDivScan = scanBuild(numDivFile);
+		ArrayList<NumEntry> numDivCases = caseBuild(numDivScan);
+		File numDivSolFile = solFileBuilder(4);
+		Scanner numDivSolScan = scanBuild(numDivSolFile);
+		ArrayList<NumEntry> numDivSol = caseBuild(numDivSolScan);  	
+		if(numDivisionTest(numDivCases,numDivSol))
+			System.out.println("numDivisionTest test PASSED.");	
+		else
+			System.out.println("numDivisionTest test FAILED.");
+					
 	}//end main() 
 
 
@@ -47,10 +69,12 @@ public class EntryOpsTest
 			
 			case 1: 
 				return new File("./TestCases/EntryOpsTests/AdditionCases.txt");
-		
 			case 2:
 				return new File("./TestCases/EntryOpsTests/MultiplicationCases.txt");
-		
+			case 3:
+				return new File("./TestCases/EntryOpsTests/SubtractionCases.txt");
+			case 4:
+				return new File("./TestCases/EntryOpsTests/DivisionCases.txt"); 
 			default:
 				return (File) null; 
 				
@@ -68,9 +92,12 @@ public class EntryOpsTest
 			
 			case 1: 
 				return new File("./TestCases/EntryOpsTests/AdditionSol.txt");
-			
 			case 2:
 				return new File("./TestCases/EntryOpsTests/MultiplicationSol.txt"); 
+			case 3: 
+				return new File("./TestCases/EntryOpsTests/SubtractionSol.txt");
+			case 4:
+				return new File("./TestCases/EntryOpsTests/DivisionSol.txt");
 			default:
 				return (File) null; 
 				
@@ -214,6 +241,79 @@ public class EntryOpsTest
 	
 	
 	
+	public static boolean numSubtractionTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		
+		int j = 0; 
+		
+		for(int i = 0 ; i < 6 ; i += 2)
+		{
+		
+			if(!EntryOps.subtraction(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			{
+				
+				debug("numSubtractionTest()", (j+1));
+				return false; 
+			
+			}//end if 
+		
+			j++; 
+		
+		}//end for 
+	
+		
+		if(EntryOps.subtraction(testCases.get(6),testCases.get(7)) != null)
+			return false; 
+			
+		if(EntryOps.subtraction(testCases.get(8),testCases.get(9)) != null)
+			return false; 
+			
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+		
+	}//end numSubtractionTest() 
+	
+	
+	
+	public static boolean numDivisionTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		
+		int j = 0; 
+		
+		for(int i = 0 ; i < 6 ; i += 2)
+		{
+		
+			if(!EntryOps.division(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			{
+			
+				debug("numDivisionTest()",(j+1));
+				return false; 
+			}//end if 
+		
+			j++; 
+		
+		}//end for 
+	
+		if(EntryOps.division(testCases.get(6),testCases.get(7)) != null)
+			return false; 
+			
+		if(EntryOps.division(testCases.get(8),testCases.get(9)) != null)
+			return false; 
+						
+	
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+		
+		
+	}//end numDivisionTest() 
 	
 	
 	
