@@ -178,7 +178,18 @@ public class MatrixTest
 			System.out.println("Test for stringEqualTest() FAILED.");			    
 		
 		//test getRowVector
-		
+		File stringGetRowFile = caseFile(4);
+		Scanner stringGetRowScan = scanBuild(stringGetRowFile);
+		ArrayList<StringMatrix> stringGetRowCases = stringMatrixCaseBuild(stringGetRowScan,true);
+		File stringGetRowSolFile = solutionFile(4);
+		Scanner stringGetRowScanSol = scanBuild(stringGetRowSolFile);
+		ArrayList<StringVector> stringGetRowSol = stringVectorCaseBuild(stringGetRowScanSol);
+		if(stringGetRowTest(stringGetRowCases,stringGetRowSol))
+			System.out.println("Test for stringGetRowTest() PASSED.");
+		else
+			System.out.println("Test for stringGetRowTest() FAILED.");
+			
+			
 		//test getColVector
 		
 		//test setRowVector 
@@ -890,6 +901,52 @@ public class MatrixTest
 	
 	
 	}//end numGetRowTest() 
+	
+	
+	
+	public static boolean stringGetRowTest(ArrayList<StringMatrix> testCases, ArrayList<StringVector> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		
+		for(int i = 0 ; i < 3 ; i++)
+		{
+			
+			if(!testCases.get(i).getRowVector(i+1).equal(solCases.get(i)))
+			{
+				
+				debug("stringGetRowTest()",(i+1)); 			
+				return false; 			
+			
+			}
+
+			
+		}//end for 
+		
+		
+		for(int i = 3 ; i < 6 ; i++)
+		{
+		
+			if(testCases.get(i).getRowVector(i+1).equal(solCases.get(i)))
+			{
+				
+				debug("stringGetRowTest()",(i+1)); 
+				return false; 
+			
+			}//end if 
+			if(i == 5)
+			{
+			
+				returnBoolean = true; 
+			
+			}//end if 
+		
+		}//end for 
+		
+		return returnBoolean; 	
+	
+	}//end stringGetRowTest() 
 	
 	
 	
