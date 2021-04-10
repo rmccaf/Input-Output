@@ -191,11 +191,28 @@ public class MatrixTest
 			
 			
 		//test getColVector
-		
+		File stringGetColFile = caseFile(5);
+		Scanner stringGetColScan = scanBuild(stringGetColFile);
+		ArrayList<StringMatrix> stringGetColCase = stringMatrixCaseBuild(stringGetColScan,true);
+		File stringGetColSolFile = solutionFile(5);
+		Scanner stringGetColSolScan = scanBuild(stringGetColSolFile);
+		ArrayList<StringVector> stringGetColSol = stringVectorCaseBuild(stringGetColSolScan);
+		if(stringGetColTest(stringGetColCase,stringGetColSol))
+			System.out.println("Test for stringGetColTest() PASSED."); 
+		else
+			System.out.println("Test for stringGetColTest() FAILED.");
+			
 		//test setRowVector 
-		
-		
-		
+		File stringSetColFile = caseFile(6);
+		Scanner stringSetColScan = scanBuild(stringSetColFile); 
+		ArrayList<StringMatrix> stringSetCol = stringMatrixCaseBuild(stringSetColScan,true);
+		File stringSetColSolFile = solutionFile(6);
+		Scanner stringSetColSolScan = scanBuild(stringSetColSolFile);
+		ArrayList<StringMatrix> stringSetColSol = stringMatrixCaseBuild(stringSetColSolScan,true);
+		if(stringSetColTest(stringSetCol,stringSetColSol))
+			System.out.println("Test for stringSetColTest() PASSED.");  
+		else
+			System.out.println("Test for stringSetColTest() FAILED.");  			
 	}//end main() 
 
 
@@ -1000,6 +1017,55 @@ public class MatrixTest
 	
 	
 	
+	
+	public static boolean stringGetColTest(ArrayList<StringMatrix> testCases, ArrayList<StringVector> solCases)
+	{
+	
+	
+		boolean returnBoolean = false; 
+			
+		for(int i = 0 ; i < 3 ; i++)
+		{
+			
+			if(!testCases.get(i).getColumnVector(i+1).equal(solCases.get(i)))
+			{
+				
+				debug("stringGetColTest()",(i+1)); 			
+				return false; 			
+			
+			}
+
+			
+		}//end for 
+		
+		
+		for(int i = 3 ; i < 6 ; i++)
+		{
+
+			if(testCases.get(i).getColumnVector(i+1).equal(solCases.get(i)))
+			{
+				
+				debug("numGetColTest()",(i+1)); 
+				return false; 
+			
+			}//end if 
+			if(i == 5)
+			{
+			
+				returnBoolean = true; 
+			
+			}//end if 
+		
+		}//end for 
+		
+		return returnBoolean; 
+	
+	
+	}//end numGetColTest() 
+	
+	
+	
+	
 	public static boolean numSetColTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
 	{
 	
@@ -1051,6 +1117,57 @@ public class MatrixTest
 		return returnBoolean; 
 		
 	
+	}//end numSetColTest() 
+	
+	
+	public static boolean stringSetColTest(ArrayList<StringMatrix> testCases, ArrayList<StringMatrix> solCases)
+	{
+	
+		
+		boolean returnBoolean = false; 
+		
+		
+		for(int i = 1 ; i < 4 ; i++)
+		{
+			
+			StringMatrix testMatrix = new StringMatrix(testCases.get(i-1));
+			
+			testMatrix.setColumnVector(i,testMatrix.getColumnVector(i+1)); 
+			
+				 
+			if(!testMatrix.equal(solCases.get(i-1)))	
+			{
+ 
+				debug("stringSetColTest()",i);
+				return false; 
+			
+			} 
+			
+	
+			
+			
+		}//end for 
+		
+		
+		for(int i = 4 ; i < 7 ; i++)
+		{
+		
+			testCases.get(i-1).setColumnVector((i),testCases.get(i-1).getColumnVector(i+1));	
+			
+			if(testCases.get(i-1).equal(solCases.get(i-1)))
+			{
+				debug("stringSetColTest()",(i+1));
+				return false; 
+			
+			}//end if 
+			
+			if(i == 6)
+				returnBoolean = true; 
+				
+		}//end for 
+		
+		return returnBoolean; 
+		
 	}//end numSetColTest() 
 	
 	
