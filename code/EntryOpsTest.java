@@ -196,6 +196,39 @@ public class EntryOpsTest
 	}//end numAdditionTest() 
 	
 	
+	public static boolean numAdditionTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+
+		int j = 0; 
+		
+		for(int i  = 0 ; i < 6 ; i += 2 )
+		{
+			 
+			if(!EntryOps.addition(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			{
+				debug("numAdditionTest()", (j+1)); 
+				return false; 
+			}//end if 
+			
+			j++; 
+		
+		}//end for 
+		
+		
+		
+		if(EntryOps.addition(testCases.get(6),testCases.get(7) ) != null)
+			return false; 
+
+		if(EntryOps.addition(testCases.get(8),testCases.get(9) ) != null)
+			return false; 
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 	
+	
+	}//end numAdditionTest() 
 	
 	
 	public static boolean numMultiplicationTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
