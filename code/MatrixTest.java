@@ -202,7 +202,7 @@ public class MatrixTest
 		else
 			System.out.println("Test for stringGetColTest() FAILED.");
 			
-		//test setRowVector 
+		//test setColVector 
 		File stringSetColFile = caseFile(6);
 		Scanner stringSetColScan = scanBuild(stringSetColFile); 
 		ArrayList<StringMatrix> stringSetCol = stringMatrixCaseBuild(stringSetColScan,true);
@@ -212,7 +212,45 @@ public class MatrixTest
 		if(stringSetColTest(stringSetCol,stringSetColSol))
 			System.out.println("Test for stringSetColTest() PASSED.");  
 		else
-			System.out.println("Test for stringSetColTest() FAILED.");  			
+			System.out.println("Test for stringSetColTest() FAILED.");  
+		
+		//test setRowVector
+		File stringSetRowFile = caseFile(7);
+		Scanner stringSetRowScan = scanBuild(stringSetRowFile);
+		ArrayList<StringMatrix> stringSetRow = stringMatrixCaseBuild(stringSetRowScan,true);
+		File stringSetRowSolFile = solutionFile(7);
+		Scanner stringSetRowSolScan = scanBuild(stringSetRowSolFile);
+		ArrayList<StringMatrix> stringSetRowSol = stringMatrixCaseBuild(stringSetRowSolScan,true);
+		if(stringSetRowTest(stringSetRow,stringSetRowSol))
+			System.out.println("Test for stringSetRowTest() PASSED.");  
+		else     	
+			System.out.println("Test for stringSetRowTest() FAILED.");
+			
+		//test getEntry
+		File stringGetEntryFile = caseFile(8);
+		Scanner stringGetEntryScan = scanBuild(stringGetEntryFile);
+		ArrayList<StringMatrix> stringGetEntry = stringMatrixCaseBuild(stringGetEntryScan,true);
+		File stringGetEntrySolFile = solutionFile(8);
+		Scanner stringGetEntrySolScan = scanBuild(stringGetEntrySolFile);
+		ArrayList<StringEntry> stringGetEntrySol = stringEntryCasebuild(stringGetEntrySolScan);
+		if(stringGetEntryTest(stringGetEntry,stringGetEntrySol))   	
+			System.out.println("Test for stringGetEntryTest() PASSED."); 
+		else
+			System.out.println("Test for stringGetEntryTest() FAILED."); 
+		
+		//test setEntry 
+		File stringSetEntryFile = caseFile(9);
+		Scanner stringSetEntryScan = scanBuild(stringSetEntryFile);
+		ArrayList<StringMatrix> stringSetEntry = stringMatrixCaseBuild(stringSetEntryScan,true);  
+		File stringSetEntrySolFile = solutionFile(9);
+		Scanner stringSetEntrySolScan = scanBuild(stringSetEntrySolFile);
+		ArrayList<StringEntry> stringSetEntrySol = stringEntryCasebuild(stringSetEntrySolScan); 
+		if(stringSetEntryTest(stringSetEntry,stringSetEntrySol))
+			System.out.println("Test for stringSetEntryTest() PASSED."); 
+		else
+			System.out.println("Test for stringSetEntryTest() FAILED."); 
+		
+				
 	}//end main() 
 
 
@@ -1225,6 +1263,54 @@ public class MatrixTest
 		
 	}//end numSetRowTest()
 	
+
+	
+	public static boolean stringSetRowTest(ArrayList<StringMatrix> testCases, ArrayList<StringMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+			
+		//TRUE CASES 
+		for(int i = 1 ; i < 4 ; i++)
+		{
+			StringMatrix testMatrix = testCases.get(i-1);
+			
+			testMatrix.setRowVector(i,testCases.get(i-1).getRowVector(i+1));   
+				
+			if(!testMatrix.equal(solCases.get(i-1)))
+			{
+				debug("stringSetRowTest()",i); 
+				return false; 
+			}	
+		}//end for 
+		
+		//FALSE CASES
+		for(int i = 4 ; i < 7 ; i++)
+		{
+			
+			StringMatrix testMatrix = testCases.get(i-1);			
+
+			
+			testMatrix.setRowVector(i,testCases.get(i-1).getRowVector(i+1));   
+		
+			if(testMatrix.equal(solCases.get(i-1)))
+			{
+				debug("numSetRowTest()",i); 			
+				return false; 							
+			}
+			
+			//switch the returnBoolean when at the end 
+			if(i == 6)
+				returnBoolean = true;	
+		
+		}//end for 
+			
+		return returnBoolean; 
+		
+	}//end numSetRowTest()
+	
+	
+	
 	
 	
 	public static boolean numGetEntryTest(ArrayList<NumMatrix> testCases, ArrayList<NumEntry> solCases)
@@ -1274,6 +1360,57 @@ public class MatrixTest
 		
 	
 	}//end numGetEntryTest
+	
+
+	
+	public static boolean stringGetEntryTest(ArrayList<StringMatrix> testCases, ArrayList<StringEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		
+		
+		//TRUE CASES 
+		for(int i = 1 ; i < 4 ; i++)
+		{
+			
+			if(!testCases.get(i - 1).getEntry(1,i).equal(solCases.get(i-1)))
+			{
+
+				debug("stringGetEntryTest()" , i); 
+			
+				return false; 			
+			
+			}
+
+
+		}//end for 
+		
+		//FALSE CASES 
+		for(int i = 4 ; i < 7 ; i++)
+		{
+		
+			if(testCases.get(i-1).getEntry(1,i).equal(solCases.get(i-1)))
+			{
+
+				debug("stringGetEntryTest()",i); 			
+				return false; 			
+			
+			}//end if
+
+		
+		
+			if(i == 6)
+				returnBoolean = true; 
+				
+		}//end for 
+		
+		
+		return returnBoolean; 
+		
+	
+	}//end numGetEntryTest
+
 	
 	
 	
@@ -1325,6 +1462,51 @@ public class MatrixTest
 	}//end numSetEntryTest() 
 	
 	
+	public static boolean stringSetEntryTest(ArrayList<StringMatrix> testCases, ArrayList<StringEntry> solCases)
+	{
 	
+		boolean returnBoolean = false; 
+			
+		
+		for(int i = 1 ; i < 4 ; i++)
+		{
+		
+			StringMatrix testMatrix = testCases.get(i-1);
+			testMatrix.setEntry(i,2,solCases.get(i-1));  
+	
+			if(!testMatrix.getEntry(i,2).equal(solCases.get(i-1)))
+			{
+				
+				debug("stringSetEntryTest()",i);
+				return false; 
+				
+			}//end if 
+		
+	
+		}//end for 
+	
+		for(int i = 4 ; i < 7 ; i++)
+		{
+		
+			StringMatrix testMatrix = testCases.get(i-1);
+			 
+			testMatrix.setEntry(i,2,new StringEntry("0","1"));
+			
+			if(testMatrix.getEntry(i,2).equal(solCases.get(i-1)))
+			{
+			
+				debug("stringSetEntryTest()",i);
+				return false;
+			
+			}//end if 	
+		
+			if(i == 6)
+				returnBoolean = true; 
+		
+		}//end for 
+	
+		return returnBoolean;
+	
+	}//end numSetEntryTest() 
 	
 }//end MatrixTest class 
