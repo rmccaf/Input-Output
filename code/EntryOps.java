@@ -164,6 +164,9 @@ public class EntryOps
 		
 		boolean returnBoolean = false; 
 		
+		if(numOne == 0 || numTwo == 0)
+			return false; 
+		
 		//multiply the two numbers 
 		long result = numOne * numTwo; 
 		

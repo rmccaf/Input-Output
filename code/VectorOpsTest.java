@@ -13,8 +13,30 @@ public class VectorOpsTest
 	public static void main(String[] args)
 	{
 	
-
+		File numAdditionFile = caseFile(1);
+		Scanner numAdditionScan = scanBuild(numAdditionFile);
+		ArrayList<NumVector> numAddition = numVectorCaseBuild(numAdditionScan);
+		File numAdditionSolFile = solutionFile(1);
+		Scanner numAdditionSolScan = scanBuild(numAdditionSolFile);   
+		ArrayList<NumVector> numAdditionSol = numVectorCaseBuild(numAdditionSolScan);
+		if(numAdditionTest(numAddition,numAdditionSol))
+			System.out.println("numAdditionTest() PASSED.");  
+		else
+			System.out.println("numAdditionTest() FAILED.");
 		
+		
+		File numMultiplicationFile = caseFile(2);	
+		Scanner numMultiplicationScan = scanBuild(numMultiplicationFile);
+		ArrayList<NumVector> numMultiplication = numVectorCaseBuild(numMultiplicationScan);
+		File numMultiplicationSolFile = solutionFile(2);
+		Scanner numMultiplicationSolScan = scanBuild(numMultiplicationSolFile);
+		ArrayList<NumVector> numMultiplicationSol = numVectorCaseBuild(numMultiplicationSolScan);
+		if(numMultiplicationTest(numMultiplication,numMultiplicationSol))
+			System.out.println("numMultiplicationTest() PASSED."); 
+		else 
+			System.out.println("numMultiplicationTest() FAILED.");
+			
+			 
 	}//end main() 
 
 
@@ -27,7 +49,8 @@ public class VectorOpsTest
 			
 			case 1:
 				return new File("./TestCases/VectorOpsTests/AdditionCases.txt"); 
-		
+			case 2: 
+				return new File("./TestCases/VectorOpsTests/MultiplicationCases.txt"); 
 		}//end switch
 		
 		
@@ -44,7 +67,8 @@ public class VectorOpsTest
 			
 			case 1:
 				return new File("./TestCases/VectorOpsTests/AdditionSol.txt"); 
-		
+			case 2:
+				return new File("./TestCases/VectorOpsTests/MultiplicationSol.txt"); 
 		}//end switch		
 		
 		
@@ -226,7 +250,77 @@ public class VectorOpsTest
 	
 	
 	
+	public static boolean numAdditionTest(ArrayList<NumVector> testCases, ArrayList<NumVector> solutionCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		for(int i = 0 ; i < 6 ; i += 2)
+		{
+
+			if(!VectorOps.addition(testCases.get(i),testCases.get(i+1)).equal(solutionCases.get(j)))
+			{
+
+				debug("numAddition()",(j+1)); 			
+				return false; 			
+			
+			}
+
+				
+			j++; 
+			
+		}//end for 
+		
+		
+		if(VectorOps.addition(testCases.get(6),testCases.get(7)) != null)
+			return false; 
+
+		if(VectorOps.addition(testCases.get(8),testCases.get(9)) != null)
+			return false; 			
+		
+		
+		returnBoolean = true; 
+		
+		
+		return returnBoolean; 
+	
+	}//end numAddition() 
 	
 	
+	
+	public static boolean numMultiplicationTest(ArrayList<NumVector> testCases, ArrayList<NumVector> solutionCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		for(int i = 0 ; i < 3 ; i++)
+		{
+			
+			if(!VectorOps.scalarMultiplication(testCases.get(i).getEntry(1),testCases.get(i)).equal(solutionCases.get(i)))
+			{
+			
+				debug("numMultiplicationTest()",(i+1));
+				return false; 
+			
+			}//end if
+		
+		
+		}//end for 
+		
+		
+		if(VectorOps.scalarMultiplication(testCases.get(3).getEntry(1),testCases.get(3)) != null)
+			return false; 
+			
+			
+		if(VectorOps.scalarMultiplication(testCases.get(4).getEntry(1),testCases.get(4)) != null )
+			return false; 
+			
+		returnBoolean = true; 
+		
+		return returnBoolean;
+	
+	}//end numMultiplicationTest() 
 	
 }//end class 
