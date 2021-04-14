@@ -35,8 +35,32 @@ public class VectorOpsTest
 			System.out.println("numMultiplicationTest() PASSED."); 
 		else 
 			System.out.println("numMultiplicationTest() FAILED.");
-			
-			 
+		
+		
+		
+		File numSubtractionFile = caseFile(3);
+		Scanner numSubtractionScan = scanBuild(numSubtractionFile);
+		ArrayList<NumVector> numSubtraction = numVectorCaseBuild(numSubtractionScan);
+		File numSubtractionSolFile = solutionFile(3);
+		Scanner numSubtractionSolScan = scanBuild(numSubtractionSolFile);
+		ArrayList<NumVector> numSubtractionSol = numVectorCaseBuild(numSubtractionSolScan);
+		if(numSubtractionTest(numSubtraction,numSubtractionSol))
+			System.out.println("numSubtractionTest() PASSED.");
+		else
+			System.out.println("numSubtractionTest() FAILED.");			    	
+		
+		
+		File numDotProdFile = caseFile(4);
+		Scanner numDotProdScan = scanBuild(numDotProdFile);
+		ArrayList<NumVector> numDotProd = numVectorCaseBuild(numDotProdScan);
+		File numDotProdSolFile = solutionFile(4);
+		Scanner numDotProdSolScan = scanBuild(numDotProdSolFile);
+		ArrayList<NumEntry> numDotProdSol = numEntryCaseBuild(numDotProdSolScan);
+		if(numDotProductTest(numDotProd,numDotProdSol))  
+			System.out.println("numDotProduct test PASSED.");
+		else
+			System.out.println("numDotProduct test FAILED.");			 
+		  	 
 	}//end main() 
 
 
@@ -50,7 +74,11 @@ public class VectorOpsTest
 			case 1:
 				return new File("./TestCases/VectorOpsTests/AdditionCases.txt"); 
 			case 2: 
-				return new File("./TestCases/VectorOpsTests/MultiplicationCases.txt"); 
+				return new File("./TestCases/VectorOpsTests/MultiplicationCases.txt");
+			case 3:
+				return new File("./TestCases/VectorOpsTests/SubtractionCases.txt");  
+			case 4: 
+				return new File("./TestCases/VectorOpsTests/DotProductCases.txt"); 
 		}//end switch
 		
 		
@@ -69,6 +97,11 @@ public class VectorOpsTest
 				return new File("./TestCases/VectorOpsTests/AdditionSol.txt"); 
 			case 2:
 				return new File("./TestCases/VectorOpsTests/MultiplicationSol.txt"); 
+			case 3:
+				return new File("./TestCases/VectorOpsTests/SubtractionSol.txt"); 
+			case 4: 
+				return new File("./TestCases/VectorOpsTests/DotProductSol.txt"); 
+			
 		}//end switch		
 		
 		
@@ -322,5 +355,83 @@ public class VectorOpsTest
 		return returnBoolean;
 	
 	}//end numMultiplicationTest() 
+	
+	
+	
+	public static boolean numSubtractionTest(ArrayList<NumVector> testCases, ArrayList<NumVector> solutionCases)
+	{
+	
+		boolean returnBoolean = false; 
+			
+		int j = 0; 
+		
+		for(int i = 0 ; i < 6 ; i += 2)
+		{
+			
+			if(!VectorOps.subtraction(testCases.get(i),testCases.get(i+1)).equal(solutionCases.get(j)))
+			{
+				
+				debug("numSubtractionTest()",(j+1)); 
+				return false; 
+				
+			}//end if 
+		
+			j++; 
+		}//end for 
+
+		if(VectorOps.subtraction(testCases.get(6),testCases.get(7)) != null)
+			return false; 
+
+
+		if(VectorOps.subtraction(testCases.get(8),testCases.get(9)) != null)
+			return false; 			
+		
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+		
+	
+	}//end numSubtractionTest() 
+	
+	
+	
+	public static boolean numDotProductTest(ArrayList<NumVector> testCases, ArrayList<NumEntry> solutionCases)
+	{
+	
+		boolean returnBoolean; 
+		
+		
+		int j = 0; 
+		for(int i = 0 ; i < 6 ; i += 2)
+		{
+		
+			if(!VectorOps.dotProduct(testCases.get(i),testCases.get(i+1)).equal(solutionCases.get(j)))
+			{
+			
+				debug("numDotProductTest()",(j+1));
+				return false; 
+				
+			}//end if 
+			
+			j++; 
+		}//end for 
+		
+
+		if(VectorOps.dotProduct(testCases.get(6),testCases.get(7)) != null)
+			return false; 
+
+		if(VectorOps.dotProduct(testCases.get(8),testCases.get(9)) != null)
+			return false; 
+			
+		if(VectorOps.dotProduct(testCases.get(10),testCases.get(11)) != null)
+			return false; 
+			
+					
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end numDotProductTest() 
 	
 }//end class 

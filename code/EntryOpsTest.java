@@ -196,7 +196,7 @@ public class EntryOpsTest
 	}//end numAdditionTest() 
 	
 	
-	public static boolean numAdditionTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
+	public static boolean stringAdditionTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
 	{
 	
 		boolean returnBoolean = false; 
