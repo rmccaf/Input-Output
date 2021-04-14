@@ -1,0 +1,17 @@
+3
+
+32 1 
+
+-32 1
+
+0 1 
+
+FORMAT 
+
+	NUMBER OF CASES 
+	
+		VECTOR LENGTH 
+			
+			NUMERATOR,DENOMINATOR 
+			
+CASES 
