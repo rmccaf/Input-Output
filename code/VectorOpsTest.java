@@ -60,7 +60,20 @@ public class VectorOpsTest
 			System.out.println("numDotProduct test PASSED.");
 		else
 			System.out.println("numDotProduct test FAILED.");			 
-		  	 
+		
+		
+		File numCrossProdFile = caseFile(5);
+		Scanner numCrossProdScan = scanBuild(numCrossProdFile);
+		ArrayList<NumVector> numCrossProd = numVectorCaseBuild(numCrossProdScan);
+		File numCrossProdSolFile = solutionFile(5);
+		Scanner numCrossProdSolScan = scanBuild(numCrossProdSolFile);
+		ArrayList<NumVector> numCrossProdSol = numVectorCaseBuild(numCrossProdSolScan);
+		if(numCrossProductTest(numCrossProd,numCrossProdSol))
+			System.out.println("numCrossProduct test PASSED."); 
+		else
+			System.out.println("numCrossProduct test FAILED.");
+			
+		 	
 	}//end main() 
 
 
@@ -78,7 +91,9 @@ public class VectorOpsTest
 			case 3:
 				return new File("./TestCases/VectorOpsTests/SubtractionCases.txt");  
 			case 4: 
-				return new File("./TestCases/VectorOpsTests/DotProductCases.txt"); 
+				return new File("./TestCases/VectorOpsTests/DotProductCases.txt");
+			case 5:
+				return new File("./TestCases/VectorOpsTests/CrossProductCases.txt"); 
 		}//end switch
 		
 		
@@ -101,7 +116,8 @@ public class VectorOpsTest
 				return new File("./TestCases/VectorOpsTests/SubtractionSol.txt"); 
 			case 4: 
 				return new File("./TestCases/VectorOpsTests/DotProductSol.txt"); 
-			
+			case 5: 
+				return new File("./TestCases/VectorOpsTests/CrossProductSo.txt"); 
 		}//end switch		
 		
 		
@@ -433,5 +449,52 @@ public class VectorOpsTest
 		return returnBoolean; 
 	
 	}//end numDotProductTest() 
+	
+	
+	
+	public static boolean numCrossProductTest(ArrayList<NumVector> testCases, ArrayList<NumVector> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		
+		int j = 0; 
+		
+		for(int i = 0 ; i < 6 ; i += 2)
+		{
+			
+			if( !VectorOps.crossProduct(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)) )	
+			{
+				System.out.println(testCases.get(i).toString());
+				System.out.println(testCases.get(i+1).toString());
+				System.out.println(VectorOps.crossProduct(testCases.get(i),testCases.get(i+1)).toString()); 
+			
+				debug("numCrossProductTest()",(j+1)); 	
+				
+				return false; 
+				
+			}//end if 
+			
+			
+			j++; 
+			
+		}//end for 
+		
+		
+		if(VectorOps.crossProduct(testCases.get(7),testCases.get(8)) != null)
+			return false; 
+			
+		if(VectorOps.crossProduct(testCases.get(8),testCases.get(9)) != null)
+			return false; 		
+		
+		
+		returnBoolean = true; 
+		
+		return returnBoolean;
+	
+	}//end numCrossProductTest() 
+	
+	
+	
 	
 }//end class 

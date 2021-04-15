@@ -216,7 +216,7 @@ public class VectorOps
 		if(result12 == null)
 			return (NumVector) null;
 			
-		NumEntry listResult1 = EntryOps.addition(result1,result12);
+		NumEntry listResult1 = EntryOps.subtraction(result1,result12);
 		if(listResult1 == null)
 			return (NumVector) null; 
 	
@@ -232,7 +232,7 @@ public class VectorOps
 		if(result22 == null)
 			return (NumVector) null;
 			
-		NumEntry listResult2 = EntryOps.addition(result2,result22);
+		NumEntry listResult2 = EntryOps.subtraction(result2,result22);
 		if(listResult2 == null)
 			return (NumVector) null; 		
 		
@@ -248,11 +248,11 @@ public class VectorOps
 		if(result2 == null)
 			return (NumVector) null; 
 		
-		NumEntry result33 = EntryOps.multiplication(vectorTwo.getEntry(2),vectorOne.getEntry(1) );
+		NumEntry result33 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(2) );
 		if(result33 == null)
 			return (NumVector) null;
 			
-		NumEntry listResult3 = EntryOps.addition(result3,result33);
+		NumEntry listResult3 = EntryOps.subtraction(result3,result33);
 		if(listResult3 == null)
 			return (NumVector) null; 		 
 			
@@ -274,20 +274,20 @@ public class VectorOps
 		
 		StringEntry result1 = EntryOps.multiplication( vectorOne.getEntry(2),vectorTwo.getEntry(3));
 		StringEntry result12 = EntryOps.multiplication( vectorTwo.getEntry(2),vectorOne.getEntry(3) );
-		StringEntry listResult1 = EntryOps.addition(result1,result12);	
+		StringEntry listResult1 = EntryOps.subtraction(result1,result12);	
 		entryList.add(listResult1);
 		
 		
 		StringEntry result2 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(3));
 		StringEntry result22 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(3) );
-		StringEntry listResult2 = EntryOps.addition(result2,result22);		
+		StringEntry listResult2 = EntryOps.subtraction(result2,result22);		
 		listResult2 = EntryOps.multiplication(listResult2, new StringEntry("-1","1"));			
 		entryList.add(listResult2); 
 		
 					
 		StringEntry result3 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(2));
 		StringEntry result33 = EntryOps.multiplication(vectorTwo.getEntry(2),vectorOne.getEntry(1) );
-		StringEntry listResult3 = EntryOps.addition(result3,result33);
+		StringEntry listResult3 = EntryOps.subtraction(result3,result33);
 		entryList.add(listResult3);
 		
 		return new StringVector(entryList); 					
