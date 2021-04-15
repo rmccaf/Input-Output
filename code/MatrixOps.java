@@ -107,5 +107,95 @@ public class MatrixOps
 
 
 	
+	public static NumMatrix matrixMultiplication(NumMatrix matrixOne, NumMatrix matrixTwo)
+	{
+	
+		//check dimensions 
+	
+		//create arrayList of vectors
+		ArrayList<NumVector> vectorList = new ArrayList<NumVector>(); 
+		
+		int rowLength = matrixOne.getRowDim(); 
+		
+		
+		//iterate over the rows of matrix one 
+		for(int rowIndex = 1; rowIndex <= rowLength ; rowIndex++)
+		{
+		
+			//create an ArrayList of entries to store the dot product 
+			ArrayList<NumEntry> entryList = new ArrayList<NumEntry>(); 
+			
+			int columnLength = matrixTwo.getColDim(); 
+			
+			//iterate over the columns of matrix two 
+			for(int columnIndex = 1 ; columnIndex <= columnLength ; columnIndex++)
+			{
+			
+				//get dot product of row and column 
+				NumEntry dotResult = VectorOps.dotProduct(matrixOne.getRowVector(rowIndex),matrixTwo.getColumnVector(columnIndex)); 
+				
+				//check for overflow 			
+				if(dotResult == null)
+					return (NumMatrix) null; 
+				
+				entryList.add(dotResult); 
+				
+			}//end for 
+	
+			//create vector and add it to the list		
+			vectorList.add(new NumVector(entryList)); 
+		
+		}//end for 
+			
+		//use the arraylist of vectors to create a matrix
+		return new NumMatrix(vectorList,true); 
+	
+	}//end matrixMultiplication() 
+	
+
+	public static StringMatrix matrixMultiplication(StringMatrix matrixOne, StringMatrix matrixTwo)
+	{
+	
+		//check dimensions 
+	
+		//create arrayList of vectors
+		ArrayList<StringVector> vectorList = new ArrayList<StringVector>(); 
+		
+		int rowLength = matrixOne.getRowDim(); 
+		
+		
+		//iterate over the rows of matrix one 
+		for(int rowIndex = 1; rowIndex <= rowLength ; rowIndex++)
+		{
+		
+			//create an ArrayList of entries to store the dot product 
+			ArrayList<StringEntry> entryList = new ArrayList<StringEntry>(); 
+			
+			int columnLength = matrixTwo.getColDim(); 
+			
+			//iterate over the columns of matrix two 
+			for(int columnIndex = 1 ; columnIndex <= columnLength ; columnIndex++)
+			{
+			
+				//get dot product of row and column 
+				StringEntry dotResult = VectorOps.dotProduct(matrixOne.getRowVector(rowIndex),matrixTwo.getColumnVector(columnIndex)); 
+				
+				//check for overflow 			
+				if(dotResult == null)
+					return (StringMatrix) null; 
+				
+				entryList.add(dotResult); 
+				
+			}//end for 
+	
+			//create vector and add it to the list		
+			vectorList.add(new StringVector(entryList)); 
+		
+		}//end for 
+			
+		//use the arraylist of vectors to create a matrix
+		return new StringMatrix(vectorList,true); 
+	
+	}//end matrixMultiplication()
 
 }//end MatrixOps class
