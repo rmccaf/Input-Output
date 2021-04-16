@@ -52,9 +52,13 @@ public class EntryOps
 	{
 			
 		BigInteger commonNum1 = entryOne.getNum().multiply(entryTwo.getDen()); 
+		
+		
 		BigInteger commonNum2 = entryTwo.getNum().multiply(entryOne.getDen());
-		BigInteger commonDen  = entryTwo.getDen().multiply(entryTwo.getDen());
-				
+		
+		
+		BigInteger commonDen  = entryTwo.getDen().multiply(entryOne.getDen());
+		
 		return new StringEntry(commonNum1.add(commonNum2).toString(),commonDen.toString());  
 	
 	}//end addition

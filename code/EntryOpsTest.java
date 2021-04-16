@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.util.Scanner; 
 import java.io.FileNotFoundException; 
+import java.math.BigInteger; 
 
 
 public class EntryOpsTest
@@ -56,7 +57,18 @@ public class EntryOpsTest
 			System.out.println("numDivisionTest test PASSED.");	
 		else
 			System.out.println("numDivisionTest test FAILED.");
-					
+		
+		
+		File stringAddFile = testFileBuilder(1);
+		Scanner stringAddScan = scanBuild(stringAddFile);
+		ArrayList<StringEntry> stringAddition =  stringCaseBuild(stringAddScan);
+		File stringAddSol = solFileBuilder(5);
+		Scanner stringAddSolScan = scanBuild(stringAddSol);
+		ArrayList<StringEntry> stringAdditionSol = stringCaseBuild(stringAddSolScan);   
+		if(stringAdditionTest(stringAddition,stringAdditionSol))
+			System.out.println("stringAddition test PASSED."); 
+		else		
+			System.out.println("stringAddition test FAILED."); 
 	}//end main() 
 
 
@@ -98,6 +110,8 @@ public class EntryOpsTest
 				return new File("./TestCases/EntryOpsTests/SubtractionSol.txt");
 			case 4:
 				return new File("./TestCases/EntryOpsTests/DivisionSol.txt");
+			case 5: 
+				return new File("./TestCases/EntryOpsTests/BigAdditionSol.txt"); 
 			default:
 				return (File) null; 
 				
@@ -152,6 +166,27 @@ public class EntryOpsTest
 	}//end caseBuild() 
 	
 	
+	public static ArrayList<StringEntry> stringCaseBuild(Scanner scan)
+	{
+		
+		int numberOfCases = scan.nextInt(); 
+		
+		ArrayList<StringEntry> cases = new ArrayList<StringEntry>(); 
+		
+		for(int i  = 0 ; i < numberOfCases ; i++)
+		{
+		
+			BigInteger numerator = scan.nextBigInteger(); 
+			
+			BigInteger denominator = scan.nextBigInteger(); 
+			
+			cases.add(new StringEntry(numerator.toString(),denominator.toString()));
+		
+		}//end for 
+	
+		return cases; 
+	}//end stringCaseBuild() 
+	
 	
 	public static void debug(String testName, int caseNumber)
 	{
@@ -196,34 +231,27 @@ public class EntryOpsTest
 	}//end numAdditionTest() 
 	
 	
-	public static boolean stringAdditionTest(ArrayList<NumEntry> testCases, ArrayList<NumEntry> solCases)
+	public static boolean stringAdditionTest(ArrayList<StringEntry> testCases, ArrayList<StringEntry> solCases)
 	{
 	
 		boolean returnBoolean = false; 
 
 		int j = 0; 
 		
-		for(int i  = 0 ; i < 6 ; i += 2 )
+		for(int i  = 0 ; i < 10 ; i += 2 )
 		{
 			 
 			if(!EntryOps.addition(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
 			{
-				debug("numAdditionTest()", (j+1)); 
+				System.out.println(EntryOps.addition(testCases.get(i),testCases.get(i+1)).toString()); 
+				debug("stringAdditionTest()", (j+1)); 
 				return false; 
 			}//end if 
 			
 			j++; 
 		
-		}//end for 
-		
-		
-		
-		if(EntryOps.addition(testCases.get(6),testCases.get(7) ) != null)
-			return false; 
-
-		if(EntryOps.addition(testCases.get(8),testCases.get(9) ) != null)
-			return false; 
-		
+		}//end for 		
+	
 		returnBoolean = true; 
 		
 		return returnBoolean; 	
