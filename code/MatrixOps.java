@@ -180,10 +180,6 @@ public class MatrixOps
 				//get dot product of row and column 
 				StringEntry dotResult = VectorOps.dotProduct(matrixOne.getRowVector(rowIndex),matrixTwo.getColumnVector(columnIndex)); 
 				
-				//check for overflow 			
-				if(dotResult == null)
-					return (StringMatrix) null; 
-				
 				entryList.add(dotResult); 
 				
 			}//end for 
