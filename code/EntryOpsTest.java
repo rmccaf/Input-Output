@@ -69,6 +69,20 @@ public class EntryOpsTest
 			System.out.println("stringAddition test PASSED."); 
 		else		
 			System.out.println("stringAddition test FAILED."); 
+			
+			
+		File stringMultFile = testFileBuilder(2);
+		Scanner stringMultScan = scanBuild(stringMultFile);
+		ArrayList<StringEntry> stringMult = stringCaseBuild(stringMultScan);
+		File stringMultSolFile = solFileBuilder(6);
+		Scanner stringMultSolScan = scanBuild(stringMultSolFile);
+		ArrayList<StringEntry> stringMultSol = stringCaseBuild(stringMultSolScan); 
+		if(stringMultiplicationTest(stringMult,stringMultSol))
+			System.out.println("stringMultiplication test PASSED.");
+		else
+			System.out.println("stringMultipliaction test FAILED.");
+			
+			      
 	}//end main() 
 
 
@@ -111,7 +125,9 @@ public class EntryOpsTest
 			case 4:
 				return new File("./TestCases/EntryOpsTests/DivisionSol.txt");
 			case 5: 
-				return new File("./TestCases/EntryOpsTests/BigAdditionSol.txt"); 
+				return new File("./TestCases/EntryOpsTests/BigAdditionSol.txt");
+			case 6:
+				return new File("./TestCases/EntryOpsTests/BigMultiplicationSol.txt");				 
 			default:
 				return (File) null; 
 				
@@ -299,6 +315,36 @@ public class EntryOpsTest
 		return returnBoolean; 
 	
 	}//end numAdditionTest() 
+	
+	
+	public static boolean stringMultiplicationTest(ArrayList<StringEntry> testCases, ArrayList<StringEntry> solCases)
+	{
+	
+		boolean returnBoolean = false;
+		
+		int length = testCases.size(); 
+		
+		int j = 0; 
+		
+		for(int i = 0 ; i < length ; i += 2)
+		{
+		
+			if(!EntryOps.multiplication(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			{
+			
+				debug("stringMultiplicationTest()", (j+1));
+				return false;  
+			
+			}//end if 
+			
+			j++; 
+			
+		}//end for 
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end stringMultiplicationTest() 
 	
 	
 	
