@@ -4,12 +4,12 @@ public class MatrixOps
 {
 
 	
-	public static NumMatrix addition(NumMatrix matrixOne, NumMatrix matrixTwo)
+	public static Result addition(NumMatrix matrixOne, NumMatrix matrixTwo)
 	{
 
 
 		if( matrixOne.getRowDim() != matrixTwo.getRowDim() || matrixOne.getColDim() != matrixTwo.getColDim() )
-			return (NumMatrix) null; 
+			return new DimensionMisMatchResult(); 
 		
 		int length = matrixOne.getRowDim(); 
 		
@@ -18,29 +18,31 @@ public class MatrixOps
 		for(int index = 1; index <= length ; index++)
 		{
 			
-			NumVector result = VectorOps.addition(matrixOne.getRowVector(index),matrixTwo.getRowVector(index));
+			Result result = VectorOps.addition(matrixOne.getRowVector(index),matrixTwo.getRowVector(index));
 			
-			if(result == null)
-				return (NumMatrix) null; 
+			if(!(result instanceof VectorResult))
+				return result; 
 				
-			vectorList.add(result); 
+			result = (VectorResult)result; 
+			
+			vectorList.add((NumVector)result.getResult()); 
 			
 		}//end for 
 		
 	
 	
-		return new NumMatrix(vectorList,true); 
+		return new MatrixResult(new NumMatrix(vectorList,true)); 
 	
 	}//end addition() 
 	
 	
 	
-	public static StringMatrix addition(StringMatrix matrixOne, StringMatrix matrixTwo)
+	public static Result addition(StringMatrix matrixOne, StringMatrix matrixTwo)
 	{
 	
 	
 		if( matrixOne.getRowDim() != matrixTwo.getRowDim() || matrixOne.getColDim() != matrixTwo.getColDim() )
-			return (StringMatrix) null; 	
+			return new DimensionMisMatchResult(); 	
 	
 		int length = matrixOne.getRowDim(); 
 		
@@ -48,19 +50,26 @@ public class MatrixOps
 		
 		for(int index = 1 ; index <= length ; index++)
 		{
-		
-			vectorList.add(VectorOps.addition(matrixOne.getRowVector(index),matrixTwo.getRowVector(index)));
+			
+			Result result = VectorOps.addition(matrixOne.getRowVector(index),matrixTwo.getRowVector(index)); 
+			
+			if(!(result instanceof VectorResult))
+				return result; 
+			
+			result = (VectorResult)result; 
+			
+			vectorList.add((StringVector)result.getResult());
 		
 		}//end for 
 	 
 
-		return new StringMatrix(vectorList,true);
+		return new MatrixResult(new StringMatrix(vectorList,true));
 		
 	}//end stringMatrix
 	
 	
 	
-	public static NumMatrix scalarMultiplication(NumEntry entryOne, NumMatrix matrixOne)
+	public static Result scalarMultiplication(NumEntry entryOne, NumMatrix matrixOne)
 	{
 	
 		int length = matrixOne.getRowDim(); 
@@ -70,23 +79,25 @@ public class MatrixOps
 		for(int index = 1 ; index <= length ; index++)
 		{
 		
-			NumVector result = VectorOps.scalarMultiplication(entryOne, matrixOne.getRowVector(index)); 
+			Result result = VectorOps.scalarMultiplication(entryOne, matrixOne.getRowVector(index)); 
 			
-			if(result == null)
-				return (NumMatrix) null; 
-		
-			vectorList.add(result); 
+			if(!(result instanceof VectorResult))
+				return result; 
+
+			result = (VectorResult)result; 
+
+			vectorList.add((NumVector)result.getResult()); 
 		
 		}//end for 
 	
 	
-		return new NumMatrix(vectorList,true); 
+		return new MatrixResult(new NumMatrix(vectorList,true)); 
 	
 	}//end scalarMultiplication 
 	
 
 
-	public static StringMatrix scalarMultiplication(StringEntry entryOne, StringMatrix matrixOne)
+	public static Result scalarMultiplication(StringEntry entryOne, StringMatrix matrixOne)
 	{
 		
 		int length = matrixOne.getRowDim(); 
@@ -95,28 +106,37 @@ public class MatrixOps
 		
 		for(int index = 1 ; index <= length ; index++)
 		{
-		
-			vectorList.add(VectorOps.scalarMultiplication(entryOne,matrixOne.getRowVector(index))); 
+			
+			Result result = VectorOps.scalarMultiplication(entryOne,matrixOne.getRowVector(index)); 
+			
+			
+			if(!(result instanceof VectorResult))
+				return result; 
+			
+			result = (VectorResult)result; 	
+			
+			vectorList.add((StringVector)result.getResult()); 
 		
 		}//end for 
 		
 		
-		return new StringMatrix(vectorList,true);
+		return new MatrixResult( new StringMatrix(vectorList,true));
 	
 	}//end scalarMultiplication() 
 
 
 	
-	public static NumMatrix matrixMultiplication(NumMatrix matrixOne, NumMatrix matrixTwo)
+	public static Result matrixMultiplication(NumMatrix matrixOne, NumMatrix matrixTwo)
 	{
 	
 		//check dimensions 
-	
+		if(matrixOne.getRowDim() != matrixTwo.getColDim())
+			return new DimensionMisMatchResult(); 
+			
 		//create arrayList of vectors
 		ArrayList<NumVector> vectorList = new ArrayList<NumVector>(); 
 		
 		int rowLength = matrixOne.getRowDim(); 
-		
 		
 		//iterate over the rows of matrix one 
 		for(int rowIndex = 1; rowIndex <= rowLength ; rowIndex++)
@@ -132,13 +152,15 @@ public class MatrixOps
 			{
 			
 				//get dot product of row and column 
-				NumEntry dotResult = VectorOps.dotProduct(matrixOne.getRowVector(rowIndex),matrixTwo.getColumnVector(columnIndex)); 
+				Result dotResult = VectorOps.dotProduct(matrixOne.getRowVector(rowIndex),matrixTwo.getColumnVector(columnIndex)); 
 				
 				//check for overflow 			
-				if(dotResult == null)
-					return (NumMatrix) null; 
+				if(!(dotResult instanceof EntryResult))
+					return dotResult; 
 				
-				entryList.add(dotResult); 
+				dotResult = (EntryResult)dotResult; 
+				
+				entryList.add((NumEntry)dotResult.getResult()); 
 				
 			}//end for 
 	
@@ -148,16 +170,18 @@ public class MatrixOps
 		}//end for 
 			
 		//use the arraylist of vectors to create a matrix
-		return new NumMatrix(vectorList,true); 
+		return new MatrixResult (new NumMatrix(vectorList,true)); 
 	
 	}//end matrixMultiplication() 
 	
 
-	public static StringMatrix matrixMultiplication(StringMatrix matrixOne, StringMatrix matrixTwo)
+	public static Result matrixMultiplication(StringMatrix matrixOne, StringMatrix matrixTwo)
 	{
 	
 		//check dimensions 
-	
+		if(matrixOne.getRowDim() != matrixTwo.getColDim())
+			return new DimensionMisMatchResult(); 
+			
 		//create arrayList of vectors
 		ArrayList<StringVector> vectorList = new ArrayList<StringVector>(); 
 		
@@ -178,9 +202,14 @@ public class MatrixOps
 			{
 			
 				//get dot product of row and column 
-				StringEntry dotResult = VectorOps.dotProduct(matrixOne.getRowVector(rowIndex),matrixTwo.getColumnVector(columnIndex)); 
+				Result dotResult = VectorOps.dotProduct(matrixOne.getRowVector(rowIndex),matrixTwo.getColumnVector(columnIndex)); 
 				
-				entryList.add(dotResult); 
+				if(!(dotResult instanceof EntryResult))
+					return dotResult; 
+				
+				dotResult = (EntryResult)dotResult; 
+				
+				entryList.add((StringEntry)dotResult.getResult()); 
 				
 			}//end for 
 	
@@ -190,7 +219,7 @@ public class MatrixOps
 		}//end for 
 			
 		//use the arraylist of vectors to create a matrix
-		return new StringMatrix(vectorList,true); 
+		return new MatrixResult(new StringMatrix(vectorList,true)); 
 	
 	}//end matrixMultiplication()
 

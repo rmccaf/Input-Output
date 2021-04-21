@@ -221,10 +221,20 @@ public class EntryOpsTest
 		
 		for(int i  = 0 ; i < 6 ; i += 2 )
 		{
-			 
-			if(!EntryOps.addition(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			//check if is an instance of a EntryResult 
+			if(!(EntryOps.addition(testCases.get(i),testCases.get(i+1)) instanceof EntryResult))
 			{
 				debug("numAdditionTest()", (j+1)); 
+				return false; 
+				
+			}//end if 
+			
+			EntryResult result = (EntryResult) EntryOps.addition(testCases.get(i),testCases.get(i+1)); 
+			
+			if(!(result.getResult().equal(solCases.get(j))))
+			{
+			
+				debug("numAdditionTest()",(j+1)); 
 				return false; 
 			}//end if 
 			
@@ -234,10 +244,10 @@ public class EntryOpsTest
 		
 		
 		
-		if(EntryOps.addition(testCases.get(6),testCases.get(7) ) != null)
+		if(!(EntryOps.addition(testCases.get(6),testCases.get(7) ) instanceof OverFlowResult))
 			return false; 
 
-		if(EntryOps.addition(testCases.get(8),testCases.get(9) ) != null)
+		if(!(EntryOps.addition(testCases.get(8),testCases.get(9) ) instanceof OverFlowResult))
 			return false; 
 		
 		returnBoolean = true; 
@@ -257,7 +267,7 @@ public class EntryOpsTest
 		for(int i  = 0 ; i < 10 ; i += 2 )
 		{
 			 
-			if(!EntryOps.addition(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			if(!EntryOps.addition(testCases.get(i),testCases.get(i+1)).getResult().equal(solCases.get(j)))
 			{
 				System.out.println(EntryOps.addition(testCases.get(i),testCases.get(i+1)).toString()); 
 				debug("stringAdditionTest()", (j+1)); 
@@ -287,7 +297,7 @@ public class EntryOpsTest
 		for(int i = 0 ; i < 8 ; i += 2)
 		{
 		
-			if(!EntryOps.multiplication(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			if(!(EntryOps.multiplication(testCases.get(i),testCases.get(i+1)) instanceof EntryResult))
 			{
 			
 				debug("numMultiplicationTest()", (j+1));
@@ -295,6 +305,16 @@ public class EntryOpsTest
 			
 			}//end if 
 			
+			
+			EntryResult result = (EntryResult) EntryOps.multiplication(testCases.get(i),testCases.get(i+1)); 
+			
+			if(!result.getResult().equal(solCases.get(j)))
+			{
+				
+				debug("numMultiplicationTest()", (j+1));
+				return false;  
+
+			}
 			j++; 
 			
 		}//end for 
@@ -302,10 +322,10 @@ public class EntryOpsTest
 
 		
 		 	
-		if(EntryOps.multiplication(testCases.get(8),testCases.get(9)) != null)
+		if(!(EntryOps.multiplication(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
 			return false;
 		
-		if(EntryOps.multiplication(testCases.get(10),testCases.get(11)) != null)
+		if(!(EntryOps.multiplication(testCases.get(10),testCases.get(11)) instanceof OverFlowResult ))
 			return false;
 			
 		
@@ -329,7 +349,7 @@ public class EntryOpsTest
 		for(int i = 0 ; i < length ; i += 2)
 		{
 		
-			if(!EntryOps.multiplication(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			if(!EntryOps.multiplication(testCases.get(i),testCases.get(i+1)).getResult().equal(solCases.get(j)))
 			{
 			
 				debug("stringMultiplicationTest()", (j+1));
@@ -359,7 +379,7 @@ public class EntryOpsTest
 		for(int i = 0 ; i < 6 ; i += 2)
 		{
 		
-			if(!EntryOps.subtraction(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			if(!(EntryOps.subtraction(testCases.get(i),testCases.get(i+1)) instanceof EntryResult ))
 			{
 				
 				debug("numSubtractionTest()", (j+1));
@@ -367,15 +387,25 @@ public class EntryOpsTest
 			
 			}//end if 
 		
+			EntryResult result = (EntryResult) EntryOps.subtraction(testCases.get(i),testCases.get(i+1)); 
+		
+			if(!result.getResult().equal(solCases.get(j)))
+			{
+			
+				debug("numSubtractionTest()", (j+1));
+				return false; 			
+			
+			}//end if
+			
 			j++; 
 		
 		}//end for 
 	
 		
-		if(EntryOps.subtraction(testCases.get(6),testCases.get(7)) != null)
+		if(!(EntryOps.subtraction(testCases.get(6),testCases.get(7)) instanceof OverFlowResult ))
 			return false; 
 			
-		if(EntryOps.subtraction(testCases.get(8),testCases.get(9)) != null)
+		if(!(EntryOps.subtraction(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
 			return false; 
 			
 		returnBoolean = true; 
@@ -397,21 +427,31 @@ public class EntryOpsTest
 		for(int i = 0 ; i < 6 ; i += 2)
 		{
 		
-			if(!EntryOps.division(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			if(!(EntryOps.division(testCases.get(i),testCases.get(i+1)) instanceof EntryResult))
 			{
 			
 				debug("numDivisionTest()",(j+1));
 				return false; 
 			}//end if 
 		
+			EntryResult result = (EntryResult) EntryOps.division(testCases.get(i),testCases.get(i+1));
+		
+			if(!result.getResult().equal(solCases.get(j)))
+			{
+			
+				debug("numDivisionTest()",(j+1));
+				return false; 		
+			
+			}
+		
 			j++; 
 		
 		}//end for 
 	
-		if(EntryOps.division(testCases.get(6),testCases.get(7)) != null)
+		if( !(EntryOps.division(testCases.get(6),testCases.get(7)) instanceof OverFlowResult))
 			return false; 
 			
-		if(EntryOps.division(testCases.get(8),testCases.get(9)) != null)
+		if(!(EntryOps.division(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
 			return false; 
 						
 	

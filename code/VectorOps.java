@@ -5,12 +5,12 @@ public class VectorOps
 
 
 	
-	public static NumVector addition(NumVector vectorOne, NumVector vectorTwo)
+	public static Result addition(NumVector vectorOne, NumVector vectorTwo)
 	{
 		
 		//make sure vectors are of the correct length
 		if(vectorOne.vectorLength() != vectorTwo.vectorLength())
-			return (NumVector) null; 
+			return new DimensionMisMatchResult(); 
 		
 		ArrayList<NumEntry> entryList = new ArrayList<NumEntry>(); 
 		
@@ -19,26 +19,27 @@ public class VectorOps
 		for(int index = 1 ; index <= length  ; index++)
 		{
 			
-			NumEntry result = EntryOps.addition(vectorOne.getEntry(index),vectorTwo.getEntry(index)); 
-			if(result == null)
-				return (NumVector) null; 
-				
-			entryList.add(result); 
+			Result result = EntryOps.addition(vectorOne.getEntry(index),vectorTwo.getEntry(index)); 
+			if(!(result instanceof EntryResult))
+				return result;
+				 
+			result = (EntryResult)result; 	
+			entryList.add((NumEntry)result.getResult()); 
 			
 		}//end for 
 	
-		return new NumVector(entryList); 
+		return new VectorResult(new NumVector(entryList)); 
 	
 	}//end addition() 	
 
 	
 	
-	public static StringVector addition(StringVector vectorOne, StringVector vectorTwo)
+	public static Result addition(StringVector vectorOne, StringVector vectorTwo)
 	{
 		
 		//make sure vectors are of the correct length
 		if(vectorOne.vectorLength() != vectorTwo.vectorLength())
-			return (StringVector) null; 
+			return new DimensionMisMatchResult(); 
 		
 		ArrayList<StringEntry> entryList = new ArrayList<StringEntry>(); 
 
@@ -47,21 +48,22 @@ public class VectorOps
 		for(int index = 1 ; index <= length  ; index++)
 		{
 			
-			StringEntry result = EntryOps.addition(vectorOne.getEntry(index),vectorTwo.getEntry(index)); 
-			if(result == null)
-				return (StringVector) null; 
+			Result result = EntryOps.addition(vectorOne.getEntry(index),vectorTwo.getEntry(index)); 
+			if(!(result instanceof EntryResult))
+				return result; 
 				
-			entryList.add(result); 
+			result = (EntryResult)result; 
+			entryList.add((StringEntry)result.getResult()); 
 			
 		}//end for 
 	
-		return new StringVector(entryList); 
+		return new VectorResult(new StringVector(entryList)); 
 	
 	}//end addition()
 	
 	
 	
-	public static NumVector scalarMultiplication(NumEntry entry, NumVector vector)
+	public static Result scalarMultiplication(NumEntry entry, NumVector vector)
 	{
 	
 		ArrayList<NumEntry> entryList = new ArrayList<NumEntry>();
@@ -71,22 +73,24 @@ public class VectorOps
 		for(int index = 1 ; index <= length ; index++)
 		{
 		
-			NumEntry result = EntryOps.multiplication(vector.getEntry(index),entry); 
+			Result result = EntryOps.multiplication(vector.getEntry(index),entry); 
 		
-			if(result == null)
-				return (NumVector) null; 
-				
-			entryList.add(result);
+			if(!(result instanceof EntryResult))
+				return result; 
+			
+			result = (EntryResult)result; 
+			
+			entryList.add((NumEntry)result.getResult());
 		
 		}//end for 
 		
-		return new NumVector(entryList);
+		return new VectorResult( new NumVector(entryList));
 		 
 	}//end scalarMultiplication() 
 	
 	
 	
-	public static StringVector scalarMultiplication(StringEntry entry, StringVector vector)
+	public static Result scalarMultiplication(StringEntry entry, StringVector vector)
 	{
 	
 		ArrayList<StringEntry> entryList = new ArrayList<StringEntry>();
@@ -96,34 +100,37 @@ public class VectorOps
 		for(int index = 1 ; index <= length ; index++)
 		{
 		
-			StringEntry result = EntryOps.multiplication(vector.getEntry(index),entry); 
+			Result result = EntryOps.multiplication(vector.getEntry(index),entry); 
 		
-			if(result == null)
-				return (StringVector) null; 
+			if(!(result instanceof EntryResult))
+				return result; 
+			
+			result = (EntryResult)result; 
 				
-			entryList.add(result);
+			entryList.add((StringEntry)result.getResult());
 		
 		}//end for 
 		
-		return new StringVector(entryList);
+		return new VectorResult(new StringVector(entryList));
 		 
 	}//end scalarMultiplication() 
 
 	
 	
-	public static NumVector subtraction(NumVector vectorOne, NumVector vectorTwo)
+	public static Result subtraction(NumVector vectorOne, NumVector vectorTwo)
 	{
 		
-		NumVector result = scalarMultiplication(new NumEntry(-1,1), vectorTwo);
+		Result result = scalarMultiplication(new NumEntry(-1,1), vectorTwo);
 		
-		if(result == null)
-			return (NumVector) null; 
+		if(!(result instanceof VectorResult))
+			return result; 
+		
+		result = (VectorResult)result; 
 			 
+		result = addition(vectorOne,(NumVector)result.getResult());
 		
-		result = addition(vectorOne,result);
-		
-		if(result == null)
-			return (NumVector) null; 
+		if(!(result instanceof EntryResult))
+			return result; 
 			
 		return result; 		
 		
@@ -131,19 +138,18 @@ public class VectorOps
 	
 	
 	
-	public static StringVector subtraction(StringVector vectorOne, StringVector vectorTwo)
+	public static Result subtraction(StringVector vectorOne, StringVector vectorTwo)
 	{
 		
-		StringVector result = scalarMultiplication(new StringEntry("-1","1"), vectorTwo);
+		Result result = scalarMultiplication(new StringEntry("-1","1"), vectorTwo);
 		
-		if(result == null)
-			return (StringVector) null; 
+		if(!(result instanceof VectorResult))
+			return result; 
 			 
+		result = addition(vectorOne,(StringVector)result.getResult());
 		
-		result = addition(vectorOne,result);
-		
-		if(result == null)
-			return (StringVector) null; 
+		if(!(result instanceof VectorResult))
+			return result; 
 			
 		return result; 		
 		
@@ -151,24 +157,26 @@ public class VectorOps
 	
 	
 	
-	public static NumEntry dotProduct(NumVector vectorOne, NumVector vectorTwo)
+	public static Result dotProduct(NumVector vectorOne, NumVector vectorTwo)
 	{
 	
-		NumEntry addResult = new NumEntry(0,1); 
+		Result addResult = (Result) new EntryResult(new NumEntry(0,1)); 
 		int length = vectorOne.vectorLength(); 
 		
 		for(int index = 1 ; index <= length ; index++)
 		{
 		
-			NumEntry multResult = EntryOps.multiplication(vectorOne.getEntry(index),vectorTwo.getEntry(index));
-			if(multResult == null)
-				return (NumEntry) null; 
+			Result multResult = EntryOps.multiplication(vectorOne.getEntry(index),vectorTwo.getEntry(index));
+			if(!(multResult instanceof EntryResult))
+				return multResult; 
 			
-			addResult = EntryOps.addition(addResult,multResult);
-			if(addResult == null)
-				return (NumEntry) null; 
+			multResult = (EntryResult)multResult; 
 			
-		
+			addResult = EntryOps.addition((NumEntry)addResult.getResult(),(NumEntry)multResult.getResult());
+			
+			if(!(addResult instanceof EntryResult))
+				return addResult; 
+			
 		}//end for 
 		
 		return addResult; 
@@ -177,22 +185,24 @@ public class VectorOps
 	
 	
 
-	public static StringEntry dotProduct(StringVector vectorOne, StringVector vectorTwo)
+	public static Result dotProduct(StringVector vectorOne, StringVector vectorTwo)
 	{
 	
-		StringEntry addResult = new StringEntry("0","1"); 
+		Result addResult = (Result)new EntryResult(new StringEntry("0","1")); 
 		int length = vectorOne.vectorLength(); 
 		
 		for(int index = 1 ; index <= length ; index++)
 		{
 		
-			StringEntry multResult = EntryOps.multiplication(vectorOne.getEntry(index),vectorTwo.getEntry(index));
-			if(multResult == null)
-				return (StringEntry) null; 
+			Result multResult = EntryOps.multiplication(vectorOne.getEntry(index),vectorTwo.getEntry(index));
+			if(!(multResult instanceof EntryResult))
+				return multResult; 
 			
-			addResult = EntryOps.addition(addResult,multResult);
-			if(addResult == null)
-				return (StringEntry) null; 
+			multResult = (EntryResult)multResult; 
+			
+			addResult = EntryOps.addition((StringEntry)addResult.getResult(),(StringEntry)multResult.getResult());
+			if(!(addResult instanceof EntryResult))
+				return addResult; 
 			
 		
 		}//end for 
@@ -203,94 +213,94 @@ public class VectorOps
 	
 	
 	
-	public static NumVector crossProduct(NumVector vectorOne, NumVector vectorTwo)
+	public static Result crossProduct(NumVector vectorOne, NumVector vectorTwo)
 	{
 		
 		ArrayList<NumEntry> entryList = new ArrayList<NumEntry>(); 
 		
-		NumEntry result1 = EntryOps.multiplication( vectorOne.getEntry(2),vectorTwo.getEntry(3));
-		if(result1 == null)
-			return (NumVector) null; 
+		Result result1 = EntryOps.multiplication( vectorOne.getEntry(2),vectorTwo.getEntry(3));
+		if(!(result1 instanceof EntryResult))
+			return result1; 
 		
-		NumEntry result12 = EntryOps.multiplication( vectorTwo.getEntry(2),vectorOne.getEntry(3) );
-		if(result12 == null)
-			return (NumVector) null;
+		Result result12 = EntryOps.multiplication( vectorTwo.getEntry(2),vectorOne.getEntry(3) );
+		if(!(result12 instanceof EntryResult))
+			return result12; 
 			
-		NumEntry listResult1 = EntryOps.subtraction(result1,result12);
-		if(listResult1 == null)
-			return (NumVector) null; 
+		Result listResult1 = EntryOps.subtraction((NumEntry)result1.getResult(),(NumEntry)result12.getResult());
+		if(!(listResult1 instanceof EntryResult) )
+			return listResult1; 
 	
-		entryList.add(listResult1);
+		entryList.add((NumEntry)listResult1.getResult());
 		
 		
-		NumEntry result2;
+		Result result2;
 		result2 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(3));
-		if(result2 == null)
-			return (NumVector) null; 
+		if(!(result2 instanceof EntryResult))
+			return result2; 
 		
-		NumEntry result22 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(3) );
-		if(result22 == null)
-			return (NumVector) null;
+		Result result22 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(3) );
+		if(!(result22 instanceof EntryResult))
+			return result22;
 			
-		NumEntry listResult2 = EntryOps.subtraction(result2,result22);
-		if(listResult2 == null)
-			return (NumVector) null; 		
-		
-		listResult2 = EntryOps.multiplication(listResult2, new NumEntry(-1,1));
-		if(listResult2 == null)
-			return (NumVector) null; 
+		Result listResult2 = EntryOps.subtraction((NumEntry)result2.getResult(),(NumEntry)result22.getResult());
+		if(!(listResult2 instanceof EntryResult))
+			return listResult2; 
+				
+		listResult2 = EntryOps.multiplication((NumEntry)listResult2.getResult(), new NumEntry(-1,1));
+		if(!(listResult2 instanceof EntryResult))
+			return listResult2; 
 			
-		entryList.add(listResult2); 
+		entryList.add((NumEntry)listResult2.getResult()); 
 		
 	
-		NumEntry result3;				
+		Result result3;				
 		result3 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(2));
-		if(result2 == null)
-			return (NumVector) null; 
+		if(!(result3 instanceof EntryResult))
+			return result3; 
 		
-		NumEntry result33 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(2) );
-		if(result33 == null)
-			return (NumVector) null;
+		Result result33 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(2) );
+		if(!(result33 instanceof EntryResult))
+			return result33;
 			
-		NumEntry listResult3 = EntryOps.subtraction(result3,result33);
-		if(listResult3 == null)
-			return (NumVector) null; 		 
+		Result listResult3 = EntryOps.subtraction((NumEntry)result3.getResult(),(NumEntry)result33.getResult());
+		if(!(listResult3 instanceof EntryResult))
+			return listResult3; 		 
 			
-		entryList.add(listResult3);
+		entryList.add((NumEntry)listResult3.getResult());
 		
 		
-		return new NumVector(entryList); 					
+		return new VectorResult(new NumVector(entryList)); 					
 	
 	
 	}//end crossProduct() 
 	
 	
 	
-	public static StringVector crossProduct(StringVector vectorOne, StringVector vectorTwo)
+	public static Result crossProduct(StringVector vectorOne, StringVector vectorTwo)
 	{
 		
 		ArrayList<StringEntry> entryList = new ArrayList<StringEntry>(); 
 		
 		
-		StringEntry result1 = EntryOps.multiplication( vectorOne.getEntry(2),vectorTwo.getEntry(3));
-		StringEntry result12 = EntryOps.multiplication( vectorTwo.getEntry(2),vectorOne.getEntry(3) );
-		StringEntry listResult1 = EntryOps.subtraction(result1,result12);	
-		entryList.add(listResult1);
+		Result result1 = EntryOps.multiplication( vectorOne.getEntry(2),vectorTwo.getEntry(3));
+		Result result12 = EntryOps.multiplication( vectorTwo.getEntry(2),vectorOne.getEntry(3) );
+		Result listResult1 = EntryOps.subtraction((StringEntry)result1.getResult(),(StringEntry)result12.getResult());	
+		entryList.add((StringEntry)listResult1.getResult());
 		
 		
-		StringEntry result2 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(3));
-		StringEntry result22 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(3) );
-		StringEntry listResult2 = EntryOps.subtraction(result2,result22);		
-		listResult2 = EntryOps.multiplication(listResult2, new StringEntry("-1","1"));			
-		entryList.add(listResult2); 
+		Result result2 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(3));
+		Result result22 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(3) );
+		Result listResult2 = EntryOps.subtraction((StringEntry)result2.getResult(),(StringEntry)result22.getResult());		
+		listResult2 = EntryOps.multiplication((StringEntry)listResult2.getResult(), new StringEntry("-1","1"));			
+		entryList.add((StringEntry)listResult2.getResult()); 
 		
 					
-		StringEntry result3 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(2));
-		StringEntry result33 = EntryOps.multiplication(vectorTwo.getEntry(2),vectorOne.getEntry(1) );
-		StringEntry listResult3 = EntryOps.subtraction(result3,result33);
-		entryList.add(listResult3);
+		Result result3 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(2));
+		Result result33 = EntryOps.multiplication(vectorTwo.getEntry(2),vectorOne.getEntry(1) );
+		Result listResult3 = EntryOps.subtraction((StringEntry)result3.getResult(),(StringEntry)result33.getResult());
+		entryList.add((StringEntry)listResult3.getResult());
 		
-		return new StringVector(entryList); 					
+		return new VectorResult( new StringVector(entryList)); 					
 	
 	}//end crossProduct() 
 	

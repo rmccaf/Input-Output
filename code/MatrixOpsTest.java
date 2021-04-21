@@ -238,7 +238,9 @@ public class MatrixOpsTest
 		for(int i = 0 ; i < 6 ; i += 2)
 		{
 		
-			if(!MatrixOps.addition(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)))
+			Result localResult = MatrixOps.addition(testCases.get(i),testCases.get(i+1));
+		
+			if(!(localResult instanceof MatrixResult))
 			{
 			
 				debug("numMatrixAddition",(j+1));
@@ -246,15 +248,26 @@ public class MatrixOpsTest
 				
 			}//end if 
 		
+			localResult = (MatrixResult)localResult; 
+			NumMatrix localMatrix = (NumMatrix)localResult.getResult(); 
+			
+			if(!localMatrix.equal(solCases.get(j)))
+			{
+			
+				debug("numMatrixAddition",(j+1));
+				return false; 			
+			
+			}
+
 			j++; 
 			
 		}//end for 
 		
 		
-		if(MatrixOps.addition(testCases.get(6),testCases.get(7)) != null)
+		if(!(MatrixOps.addition(testCases.get(6),testCases.get(7)) instanceof OverFlowResult))
 			return false; 
 			
-		if(MatrixOps.addition(testCases.get(8),testCases.get(9)) != null)
+		if(!(MatrixOps.addition(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
 			return false; 
 			
 		
@@ -276,7 +289,9 @@ public class MatrixOpsTest
 		for(int i = 0 ; i < 3 ; i++)
 		{
 		
-			if(!MatrixOps.scalarMultiplication(testCases.get(i).getEntry(1,1),testCases.get(i)).equal(solCases.get(i)))
+			Result localResult = MatrixOps.scalarMultiplication(testCases.get(i).getEntry(1,1),testCases.get(i));
+		
+			if(!(localResult instanceof MatrixResult))
 			{
 				
 				debug("numMatrixScalMult",(i+1));
@@ -284,13 +299,24 @@ public class MatrixOpsTest
 				
 			}//end if 
 		
+			localResult = (MatrixResult)localResult; 
+			
+			NumMatrix localMatrix = (NumMatrix)localResult.getResult(); 
+			if(!localMatrix.equal(solCases.get(i)))
+			{
+			
+				debug("numMatrixScalMult",(i+1));
+				return false;  			
+			
+			}//end if 
+		
 		}//end for 
 		
 		
-		if(MatrixOps.scalarMultiplication(testCases.get(3).getEntry(1,1),testCases.get(3)) != null)
+		if(!(MatrixOps.scalarMultiplication(testCases.get(3).getEntry(1,1),testCases.get(3)) instanceof OverFlowResult))
 			return false; 
 			
-		if(MatrixOps.scalarMultiplication(testCases.get(4).getEntry(1,1),testCases.get(4)) != null)
+		if(!(MatrixOps.scalarMultiplication(testCases.get(4).getEntry(1,1),testCases.get(4)) instanceof OverFlowResult))
 			return false; 		
 		
 		returnBoolean = true; 

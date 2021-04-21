@@ -309,13 +309,27 @@ public class VectorOpsTest
 		for(int i = 0 ; i < 6 ; i += 2)
 		{
 
-			if(!VectorOps.addition(testCases.get(i),testCases.get(i+1)).equal(solutionCases.get(j)))
+			Result vectorResult = VectorOps.addition(testCases.get(i),testCases.get(i+1));
+			
+			
+			if(!(vectorResult instanceof VectorResult))
 			{
 
 				debug("numAddition()",(j+1)); 			
 				return false; 			
 			
-			}
+			}//end if
+			
+			vectorResult = (VectorResult)vectorResult; 
+			NumVector localResult = (NumVector)vectorResult.getResult(); 
+			
+			if(!(localResult.equal(solutionCases.get(j))))
+			{
+			
+				debug("numAddition()",(j+1)); 			
+				return false; 	
+			
+			}//end if 
 
 				
 			j++; 
@@ -323,10 +337,10 @@ public class VectorOpsTest
 		}//end for 
 		
 		
-		if(VectorOps.addition(testCases.get(6),testCases.get(7)) != null)
+		if(!(VectorOps.addition(testCases.get(6),testCases.get(7)) instanceof OverFlowResult))
 			return false; 
 
-		if(VectorOps.addition(testCases.get(8),testCases.get(9)) != null)
+		if(!(VectorOps.addition(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
 			return false; 			
 		
 		
@@ -347,23 +361,38 @@ public class VectorOpsTest
 		for(int i = 0 ; i < 3 ; i++)
 		{
 			
-			if(!VectorOps.scalarMultiplication(testCases.get(i).getEntry(1),testCases.get(i)).equal(solutionCases.get(i)))
+			Result vectorResult = VectorOps.scalarMultiplication(testCases.get(i).getEntry(1),testCases.get(i));
+
+			if(!(vectorResult instanceof VectorResult))
 			{
 			
 				debug("numMultiplicationTest()",(i+1));
+				System.out.println("in type test"); 
 				return false; 
 			
 			}//end if
 		
+			vectorResult = (VectorResult)vectorResult; 
+			
+			NumVector localResult = (NumVector)vectorResult.getResult(); 
+			
+			if(!(localResult.equal(solutionCases.get(i))))
+			{
+			
+				debug("numMultiplicationTest()",(i+1));
+				System.out.println("In comparision"); 
+				return false; 			
+			
+			}//end if
 		
 		}//end for 
 		
 		
-		if(VectorOps.scalarMultiplication(testCases.get(3).getEntry(1),testCases.get(3)) != null)
+		if(!(VectorOps.scalarMultiplication(testCases.get(3).getEntry(1),testCases.get(3)) instanceof OverFlowResult))
 			return false; 
 			
 			
-		if(VectorOps.scalarMultiplication(testCases.get(4).getEntry(1),testCases.get(4)) != null )
+		if( !(VectorOps.scalarMultiplication(testCases.get(4).getEntry(1),testCases.get(4)) instanceof OverFlowResult))
 			return false; 
 			
 		returnBoolean = true; 
@@ -384,22 +413,35 @@ public class VectorOpsTest
 		for(int i = 0 ; i < 6 ; i += 2)
 		{
 			
-			if(!VectorOps.subtraction(testCases.get(i),testCases.get(i+1)).equal(solutionCases.get(j)))
+			Result vectorResult = VectorOps.subtraction(testCases.get(i),testCases.get(i+1)); 
+			
+			if(!(vectorResult instanceof VectorResult))
 			{
 				
 				debug("numSubtractionTest()",(j+1)); 
 				return false; 
 				
 			}//end if 
-		
+			
+			vectorResult = (VectorResult) vectorResult; 
+			NumVector localResult = (NumVector)vectorResult.getResult();
+			if(!(localResult.equal(solutionCases.get(j))))
+			{
+			
+				
+				debug("numSubtractionTest()",(j+1)); 
+				return false; 			
+			
+			}
+			
 			j++; 
 		}//end for 
 
-		if(VectorOps.subtraction(testCases.get(6),testCases.get(7)) != null)
+		if( !(VectorOps.subtraction(testCases.get(6),testCases.get(7)) instanceof OverFlowResult))
 			return false; 
 
 
-		if(VectorOps.subtraction(testCases.get(8),testCases.get(9)) != null)
+		if( !(VectorOps.subtraction(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
 			return false; 			
 		
 		
@@ -422,7 +464,9 @@ public class VectorOpsTest
 		for(int i = 0 ; i < 6 ; i += 2)
 		{
 		
-			if(!VectorOps.dotProduct(testCases.get(i),testCases.get(i+1)).equal(solutionCases.get(j)))
+			Result vectorResult = VectorOps.dotProduct(testCases.get(i),testCases.get(i+1));
+		
+			if(!(vectorResult instanceof EntryResult))
 			{
 			
 				debug("numDotProductTest()",(j+1));
@@ -430,17 +474,30 @@ public class VectorOpsTest
 				
 			}//end if 
 			
+			vectorResult = (EntryResult) vectorResult; 
+			
+			NumEntry localResult = (NumEntry)vectorResult.getResult(); 
+			
+			if(!(localResult.equal(solutionCases.get(j))))
+			{
+			
+			
+				debug("numDotProductTest()",(j+1));
+				return false; 			
+			
+			}
+			
 			j++; 
 		}//end for 
 		
 
-		if(VectorOps.dotProduct(testCases.get(6),testCases.get(7)) != null)
+		if(!(VectorOps.dotProduct(testCases.get(6),testCases.get(7)) instanceof OverFlowResult))
 			return false; 
 
-		if(VectorOps.dotProduct(testCases.get(8),testCases.get(9)) != null)
+		if(!(VectorOps.dotProduct(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
 			return false; 
 			
-		if(VectorOps.dotProduct(testCases.get(10),testCases.get(11)) != null)
+		if(!(VectorOps.dotProduct(testCases.get(10),testCases.get(11)) instanceof OverFlowResult))
 			return false; 
 			
 					
@@ -463,16 +520,28 @@ public class VectorOpsTest
 		for(int i = 0 ; i < 6 ; i += 2)
 		{
 			
-			if( !VectorOps.crossProduct(testCases.get(i),testCases.get(i+1)).equal(solCases.get(j)) )	
-			{
-				System.out.println(testCases.get(i).toString());
-				System.out.println(testCases.get(i+1).toString());
-				System.out.println(VectorOps.crossProduct(testCases.get(i),testCases.get(i+1)).toString()); 
+			Result vectorResult = VectorOps.crossProduct(testCases.get(i),testCases.get(i+1)); 
 			
+			if( !(vectorResult instanceof VectorResult) )	
+			{
+
 				debug("numCrossProductTest()",(j+1)); 	
 				
 				return false; 
 				
+			}//end if 
+
+			vectorResult = (VectorResult) vectorResult; 
+			
+			NumVector localVector = (NumVector)vectorResult.getResult();
+
+			if(!(localVector.equal(solCases.get(j))))
+			{
+			
+				debug("numCrossProductTest()",(j+1)); 	
+				
+				return false; 
+			
 			}//end if 
 			
 			
@@ -481,10 +550,10 @@ public class VectorOpsTest
 		}//end for 
 		
 		
-		if(VectorOps.crossProduct(testCases.get(7),testCases.get(8)) != null)
+		if(!(VectorOps.crossProduct(testCases.get(7),testCases.get(8)) instanceof OverFlowResult))
 			return false; 
 			
-		if(VectorOps.crossProduct(testCases.get(8),testCases.get(9)) != null)
+		if(!(VectorOps.crossProduct(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
 			return false; 		
 		
 		

@@ -10,20 +10,19 @@ import java.math.BigInteger;
 
 public class EntryOps
 {
-
-
-	public static NumEntry addition(NumEntry entryOne, NumEntry entryTwo)
+	  
+	public static Result addition(NumEntry entryOne, NumEntry entryTwo)
 	{
 	
 		//check for multiplication overflow				
 		if(multOverflow(entryOne.getNum(),entryTwo.getDen()))
-			return (NumEntry) null;
+			return new OverFlowResult();
 
 		if(multOverflow(entryOne.getDen(),entryTwo.getDen()))
-			return (NumEntry) null; 
+			return new OverFlowResult(); 
 		
 		if(multOverflow(entryTwo.getNum(),entryOne.getDen()))
-			return (NumEntry) null;
+			return new OverFlowResult();
 			
 			
 		//create common denominators
@@ -34,21 +33,21 @@ public class EntryOps
 		
 		//check for addition overflow
 		if(addOverflow(commonNumOne,commonNumTwo))
-			return (NumEntry) null; 	
+			return new OverFlowResult(); 	
 			
 		//add result numerators 
 		long numResult = commonNumOne + commonNumTwo; 
 					
 		
 		//return result
-		return new NumEntry(numResult,commonDen); 
+		return new EntryResult(new NumEntry(numResult,commonDen)); 
 		 
 		
 	}//end addition 
 	
 	
 	
-	public static StringEntry addition(StringEntry entryOne, StringEntry entryTwo)
+	public static EntryResult addition(StringEntry entryOne, StringEntry entryTwo)
 	{
 			
 		BigInteger commonNum1 = entryOne.getNum().multiply(entryTwo.getDen()); 
@@ -59,66 +58,84 @@ public class EntryOps
 		
 		BigInteger commonDen  = entryTwo.getDen().multiply(entryOne.getDen());
 		
-		return new StringEntry(commonNum1.add(commonNum2).toString(),commonDen.toString());  
+		return new EntryResult(new StringEntry(commonNum1.add(commonNum2).toString(),commonDen.toString()));  
 	
 	}//end addition
 		
 	
 	
-	public static NumEntry subtraction(NumEntry entryOne, NumEntry entryTwo)
+	public static Result subtraction(NumEntry entryOne, NumEntry entryTwo)
 	{
 	
-		//negate entry two checking for overflow 
-		NumEntry negEntryTwo = multiplication(entryTwo,new NumEntry(-1,1));
+	
+		//check for multiplication overflow				
+		if(multOverflow(entryOne.getNum(),entryTwo.getDen()))
+			return new OverFlowResult();
+
+		if(multOverflow(entryOne.getDen(),entryTwo.getDen()))
+			return new OverFlowResult(); 
 		
-		if(negEntryTwo == null)		
-			return (NumEntry) null; 
+		if(multOverflow(entryTwo.getNum(),entryOne.getDen()))
+			return new OverFlowResult();
 			
-		//send to addition checking for overflow 
-		NumEntry result = addition(entryOne,negEntryTwo);
+			
+		//create common denominators
+		long commonNumOne = entryOne.getNum() * entryTwo.getDen(); 
+		long commonDen = entryOne.getDen() * entryTwo.getDen(); 
+		long commonNumTwo = entryTwo.getNum() * entryOne.getDen(); 
+		if(multOverflow(commonNumTwo,-1))
+			return new OverFlowResult(); 
 		
-		if(result == null)
-			return (NumEntry) null; 
-		 
+		commonNumTwo *= -1; 
+		
+		//check for addition overflow
+		if(addOverflow(commonNumOne,commonNumTwo))
+			return new OverFlowResult(); 	
+			
+		//add result numerators 
+		long numResult = commonNumOne + commonNumTwo; 
+					
+	
 		//return result
-		return result; 
+		return new EntryResult(new NumEntry(numResult,commonDen)); 
+		 	
 		
 	}//end subtraction() 
 	
 
-	public static StringEntry subtraction(StringEntry entryOne, StringEntry entryTwo)
+	public static EntryResult subtraction(StringEntry entryOne, StringEntry entryTwo)
 	{
 		
-		StringEntry negEntryTwo = multiplication(entryTwo,new StringEntry("-1","1"));
+		StringEntry negEntryTwo = (StringEntry) multiplication(entryTwo,new StringEntry("-1","1")).getResult();
 		
-		return addition(entryOne,negEntryTwo);
+		return new EntryResult(addition(entryOne,negEntryTwo).getResult());
 		
 	}//end subtraction() 	
 	
 
-	public static NumEntry multiplication(NumEntry entryOne, NumEntry entryTwo)
+	public static Result multiplication(NumEntry entryOne, NumEntry entryTwo)
 	{
 	
 		//check for multiplication over flow 
 		if(multOverflow(entryOne.getNum() , entryTwo.getNum()) || multOverflow(entryOne.getDen(),entryTwo.getDen()))
-			return (NumEntry) null; 
+			return new OverFlowResult(); 
 			
-		return new NumEntry(entryOne.getNum() * entryTwo.getNum() , entryOne.getDen() * entryTwo.getDen() ); 	
+		return new EntryResult (new NumEntry(entryOne.getNum() * entryTwo.getNum() , entryOne.getDen() * entryTwo.getDen() ) ) ; 	
 		
 	}//end multiplication 
 		
 	
 	
-	public static StringEntry multiplication(StringEntry entryOne, StringEntry entryTwo)
+	public static EntryResult multiplication(StringEntry entryOne, StringEntry entryTwo)
 	{
 	
-		return new StringEntry(entryOne.getNum().multiply(entryTwo.getNum()).toString(),entryOne.getDen().multiply(entryTwo.getDen()).toString()); 
+		return new EntryResult(new StringEntry(entryOne.getNum().multiply(entryTwo.getNum()).toString(),entryOne.getDen().multiply(entryTwo.getDen()).toString())); 
 	
 	}//end multiplication() 
 	
 	
 	
-	public static NumEntry division(NumEntry entryOne, NumEntry entryTwo)
+	public static Result division(NumEntry entryOne, NumEntry entryTwo)
 	{
 				
 		//returns null if overflow by using multiplication 
@@ -127,10 +144,10 @@ public class EntryOps
 	}//end division() 
 	
 		
-	public static StringEntry division(StringEntry entryOne, StringEntry entryTwo)
+	public static EntryResult division(StringEntry entryOne, StringEntry entryTwo)
 	{
 		
-		return multiplication(entryOne,new StringEntry(entryTwo.getDen().toString(),entryTwo.getNum().toString()));
+		return new EntryResult(multiplication(entryOne,new StringEntry(entryTwo.getDen().toString(),entryTwo.getNum().toString())).getResult());
 		
 	}//end division() 
 	
