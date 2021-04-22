@@ -82,7 +82,19 @@ public class EntryOpsTest
 		else
 			System.out.println("stringMultipliaction test FAILED.");
 			
-			      
+		
+		
+		File stringSubFile = testFileBuilder(3);
+		Scanner stringSubScan = scanBuild(stringSubFile);
+		ArrayList<StringEntry> stringSub = stringCaseBuild(stringSubScan);
+		File stringSubSolFile = solFileBuilder(7);
+		Scanner stringSubSolScan = scanBuild(stringSubSolFile);
+		ArrayList<StringEntry> stringSubSol = stringCaseBuild(stringSubSolScan);
+		if(stringSubtractionTest(stringSub,stringSubSol))
+			System.out.println("stringSubtractionTest() PASSED.");
+		else
+			System.out.println("stringSubtractionTest() FAILED.");  
+			    	      
 	}//end main() 
 
 
@@ -127,7 +139,9 @@ public class EntryOpsTest
 			case 5: 
 				return new File("./TestCases/EntryOpsTests/BigAdditionSol.txt");
 			case 6:
-				return new File("./TestCases/EntryOpsTests/BigMultiplicationSol.txt");				 
+				return new File("./TestCases/EntryOpsTests/BigMultiplicationSol.txt");
+			case 7: 
+				return new File("./TestCases/EntryOpsTests/BigSubtractionSol.txt"); 				 
 			default:
 				return (File) null; 
 				
@@ -413,6 +427,52 @@ public class EntryOpsTest
 		return returnBoolean; 
 		
 	}//end numSubtractionTest() 
+	
+	
+	public static boolean stringSubtractionTest(ArrayList<StringEntry> testCases, ArrayList<StringEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		int length = solCases.size(); 
+		
+		for(int i = 0 ; j < length ; i += 2)
+		{
+			
+			Result localResult = EntryOps.subtraction(testCases.get(i),testCases.get(i+1));
+			
+			if(!(localResult instanceof EntryResult))
+			{
+				
+				debug("stringSubtractionTest()", (j+1));
+				return false;  	
+				
+			} 
+			
+			localResult = (EntryResult)localResult; 
+			
+			StringEntry localEntry = (StringEntry)localResult.getResult();
+			
+			if(!localEntry.equal(solCases.get(j)))
+			{
+			
+				debug("stringSubtractionTest()",(j+1));
+				return false;  
+			
+			}//end if 
+		
+			j++; 
+		
+		}//end for 	
+		
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end stringSubtractionTest() 
 	
 	
 	
