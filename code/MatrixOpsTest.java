@@ -39,7 +39,29 @@ public class MatrixOpsTest
 		else
 			System.out.println("numMatrixScalMultTest() FAILED."); 			  
 		
+		//test numMatrixMult
+		File numMatMultFile = caseFile(3);
+		Scanner numMatMultScan = scanBuild(numMatMultFile); 
+		ArrayList<NumMatrix> numMatMul = numMatrixCaseBuild(numMatMultScan,true);
+		File numMatMultSolFile = solutionFile(3);
+		Scanner numMatMultSolScan = scanBuild(numMatMultSolFile);
+		ArrayList<NumMatrix> numMatMulSol = numMatrixCaseBuild(numMatMultSolScan,true);
+		if(numMatrixMultTest(numMatMul,numMatMulSol))
+			System.out.println("numMatrixMultTest() PASSED."); 
+		else 
+			System.out.println("numMatrixMultTest() FAILED."); 
 		
+		
+		File numSubFile = caseFile(4);
+		Scanner numSubScan = scanBuild(numSubFile);
+		ArrayList<NumMatrix> numSub = numMatrixCaseBuild(numSubScan,true);
+		File numSubSolFile = solutionFile(4);
+		Scanner numSubSolScan = scanBuild(numSubSolFile);
+		ArrayList<NumMatrix> numSubSol = numMatrixCaseBuild(numSubSolScan,true);
+		if(numMatrixSubTest(numSub,numSubSol))
+			System.out.println("numMatrixSubTest() PASSED.");
+		else
+			System.out.println("numMatrixSubTest() FAILED.");     
 	}//end main() 
 
 
@@ -52,7 +74,11 @@ public class MatrixOpsTest
 			case 1: 
 				return new File("./TestCases/MatrixOpsTests/AdditionCases.txt"); 
 			case 2: 
-				return new File("./TestCases/MatrixOpsTests/ScalarMultCases.txt"); 
+				return new File("./TestCases/MatrixOpsTests/ScalarMultCases.txt");
+			case 3:
+				return new File("./TestCases/MatrixOpsTests/MultiplicationCases.txt"); 
+			case 4: 
+				return new File("./TestCases/MatrixOpsTests/SubtractionCases.txt");  
 		
 		}//end switch
 	
@@ -71,7 +97,12 @@ public class MatrixOpsTest
 			case 1: 
 				return new File("./TestCases/MatrixOpsTests/AdditionSol.txt"); 
 			case 2: 
-				return new File("./TestCases/MatrixOpsTests/ScalarMultSol.txt"); 
+				return new File("./TestCases/MatrixOpsTests/ScalarMultSol.txt");
+			case 3:
+				return new File("./TestCases/MatrixOpsTests/MultiplicationSol.txt");
+			case 4: 
+				return new File("./TestCases/MatrixOpsTests/SubtractionSol.txt");
+				   
 		}//end switch
 	
 		return (File) null; 
@@ -325,6 +356,126 @@ public class MatrixOpsTest
 	
 	}//end numMatrixScalMult() 
 	
+	
+	
+	public static boolean numMatrixMultTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		//non-overflow cases
+		for(int i = 0 ; i < 8 ; i += 2)
+		{
+			
+			//get a result
+			Result localResult = MatrixOps.matrixMultiplication(testCases.get(i),testCases.get(i+1));
+			 
+			//check if the correct instance is returned 
+			if(!(localResult instanceof MatrixResult))
+			{
+				
+				debug("numMatrixMultTest()",(j+1)); 
+				return false; 
+				
+			}//end if 
+			
+			//cast the result 
+			localResult = (MatrixResult)localResult; 
+			
+			//get a local matrix from result
+			NumMatrix localMatrix = (NumMatrix)localResult.getResult(); 
+			
+			//check if the correct result is returned
+			if(!localMatrix.equal(solCases.get(j)))
+			{
+				
+				debug("numMatrixMultTest()",(j+1));
+				return false; 
+				
+			}//end if 
+			
+			j++; 
+		
+		}//end for 
+		
+			
+		//check if overflow 
+		if(!(MatrixOps.matrixMultiplication(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
+			return false; 
+	
+		
+		//check if overflow 
+		if(!(MatrixOps.matrixMultiplication(testCases.get(10),testCases.get(11)) instanceof OverFlowResult))
+			return false; 		
+		
+		//check if dimension mismatch 
+		if(!(MatrixOps.matrixMultiplication(testCases.get(12),testCases.get(13)) instanceof DimensionMisMatchResult))
+			return false; 		
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end numMatrixMultTest() 
+	
+	
+	public static boolean numMatrixSubTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		for(int i = 0 ; i < 6 ; i += 2)
+		{
+		
+			//perform the subtraction operation 
+			Result localResult = MatrixOps.subtraction(testCases.get(i),testCases.get(i+1));
+			 
+			//check if the correct instance 
+			if(!(localResult instanceof MatrixResult))
+			{
+			
+				debug("numMatrixSubTest()",(j+1)); 
+				return false; 
+				
+			}//end if 
+			
+			//get the result as a matrix 
+			localResult = (MatrixResult)localResult; 
+			NumMatrix localMatrix = (NumMatrix)localResult.getResult(); 
+			
+			//check if the case is true 
+			if(!localMatrix.equal(solCases.get(j)))
+			{
+			
+				debug("numMatrixSubTest()",(j+1));
+				return false; 
+				
+			}//end if 
+			
+			j++; 
+			
+		}//end for loop 
+		
+		
+		if(!(MatrixOps.subtraction(testCases.get(6),testCases.get(7)) instanceof OverFlowResult))
+			return false; 
+			
+		if(!(MatrixOps.subtraction(testCases.get(8),testCases.get(9)) instanceof OverFlowResult))
+			return false; 
+			
+		if(!(MatrixOps.subtraction(testCases.get(10),testCases.get(11)) instanceof DimensionMisMatchResult))
+			return false; 						
+			
+			
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end numMatrixSubTest() 
 	
 
 }//end MatrixOpsTest

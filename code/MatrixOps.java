@@ -68,6 +68,28 @@ public class MatrixOps
 	}//end stringMatrix
 	
 	
+	public static Result subtraction(NumMatrix matrixOne, NumMatrix matrixTwo)
+	{
+	
+		//negate the second matrix 
+		Result negatedMatrix = scalarMultiplication(new NumEntry(-1,1),matrixTwo);
+
+
+		//check no overflow 		
+		if(!(negatedMatrix instanceof MatrixResult))
+			return negatedMatrix;
+			
+		
+		negatedMatrix = (MatrixResult)negatedMatrix; 
+		
+		NumMatrix localMatrixTwo = (NumMatrix)negatedMatrix.getResult(); 		 
+
+		return addition(matrixOne,localMatrixTwo); 
+				
+			
+	}//end subtraction() 
+	
+	
 	
 	public static Result scalarMultiplication(NumEntry entryOne, NumMatrix matrixOne)
 	{
@@ -130,7 +152,7 @@ public class MatrixOps
 	{
 	
 		//check dimensions 
-		if(matrixOne.getRowDim() != matrixTwo.getColDim())
+		if(matrixOne.getColDim() != matrixTwo.getRowDim())
 			return new DimensionMisMatchResult(); 
 			
 		//create arrayList of vectors
@@ -179,7 +201,7 @@ public class MatrixOps
 	{
 	
 		//check dimensions 
-		if(matrixOne.getRowDim() != matrixTwo.getColDim())
+		if(matrixOne.getColDim() != matrixTwo.getRowDim())
 			return new DimensionMisMatchResult(); 
 			
 		//create arrayList of vectors
