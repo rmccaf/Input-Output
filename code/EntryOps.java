@@ -144,8 +144,11 @@ public class EntryOps
 	}//end division() 
 	
 		
-	public static EntryResult division(StringEntry entryOne, StringEntry entryTwo)
+	public static Result division(StringEntry entryOne, StringEntry entryTwo)
 	{
+		
+		if(entryTwo.getNum().equals(new BigInteger("0")))
+			return new DivisionByZeroResult();
 		
 		return new EntryResult(multiplication(entryOne,new StringEntry(entryTwo.getDen().toString(),entryTwo.getNum().toString())).getResult());
 		

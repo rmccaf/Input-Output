@@ -94,7 +94,20 @@ public class EntryOpsTest
 			System.out.println("stringSubtractionTest() PASSED.");
 		else
 			System.out.println("stringSubtractionTest() FAILED.");  
-			    	      
+		
+		
+		File stringDivisionFile = testFileBuilder(4);
+		Scanner stringDivisionScan = scanBuild(stringDivisionFile);
+		ArrayList<StringEntry> stringDivision = stringCaseBuild(stringDivisionScan);
+		File stringDivisionSolFile = solFileBuilder(8);
+		Scanner stringDivSolScan = scanBuild(stringDivisionSolFile);
+		ArrayList<StringEntry> stringDivSol = stringCaseBuild(stringDivSolScan);
+		if(stringDivisionTest(stringDivision,stringDivSol))
+			System.out.println("stringDivisionTest() PASSED");
+		else
+			System.out.println("stringDivisionTest() FAILED.");
+			
+			     	    	      
 	}//end main() 
 
 
@@ -141,7 +154,9 @@ public class EntryOpsTest
 			case 6:
 				return new File("./TestCases/EntryOpsTests/BigMultiplicationSol.txt");
 			case 7: 
-				return new File("./TestCases/EntryOpsTests/BigSubtractionSol.txt"); 				 
+				return new File("./TestCases/EntryOpsTests/BigSubtractionSol.txt");
+			case 8: 
+				return new File("./TestCases/EntryOpsTests/BigDivisionSol.txt");  				 
 			default:
 				return (File) null; 
 				
@@ -429,6 +444,7 @@ public class EntryOpsTest
 	}//end numSubtractionTest() 
 	
 	
+	
 	public static boolean stringSubtractionTest(ArrayList<StringEntry> testCases, ArrayList<StringEntry> solCases)
 	{
 	
@@ -523,5 +539,57 @@ public class EntryOpsTest
 	}//end numDivisionTest() 
 	
 	
+	
+	public static boolean stringDivisionTest(ArrayList<StringEntry> testCases, ArrayList<StringEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		
+		int j = 0; 
+		
+		//check true cases
+		for(int i = 0 ; i < 10; i += 2)
+		{
+		
+			Result localResult = EntryOps.division(testCases.get(i),testCases.get(i+1));
+		
+			//check instance 
+			if(!(localResult instanceof EntryResult))
+			{
+			
+				debug("stringDivisionTest()",(j+1)); 
+				return false; 
+			
+			}//end if 	
+			
+			StringEntry localEntry = (StringEntry)localResult.getResult(); 
+				
+				
+			//check the result
+			if(!localEntry.equal(solCases.get(j)))
+			{
+			
+				debug("stringDivisionTest()",(j+1)); 
+				return false; 			
+			
+			}//end if 
+		
+			j++; 
+			
+		}//end for 
+		
+		
+		Result divZeroCase = EntryOps.division(testCases.get(10), testCases.get(11) ); 
+		
+		if(!( divZeroCase instanceof DivisionByZeroResult))
+			return false; 
+		
+				
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end strintDivisionTest() 
 	
 }//end class 
