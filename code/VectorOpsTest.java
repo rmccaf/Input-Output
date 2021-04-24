@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException; 
 import java.util.Scanner; 
-
+import java.math.BigInteger; 
 
 
 public class VectorOpsTest
@@ -73,7 +73,17 @@ public class VectorOpsTest
 		else
 			System.out.println("numCrossProduct test FAILED.");
 			
-		 	
+		
+		File stringAdditionFile = caseFile(1);
+		Scanner stringAdditionScan = scanBuild(stringAdditionFile);
+		ArrayList<StringVector> stringAddition = stringVectorCaseBuild(stringAdditionScan);
+		File stringAdditionSolFile = solutionFile(6);
+		Scanner stringAdditionSolScan = scanBuild(stringAdditionSolFile);
+		ArrayList<StringVector> stringAdditionSol = stringVectorSolBuild(stringAdditionSolScan);
+		if(stringAdditionTest(stringAddition,stringAdditionSol))
+			System.out.println("stringAdditionTest() PASSED."); 
+		else     
+			System.out.println("stringAdditionTest() FAILED."); 		 	
 	}//end main() 
 
 
@@ -117,7 +127,10 @@ public class VectorOpsTest
 			case 4: 
 				return new File("./TestCases/VectorOpsTests/DotProductSol.txt"); 
 			case 5: 
-				return new File("./TestCases/VectorOpsTests/CrossProductSo.txt"); 
+				return new File("./TestCases/VectorOpsTests/CrossProductSo.txt");
+			case 6: 
+				return new File("./TestCases/VectorOpsTests/BigAdditionSol.txt");
+				  
 		}//end switch		
 		
 		
@@ -233,6 +246,51 @@ public class VectorOpsTest
 		return localVectorList;
 	
 	}//end stringVectorCaseBuild() 
+	
+	public static ArrayList<StringVector> stringVectorSolBuild(Scanner scan)
+	{
+	
+		//scan for the number of cases 
+		int numberOfCases = scan.nextInt(); 
+		
+		//build local arraylist 
+		ArrayList<StringVector> vectorList = new ArrayList<StringVector>(); 
+		
+		//create a for loop 
+		for(int i = 0 ; i < numberOfCases ; i++)
+		{
+		
+			//create a local arraylist to build a vector 
+			ArrayList<StringEntry> entryList = new ArrayList<StringEntry>(); 
+			
+			//scan for the size of the vector 
+			int vectorSize = scan.nextInt(); 
+			
+			//create a for loop to build the vector 
+			for(int j = 0 ; j < vectorSize ; j++)
+			{
+			
+				//scan numerator 
+				BigInteger numerator = scan.nextBigInteger(); 
+				
+				//scan denominator 
+				BigInteger denominator = scan.nextBigInteger(); 
+				
+				//build stringentry and add it to the list 			
+				entryList.add(new StringEntry(numerator.toString(),denominator.toString())); 
+			
+			}//end for 
+	
+			//build a vector and add it to the list		
+			vectorList.add(new StringVector(entryList)); 		
+		
+		}//end for 
+
+			
+		//return the list of vectors 
+		return vectorList; 
+		
+	}//end stringVectorSolBuild() 
 	
 	
 		
@@ -351,6 +409,56 @@ public class VectorOpsTest
 	
 	}//end numAddition() 
 	
+	
+	public static boolean stringAdditionTest(ArrayList<StringVector> testCases, ArrayList<StringVector> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		//test true cases 
+		for(int i = 0 ; i < 10 ; i += 2)
+		{
+		
+			Result localResult = VectorOps.addition(testCases.get(i),testCases.get(i+1));
+			
+			//check if correct instance 
+			if(!(localResult instanceof VectorResult))
+			{
+				
+				debug("stringAdditionTest()",(j+1)); 
+				return false; 
+				
+			}//end if 	
+			
+			localResult = (VectorResult)localResult; 
+			StringVector vectorResult = (StringVector)localResult.getResult(); 
+			
+			//check if value is correct 
+			if(!(vectorResult.equal(solCases.get(j))))
+			{
+			
+				debug("stringAdditionTest()",(j+1)); 
+				return false; 				
+			
+			}//end if 
+			
+			j++; 
+			
+		}//end for 
+		
+		//test exception cases 
+		if(!(VectorOps.addition(testCases.get(10),testCases.get(11)) instanceof DimensionMisMatchResult))
+			return false; 
+			
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+		
+	
+	}//end stringAdditionTest() 
 	
 	
 	public static boolean numMultiplicationTest(ArrayList<NumVector> testCases, ArrayList<NumVector> solutionCases)
