@@ -83,7 +83,58 @@ public class VectorOpsTest
 		if(stringAdditionTest(stringAddition,stringAdditionSol))
 			System.out.println("stringAdditionTest() PASSED."); 
 		else     
-			System.out.println("stringAdditionTest() FAILED."); 		 	
+			System.out.println("stringAdditionTest() FAILED."); 
+			
+			
+		File stringMultFile = caseFile(2); 
+		Scanner stringMultScan = scanBuild(stringMultFile);
+		ArrayList<StringVector> stringMult = stringVectorCaseBuild(stringMultScan);
+		File stringMultSolFile = solutionFile(7);
+		Scanner stringMultSolScan = scanBuild(stringMultSolFile);
+		ArrayList<StringVector> stringMultSol = stringVectorSolBuild(stringMultSolScan);
+		if(stringMultiplicationTest(stringMult,stringMultSol))
+			System.out.println("stringMultiplicationTest() PASSED.");
+		else
+			System.out.println("stringMultiplicationTest() FAILED.");  
+		
+		
+		File stringSubFile = caseFile(3);
+		Scanner stringSubScan = scanBuild(stringSubFile);
+		ArrayList<StringVector> stringSub = stringVectorCaseBuild(stringSubScan);
+		File stringSubSolFile = solutionFile(8);
+		Scanner stringSubSolScan = scanBuild(stringSubSolFile);
+		ArrayList<StringVector> stringSubSol = stringVectorSolBuild(stringSubSolScan);
+		if(stringSubtractionTest(stringSub,stringSubSol))
+			System.out.println("stringSubtractionTest() PASSED.");
+		else
+			System.out.println("stringSubtractionTest() FAILED.");			      	
+		
+		
+		File stringDotProdFile = caseFile(4);
+		Scanner stringDotProdScan = scanBuild(stringDotProdFile);
+		ArrayList<StringVector> stringDotProd = stringVectorCaseBuild(stringDotProdScan);
+		File stringDotProdSolFile = solutionFile(9);
+		Scanner stringDoProdSolScan = scanBuild(stringDotProdSolFile);
+		ArrayList<StringEntry> stringDotProdSol = stringEntrySolBuild(stringDoProdSolScan);
+		if(stringDotProductTest(stringDotProd,stringDotProdSol))
+			System.out.println("stringDotProductTest() PASSED.");
+		else
+			System.out.println("stringDotProductTest() FAILED.");
+			
+			
+		File stringCrossProdFile = caseFile(5);
+		Scanner stringCrossProdScan = scanBuild(stringCrossProdFile);
+		ArrayList<StringVector> stringCrossProduct = stringVectorCaseBuild(stringCrossProdScan);
+		File stringCrossProdSolFile = solutionFile(10);
+		Scanner stringCrossProdSolScan = scanBuild(stringCrossProdSolFile);
+		ArrayList<StringVector> stringCrossProdSol = stringVectorSolBuild(stringCrossProdSolScan);
+		if(stringCrossProductTest(stringCrossProduct,stringCrossProdSol))
+			System.out.println("stringCrossProductTest() PASSED.");
+		else
+			System.out.println("stringCrossProductTest() FAILED.");
+			     			       		 	
+			     			       		 	
+			     			       		 	
 	}//end main() 
 
 
@@ -130,7 +181,14 @@ public class VectorOpsTest
 				return new File("./TestCases/VectorOpsTests/CrossProductSo.txt");
 			case 6: 
 				return new File("./TestCases/VectorOpsTests/BigAdditionSol.txt");
-				  
+			case 7:
+				return new File("./TestCases/VectorOpsTests/BigMultiplicationSol.txt");
+			case 8:
+				return new File("./TestCases/VectorOpsTests/BigSubtractionSol.txt");
+			case 9: 
+				return new File("./TestCases/VectorOpsTests/BigDotProductSol.txt");  
+			case 10: 
+				return new File("./TestCases/VectorOpsTests/BigCrossProductSol.txt"); 
 		}//end switch		
 		
 		
@@ -292,6 +350,27 @@ public class VectorOpsTest
 		
 	}//end stringVectorSolBuild() 
 	
+	
+	public static ArrayList<StringEntry> stringEntrySolBuild(Scanner scan)
+	{
+	
+		int numberOfCases = scan.nextInt(); 
+		
+		ArrayList<StringEntry> localList = new ArrayList<StringEntry>(); 
+		
+		for(int i = 0 ; i < numberOfCases ; i++)
+		{
+		
+			BigInteger numerator = scan.nextBigInteger(); 
+			BigInteger denominator = scan.nextBigInteger(); 
+			
+			localList.add(new StringEntry(numerator.toString(),denominator.toString())); 
+			
+		}//end for
+	
+		return localList; 
+	
+	}//end stringEntrySolBuild() 
 	
 		
 	public static ArrayList<NumEntry> numEntryCaseBuild(Scanner scan)
@@ -511,6 +590,54 @@ public class VectorOpsTest
 	
 	
 	
+	public static boolean stringMultiplicationTest(ArrayList<StringVector> testCases, ArrayList<StringVector> solCases)
+	{
+	
+		
+		boolean returnBoolean = false; 
+		
+		//test normal cases
+		for(int i = 0 ; i < 5 ; i++)
+		{
+		
+			//obtain a local result
+			Result localResult = VectorOps.scalarMultiplication(testCases.get(i).getEntry(1),testCases.get(i)); 
+			
+			//check the instance 
+			if(!(localResult instanceof VectorResult))
+			{
+			
+				debug("stringMultiplicationTest()",(i+1));
+				return false; 
+				
+			}//end if 
+			
+			localResult = (VectorResult)localResult;
+			
+			StringVector localVector = (StringVector)localResult.getResult(); 
+			
+			//check the result
+			if(!(localVector.equal(solCases.get(i))))
+			{
+			
+				debug("stringMultiplicationTest()",(i+1));
+				return false; 			
+			
+			}//end if
+		
+		
+		}//end for 	
+		
+	
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+		
+	
+	}//end stringMultiplicationTest() 
+	
+	
+	
 	public static boolean numSubtractionTest(ArrayList<NumVector> testCases, ArrayList<NumVector> solutionCases)
 	{
 	
@@ -560,6 +687,61 @@ public class VectorOpsTest
 	
 	}//end numSubtractionTest() 
 	
+	
+	
+	public static boolean stringSubtractionTest(ArrayList<StringVector> testCases, ArrayList<StringVector> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		
+		//check cases
+		for(int i = 0 ; i < 10 ; i += 2)
+		{
+		
+			//get local result
+			Result localResult = VectorOps.subtraction(testCases.get(i),testCases.get(i+1));
+			
+			//make sure it is the correct instance 
+			if(!(localResult instanceof VectorResult))
+			{
+			
+				debug("stringSubtractionTest()",(j+1));
+				return false; 
+			
+			}//end if 
+			
+			localResult = (VectorResult)localResult; 
+			
+			StringVector localVector = (StringVector)localResult.getResult(); 
+			
+			//make sure the result is correct 
+			if(!(localVector.equal(solCases.get(j))))
+			{
+
+				debug("stringSubtractionTest()",(j+1));
+				return false;
+			
+			}//end if 
+			
+			j++; 
+			
+		
+		}//end for 
+		
+		//check dimension mismatch
+		if(!(VectorOps.subtraction(testCases.get(10),testCases.get(11)) instanceof DimensionMisMatchResult))
+			return false; 
+			
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+		
+	
+	}//end stringSubtractionTest() 
 	
 	
 	public static boolean numDotProductTest(ArrayList<NumVector> testCases, ArrayList<NumEntry> solutionCases)
@@ -617,6 +799,58 @@ public class VectorOpsTest
 	
 	
 	
+	public static boolean stringDotProductTest(ArrayList<StringVector> testCases, ArrayList<StringEntry> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+				
+		for(int i = 0 ; j < solCases.size() ; i += 2)
+		{
+			
+			//get a local result from the operation 
+			Result localResult = VectorOps.dotProduct(testCases.get(i),testCases.get(i+1)); 
+			
+			
+			//check the instance 
+			if(!(localResult instanceof EntryResult))
+			{
+			
+				debug("stringDotProductTest()",(j+1));
+				return false; 
+				
+			}//end if 
+			
+			localResult = (EntryResult)localResult; 
+			
+			StringEntry localEntry = (StringEntry)localResult.getResult(); 
+			
+			//check the value
+			if(!localEntry.equal(solCases.get(j)))
+			{
+			
+				debug("stringDotProductTest()",(j+1));
+				return false;			
+			
+			}//end if 
+			
+			j++; 
+		
+		}//end for 
+			
+		
+		//check for dimension mismatch
+		if(!(VectorOps.dotProduct(testCases.get(14),testCases.get(15)) instanceof DimensionMisMatchResult))
+			return false;
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end stringDotProductTest() 
+	
+	
 	public static boolean numCrossProductTest(ArrayList<NumVector> testCases, ArrayList<NumVector> solCases)
 	{
 	
@@ -645,7 +879,8 @@ public class VectorOpsTest
 
 			if(!(localVector.equal(solCases.get(j))))
 			{
-			
+				
+				
 				debug("numCrossProductTest()",(j+1)); 	
 				
 				return false; 
@@ -672,6 +907,56 @@ public class VectorOpsTest
 	}//end numCrossProductTest() 
 	
 	
+	
+	public static boolean stringCrossProductTest(ArrayList<StringVector> testCases, ArrayList<StringVector> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		//test normal result cases 
+		for(int i = 0 ; j < solCases.size() ; i += 2)
+		{
+		
+			Result localResult = VectorOps.crossProduct(testCases.get(i),testCases.get(i+1));
+			
+			//check if correct instance 
+			if(!(localResult instanceof VectorResult))
+			{
+			
+				debug("stringCrossProductTest()",(j +1));
+				return false; 
+				
+			}//end if 	
+			
+			localResult = (VectorResult)localResult; 
+			
+			StringVector localVector = (StringVector)localResult.getResult(); 
+			
+			//check if result is correct 		
+			if(!localVector.equal(solCases.get(j)))
+			{
+				
+				debug("stringCrossProductTest()",(j +1));
+				return false; 
+			
+			}//end if 
+			j++; 
+		
+		}//end for 
+		
+		
+		//test for dimension mismatch
+		if(!(VectorOps.crossProduct(testCases.get(10),testCases.get(11)) instanceof DimensionMisMatchResult))
+			return false; 		
+		
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end stringCrossProductTest() 
 	
 	
 }//end class 

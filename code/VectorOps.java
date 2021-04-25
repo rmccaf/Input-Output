@@ -159,7 +159,10 @@ public class VectorOps
 	
 	public static Result dotProduct(NumVector vectorOne, NumVector vectorTwo)
 	{
-	
+		
+		if(vectorOne.vectorLength() != vectorTwo.vectorLength())
+			return new DimensionMisMatchResult(); 
+					
 		Result addResult = (Result) new EntryResult(new NumEntry(0,1)); 
 		int length = vectorOne.vectorLength(); 
 		
@@ -187,8 +190,13 @@ public class VectorOps
 
 	public static Result dotProduct(StringVector vectorOne, StringVector vectorTwo)
 	{
-	
+
+		if(vectorOne.vectorLength() != vectorTwo.vectorLength())
+			return new DimensionMisMatchResult(); 
+
 		Result addResult = (Result)new EntryResult(new StringEntry("0","1")); 
+		
+		
 		int length = vectorOne.vectorLength(); 
 		
 		for(int index = 1 ; index <= length ; index++)
@@ -217,6 +225,9 @@ public class VectorOps
 	{
 		
 		ArrayList<NumEntry> entryList = new ArrayList<NumEntry>(); 
+		if(vectorOne.vectorLength() != 3 || vectorTwo.vectorLength() != 3)
+			return new DimensionMisMatchResult(); 
+		
 		
 		Result result1 = EntryOps.multiplication( vectorOne.getEntry(2),vectorTwo.getEntry(3));
 		if(!(result1 instanceof EntryResult))
@@ -281,7 +292,9 @@ public class VectorOps
 		
 		ArrayList<StringEntry> entryList = new ArrayList<StringEntry>(); 
 		
-		
+		if(vectorOne.vectorLength() != 3 || vectorTwo.vectorLength() != 3)
+			return new DimensionMisMatchResult(); 
+					
 		Result result1 = EntryOps.multiplication( vectorOne.getEntry(2),vectorTwo.getEntry(3));
 		Result result12 = EntryOps.multiplication( vectorTwo.getEntry(2),vectorOne.getEntry(3) );
 		Result listResult1 = EntryOps.subtraction((StringEntry)result1.getResult(),(StringEntry)result12.getResult());	
@@ -296,7 +309,7 @@ public class VectorOps
 		
 					
 		Result result3 = EntryOps.multiplication(vectorOne.getEntry(1),vectorTwo.getEntry(2));
-		Result result33 = EntryOps.multiplication(vectorTwo.getEntry(2),vectorOne.getEntry(1) );
+		Result result33 = EntryOps.multiplication(vectorTwo.getEntry(1),vectorOne.getEntry(2) );
 		Result listResult3 = EntryOps.subtraction((StringEntry)result3.getResult(),(StringEntry)result33.getResult());
 		entryList.add((StringEntry)listResult3.getResult());
 		

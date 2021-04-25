@@ -10,7 +10,6 @@ method and a way to get and set themselves.
 
 public abstract class Entry<T extends Entry>
 {
-
 	
 	public abstract T getObj();
 	
