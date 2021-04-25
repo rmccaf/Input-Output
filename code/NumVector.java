@@ -48,6 +48,21 @@ public class NumVector extends Vector<NumVector,NumEntry>
 	}//end setVector 
 		
 	
+	public StringVector changeToString()
+	{
 	
+		ArrayList<StringEntry> entryList = new ArrayList<StringEntry>(); 
+		
+		for(int i = 0 ; i < this.vectorLength() ; i++)
+		{
+		
+			entryList.add(this.entryList.get(i).changeToString()); 
+		
+		}//end for
+	
+		
+		return new StringVector(entryList); 
+	
+	}//end changeToString() 
 
 }//end NumVector class

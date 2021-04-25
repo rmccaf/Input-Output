@@ -91,6 +91,28 @@ public class MatrixOps
 	
 	
 	
+	public static Result subtraction(StringMatrix matrixOne,StringMatrix matrixTwo)
+	{
+	
+		//negate the second matrix 
+		Result negatedMatrix = scalarMultiplication(new StringEntry("-1","1"),matrixTwo);
+
+
+		//check no overflow 		
+		if(!(negatedMatrix instanceof MatrixResult))
+			return negatedMatrix;
+			
+		
+		negatedMatrix = (MatrixResult)negatedMatrix; 
+		
+		StringMatrix localMatrixTwo = (StringMatrix)negatedMatrix.getResult(); 		 
+
+		return addition(matrixOne,localMatrixTwo); 
+				
+				
+	
+	}//end subtraction() 
+	
 	public static Result scalarMultiplication(NumEntry entryOne, NumMatrix matrixOne)
 	{
 	

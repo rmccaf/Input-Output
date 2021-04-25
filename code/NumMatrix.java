@@ -137,5 +137,23 @@ public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 	
 	}//end colsToRows() 	
 	
+	
+	public StringMatrix changeToString()
+	{
+		
+		
+		ArrayList<StringVector> vectorList = new ArrayList<StringVector>(); 
+	
+		
+		for(int i = 0 ; i < this.rowDimension ; i++)
+		{
+		
+			vectorList.add(this.rowVectors.get(i).changeToString()); 		
+				
+		}//end for 
+		
+		return new StringMatrix(vectorList,true);
+	
+	}//end changeToString() 
 
 }//end class 

@@ -1,7 +1,7 @@
 import java.lang.Math; 
 
 import java.math.BigInteger; 
-
+import java.lang.Long; 
 
 public class NumEntry extends Entry<NumEntry>
 {
@@ -133,6 +133,14 @@ public class NumEntry extends Entry<NumEntry>
 		 
 	}//end setDen() 
 		
+	
+	public StringEntry changeToString()
+	{
+	
+		return new StringEntry(Long.toString(num),Long.toString(den));
+		
+	}//end changeToString() 
+
 
 	public String toString()
 	{
