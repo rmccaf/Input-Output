@@ -28,16 +28,36 @@ public class StringMatrix extends Matrix<StringMatrix,StringVector,StringEntry>
 		
 	public StringMatrix getMatrix()
 	{
+ 
+ 		ArrayList<StringVector> vectorList = new ArrayList<StringVector>(); 
+		for(int i = 1 ; i <= this.rowDimension ; i++)
+		{
+			
+			ArrayList<StringEntry> entryList = new ArrayList<StringEntry>(); 
+			
+			for(int j = 1 ; j <= this.colDimension  ; j++)
+			{
+				
+				entryList.add(new StringEntry(getEntry(i,j)));
+			
+			}//end for 
 		
-		return new StringMatrix(this.rowVectors,true); 
+			vectorList.add(new StringVector(entryList)); 
+		
+		}
+		 
+		return new StringMatrix(vectorList,true);
 	
 	}//end getMatrix() 
 	
 	public void setEntry(int rowIndex, int columnIndex,StringEntry newEntry)
 	{
-	
+		//update the rowVector 
 		getRowVector(rowIndex).setEntry(columnIndex,newEntry);
-	
+		
+		//update the columnVector
+		getColumnVector(columnIndex).setEntry(rowIndex,newEntry);
+		
 	}//end setEntry
 	
 	
@@ -110,6 +130,7 @@ public class StringMatrix extends Matrix<StringMatrix,StringVector,StringEntry>
 		rowsToColumns();
 	
 	}//end rowsToColumns
+	
 	
 	public void colsToRows(ArrayList<StringVector> cols)
 	{

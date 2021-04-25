@@ -1,9 +1,9 @@
-public class EntryMemento<T extends Entry>
+public class EntryMemento implements Memento<Entry>
 {
 	
-	T copy; 
+	Entry copy; 
 	
-	public EntryMemento(T entry)
+	public EntryMemento(Entry entry)
 	{
 	
 		this.copy = entry.getObj(); 
@@ -12,7 +12,7 @@ public class EntryMemento<T extends Entry>
 
 
 
-	public T getMemento()
+	public Entry getMemento()
 	{
 	
 		return this.copy; 	

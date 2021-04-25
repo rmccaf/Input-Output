@@ -23,9 +23,25 @@ public class NumMatrix extends Matrix<NumMatrix,NumVector,NumEntry>
 	
 	public NumMatrix getMatrix()
 	{
-
-		return new NumMatrix(this.rowVectors,true); 
-	
+		ArrayList<NumVector> vectorList = new ArrayList<NumVector>(); 
+		for(int i = 1 ; i <= this.rowDimension ; i++)
+		{
+			
+			ArrayList<NumEntry> entryList = new ArrayList<NumEntry>(); 
+			
+			for(int j = 1 ; j <= this.colDimension  ; j++)
+			{
+				
+				entryList.add(new NumEntry(getEntry(i,j)));
+			
+			}//end for 
+		
+			vectorList.add(new NumVector(entryList)); 
+		
+		}
+		 
+		return new NumMatrix(vectorList,true);
+		 
 	}//end getMatrix()
 	
 	

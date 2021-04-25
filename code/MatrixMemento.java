@@ -1,18 +1,18 @@
-public class MatrixMemento<T extends Matrix>
+public class MatrixMemento implements Memento<Matrix>
 {
 
-	T copy; 
+	Matrix copy; 
 	
 	
-	public MatrixMemento(T matrix)
+	public MatrixMemento(Matrix matrix)
 	{
 	
 		this.copy = matrix.getMatrix(); 
 	
 	}//end constructor
 
-	
-	public T getMemento()
+
+	public Matrix getMemento()
 	{
 	
 		return this.copy; 

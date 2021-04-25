@@ -1,9 +1,9 @@
-public class VectorMemento<T extends Vector>
+public class VectorMemento implements Memento<Vector>
 {
 	
-	T copy; 
+	Vector copy; 
 	
-	public VectorMemento(T vector)
+	public VectorMemento(Vector vector)
 	{
 	
 		this.copy = vector.getVector(); 
@@ -11,7 +11,7 @@ public class VectorMemento<T extends Vector>
 	}//end constructor
 
 
-	public T getMemento()
+	public Vector getMemento()
 	{
 	
 		return this.copy; 

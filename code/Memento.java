@@ -1,14 +1,9 @@
-public abstract class Memento<T>
+public interface Memento<T>
 {
 
-	T copy; 
+ 	
 	
-	public T getMemento()
-	{
-	
-		return this.copy; 
-	
-	}//end getMemento() 	
+	public T getMemento(); 	
 
 
 }//end class 
