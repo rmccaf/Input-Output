@@ -61,7 +61,53 @@ public class MatrixOpsTest
 		if(numMatrixSubTest(numSub,numSubSol))
 			System.out.println("numMatrixSubTest() PASSED.");
 		else
-			System.out.println("numMatrixSubTest() FAILED.");     
+			System.out.println("numMatrixSubTest() FAILED.");  
+			
+			
+		File stringAddFile = caseFile(1);
+		Scanner stringAddScan = scanBuild(stringAddFile);
+		ArrayList<StringMatrix> stringAdd = stringMatrixCaseBuild(stringAddScan,true);
+		File stringAddSolFile = solutionFile(5);
+		Scanner stringAddSolScan = scanBuild(stringAddSolFile);
+		ArrayList<StringMatrix> stringAddSol = stringMatrixCaseBuild(stringAddSolScan,true);
+		if(stringMatrixAdditionTest(stringAdd,stringAddSol))
+			System.out.println("stringMatrixAdd() PASSED.");
+		else
+			System.out.println("stringMatrixAdd() FAILED.");
+			
+		File stringScalMultFile = caseFile(2); 
+		Scanner stringScalMultScan = scanBuild(stringScalMultFile);
+		ArrayList<StringMatrix> stringScalMult = stringMatrixCaseBuild(stringScalMultScan,true);
+		File stringScalMultSolFile = solutionFile(6); 
+		Scanner stringScalMultSolScan = scanBuild(stringScalMultSolFile);
+		ArrayList<StringMatrix> stringScalMultSol = stringMatrixCaseBuild(stringScalMultSolScan,true);
+		if(stringMatrixScalMultTest(stringScalMult,stringScalMultSol))
+			System.out.println("stringMatrixScalMultTest() PASSED."); 
+		else
+			System.out.println("stringMatrixScalMultTest() FAILED.");     	
+					     	
+		File stringMatMultFile = caseFile(3);
+		Scanner stringMatMultScan = scanBuild(stringMatMultFile);
+		ArrayList<StringMatrix> stringMatrixMult = stringMatrixCaseBuild(stringMatMultScan,true);
+		File stringMatMultSolFile = solutionFile(7);
+		Scanner stringMatMultSolScan = scanBuild(stringMatMultSolFile);
+		ArrayList<StringMatrix> stringMatrixMultSol = stringMatrixCaseBuild(stringMatMultSolScan,true);
+		if(stringMatrixMultTest(stringMatrixMult,stringMatrixMultSol))
+			System.out.println("stringMatrixMultTest() PASSED."); 
+		else
+			System.out.println("stringMatrixMultTest() FAILED.");
+			 
+		File stringMatSubFile = caseFile(4);
+		Scanner stringMatSubScan = scanBuild(stringMatSubFile);
+		ArrayList<StringMatrix> stringMatSub = stringMatrixCaseBuild(stringMatSubScan,true);
+		File stringMatSubSolFile = solutionFile(8);
+		Scanner stringMatSubSolScan = scanBuild(stringMatSubSolFile);
+		ArrayList<StringMatrix> stringMatSubSol = stringMatrixCaseBuild(stringMatSubSolScan,true);
+		if(stringMatrixSubTest(stringMatSub,stringMatSubSol))
+			System.out.println("stringMatrixSubTest PASSED."); 
+		else
+			System.out.println("stringMatrixSubTest FAILED."); 	   
+		 
 	}//end main() 
 
 
@@ -102,7 +148,14 @@ public class MatrixOpsTest
 				return new File("./TestCases/MatrixOpsTests/MultiplicationSol.txt");
 			case 4: 
 				return new File("./TestCases/MatrixOpsTests/SubtractionSol.txt");
-				   
+			case 5:
+				return new File("./TestCases/MatrixOpsTests/BigAdditionSol.txt");
+			case 6:
+				return new File("./TestCases/MatrixOpsTests/BigScalarMultSol.txt"); 
+			case 7:
+				return new File("./TestCases/MatrixOpsTests/BigMultiplicationSol.txt"); 
+			case 8:
+				return new File("./TestCases/MatrixOpsTests/BigSubtractionSol.txt"); 
 		}//end switch
 	
 		return (File) null; 
@@ -224,12 +277,12 @@ public class MatrixOpsTest
 				for(int k = 0 ; k < colDimension ; k++)
 				{
 									
-					Long longNum = scan.nextLong();
-					Long longDen = scan.nextLong(); 
+					BigInteger numerator = scan.nextBigInteger();
+					BigInteger denominator = scan.nextBigInteger(); 
 					
 	 				
 					//build an entry and add it to the list 
-					entryList.add(new StringEntry(longNum.toString(),longDen.toString())); 		
+					entryList.add(new StringEntry(numerator.toString(),denominator.toString())); 		
 					
 				
 				}//end for 	
@@ -310,6 +363,60 @@ public class MatrixOpsTest
 	}//end numMatrixAdditionTest()
 	
 	
+	public static boolean stringMatrixAdditionTest(ArrayList<StringMatrix> testCases, ArrayList<StringMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		//testNormal output cases 
+		for(int i = 0 ; i < 10  ; i += 2)
+		{
+			
+			Result localResult = MatrixOps.addition(testCases.get(i),testCases.get(i+1)); 
+			
+			//check for the correct instance 
+			if(!(localResult instanceof MatrixResult))
+			{
+				
+				debug("stringMatrixAddition()",(j+1)); 
+				return false; 
+			}//end if 
+			
+			localResult = (MatrixResult)localResult; 
+			
+			StringMatrix matrixResult = (StringMatrix)localResult.getResult(); 
+			
+			//check for the correct result
+			if(!matrixResult.equal(solCases.get(j)))
+			{
+			
+				debug("stringMatrixAddition()",(j+1)); 
+				return false; 
+			
+			}//end if
+			
+			
+			j++; 
+			
+		}//end for 
+			
+		
+		//test dimension mismatch 
+		Result localResult = MatrixOps.addition(testCases.get(10),testCases.get(11));
+		if(!(localResult instanceof DimensionMisMatchResult))
+			return false; 
+			 
+		
+		returnBoolean = true; 
+		
+		
+		return returnBoolean; 
+		
+	
+	}//end stringMatrixAddition() 
+	
 	
 	public static boolean numMatrixScalMultTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
 	{
@@ -356,6 +463,46 @@ public class MatrixOpsTest
 	
 	}//end numMatrixScalMult() 
 	
+	
+	public static boolean stringMatrixScalMultTest(ArrayList<StringMatrix> testCases, ArrayList<StringMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int length = testCases.size(); 
+		
+		//test all cases
+		for(int i = 0 ; i < length ; i++)
+		{
+		
+			Result localResult = MatrixOps.scalarMultiplication(testCases.get(i).getEntry(1,1),testCases.get(i));
+		
+			if(!(localResult instanceof MatrixResult))
+			{
+				
+				debug("stringMatrixScalMult",(i+1));
+				return false;  
+				
+			}//end if 
+		
+			localResult = (MatrixResult)localResult; 
+			
+			StringMatrix localMatrix = (StringMatrix)localResult.getResult(); 
+			if(!localMatrix.equal(solCases.get(i)))
+			{
+			
+				debug("stringMatrixScalMult",(i+1));
+				return false;  			
+			
+			}//end if 	
+		
+		}//end for 
+		
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+	
+	}//end stringMatrixScalMultTest() 
 	
 	
 	public static boolean numMatrixMultTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
@@ -421,6 +568,58 @@ public class MatrixOpsTest
 	}//end numMatrixMultTest() 
 	
 	
+	public static boolean stringMatrixMultTest(ArrayList<StringMatrix> testCases, ArrayList<StringMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		for(int i = 0 ; i < 12 ; i += 2)
+		{
+			//get a result
+			Result localResult = MatrixOps.matrixMultiplication(testCases.get(i),testCases.get(i+1));
+			 
+			//check if the correct instance is returned 
+			if(!(localResult instanceof MatrixResult))
+			{
+				
+				debug("stringMatrixMultTest()",(j+1)); 
+				return false; 
+				
+			}//end if 
+			
+			//cast the result 
+			localResult = (MatrixResult)localResult; 
+			
+			//get a local matrix from result
+			StringMatrix localMatrix = (StringMatrix)localResult.getResult(); 
+			
+			//check if the correct result is returned
+			if(!localMatrix.equal(solCases.get(j)))
+			{
+				
+				debug("stringMatrixMultTest()",(j+1));
+				return false; 
+				
+			}//end if 
+			
+			j++; 
+		
+		}//end for 
+		
+		
+		//test for dimension mismatch results
+		if(!(MatrixOps.matrixMultiplication(testCases.get(12),testCases.get(13)) instanceof DimensionMisMatchResult))
+			return false; 
+			
+		returnBoolean = true; 
+		
+		return returnBoolean;
+	
+	}//end stringMatrixMultTest() 
+	
+	
 	public static boolean numMatrixSubTest(ArrayList<NumMatrix> testCases, ArrayList<NumMatrix> solCases)
 	{
 	
@@ -477,5 +676,57 @@ public class MatrixOpsTest
 	
 	}//end numMatrixSubTest() 
 	
+
+
+	public static boolean stringMatrixSubTest(ArrayList<StringMatrix> testCases, ArrayList<StringMatrix> solCases)
+	{
+	
+		boolean returnBoolean = false; 
+		
+		int j = 0; 
+		
+		for(int i = 0 ; i < 10 ; i += 2)
+		{
+		
+			//perform the subtraction operation 
+			Result localResult = MatrixOps.subtraction(testCases.get(i),testCases.get(i+1));
+			 
+			//check if the correct instance 
+			if(!(localResult instanceof MatrixResult))
+			{
+			
+				debug("stringMatrixSubTest()",(j+1)); 
+				return false; 
+				
+			}//end if 
+			
+			//get the result as a matrix 
+			localResult = (MatrixResult)localResult; 
+			StringMatrix localMatrix = (StringMatrix)localResult.getResult(); 
+			
+			//check if the case is true 
+			if(!localMatrix.equal(solCases.get(j)))
+			{
+			
+				debug("stringMatrixSubTest()",(j+1));
+				return false; 
+				
+			}//end if 
+			
+			j++; 
+			
+		}//end for loop 
+		
+		
+		//check for dimension mismatch cases 
+		if(!(MatrixOps.subtraction(testCases.get(10),testCases.get(11)) instanceof DimensionMisMatchResult))
+			return false; 
+		
+	
+		returnBoolean = true; 
+		
+		return returnBoolean; 
+		
+	}//end stringMatrixSubTest() 
 
 }//end MatrixOpsTest
