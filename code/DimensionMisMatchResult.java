@@ -1,4 +1,4 @@
-public class DimensionMisMatchResult extends Result
+public class DimensionMisMatchResult extends Result<DimensionMisMatchResult>
 {
 	
 	public DimensionMisMatchResult getResult()

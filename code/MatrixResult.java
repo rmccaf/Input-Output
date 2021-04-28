@@ -1,4 +1,4 @@
-public class MatrixResult<T3 extends Matrix> extends Result
+public class MatrixResult<T3 extends Matrix> extends Result<Matrix>
 {
 
 	T3 result; 

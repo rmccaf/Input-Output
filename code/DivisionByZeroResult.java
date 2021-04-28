@@ -1,4 +1,4 @@
-public class DivisionByZeroResult extends Result
+public class DivisionByZeroResult extends Result<DivisionByZeroResult>
 {
 
 	public DivisionByZeroResult getResult()

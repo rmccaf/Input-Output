@@ -1,4 +1,4 @@
-public class EntryResult<T1 extends Entry> extends Result
+public class EntryResult<T1 extends Entry> extends Result<Entry>
 {
 
 	T1 result; 

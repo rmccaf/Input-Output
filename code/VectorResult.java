@@ -1,4 +1,4 @@
-public class VectorResult<T2 extends Vector> extends Result
+public class VectorResult<T2 extends Vector> extends Result<Vector>
 {
 
 	T2 result; 

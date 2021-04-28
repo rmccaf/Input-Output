@@ -1,4 +1,4 @@
-public class OverFlowResult extends Result
+public class OverFlowResult extends Result<OverFlowResult>
 {
 	
 	public OverFlowResult getResult()
