@@ -1,6 +1,13 @@
-# Input-Output
+# Matrix Operations and Design Patterns
 Semester project for CSCI 2467 
-Motivation:
+# Motivation
   My motivation for creating this project was to make an extensible and reusable package
   for performing basic arithematic operations on Matricies, Vectors, and Rational Numbers 
-  protected against Overflow and bad user operation requests.  
+  protected against overflow and bad user operation requests.  To protect against overflow
+  I used the design pattern Memento in conjunction with Command.  
+  
+# Organization
+  Three abstract classes are used to create all the concrete subclasses.  The abstract classes are Matrix, Vector, and Entry with Matricies being composed of Row   Vectors and Column Vectors. The Vector classes consist of ArrayLists of Entries.  The Entry abstract class is the smallest component in the package.  Each abstract class may be subclassed out to be composed of any object type the programmer wishes to add later.  The operations as they are currently implemented are in a seperate class consisting each of a set of static methods.  Matrix operations use Vector operations and Vector operations use Entry Operations.  If any cloner of this repo wishes to add on operations to matrices, vectors, or entries they are encouraged to add such new methods to the classes MatrixOps, VectorOps, or EntryOps, respectivly.  Furthermore, the programmer should create a Result subclass to be returned from such operations methods they add along with any subclass of errors or normal results.  The Request classes are used to separate invocation from execution of operations.  The main intent of these classees is to allow for an easier integration with any type of user interface the programmer may wish to add on later. Cloners are also encouraged to consult the Memento design pattern if they wish to include undo capabilities they may need at the user level or the programmer side.  The repo also contains several test cases for each method if a cloner makes any changes to their cloned repo they are encouraged to run the various test classes included to make sure that no new errors were introduced with the changes.  If they wish to add cases to test they are encouraged to write them in the text file in the format described at the end of each file and update the test class appropriately. 
+
+# What did I Learn 
+The project was implemented as part of the Systems Programming Concepts class project for Spring of 2021.  In the beginning of the class we focused on the dangers of overflow, how to detect it, but few techniques as to how to correct against it.  To do so I consulted the GoF book on design patterns and focused in particular on the pattern of Memento to protect operations against overflow.  
