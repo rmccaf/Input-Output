@@ -188,7 +188,7 @@ public class ProjectDemo
 	
 	public static void entryDemo(NumEntry entry)
 	{
-		
+		System.out.println("Addition Demo Result"); 
 		//build a request class
 		EntryOpRequest addEntryDemo = new EntryOpRequest(); 
 		
@@ -213,14 +213,44 @@ public class ProjectDemo
 		
 		}//end if 
 		
-	
+		System.out.println();
+		
+		//test multiplication 
+		System.out.println("Multiplication Demo Result");
+		
+		EntryOpRequest multEntryDemo = new EntryOpRequest(); 
+		
+		NumEntry multEntry2 = entry.getObj(); 
+		
+		Result multOpResult = multEntryDemo.multiplication(entry,multEntry2);
+		
+		if(multOpResult instanceof EntryResult)
+		{
+			multOpResult = (EntryResult)multOpResult; 
+			
+			Entry multResult = (Entry)multOpResult.getResult(); 
+			
+			if(multResult instanceof StringEntry)
+			{
+				
+				System.out.println(multResult.toString()); 
+			
+			}//end if 
+			
+
+			
+		}//end if  
+		
+		
+		
+		
 	}//end entryDemo() 
 	
 
 	
 	public static void vectorDemo(NumVector vector)
 	{
-	
+		System.out.println("Vector Addition Result"); 
 		//build a request class
 		VectorOpRequest addVectorDemo = new VectorOpRequest(); 
 		
@@ -244,15 +274,42 @@ public class ProjectDemo
 
 		
 		}//end if 	
-	
-	
+		System.out.println();
+		System.out.println("Vector Multiplication Result"); 
+		//scalar multiplication
+		VectorOpRequest multVectorDemo = new VectorOpRequest();
+		
+		NumEntry multEntry = new NumEntry(2,1);
+		
+		Result scalMulResult = multVectorDemo.scalarMultiplication(multEntry,vector);
+		
+		if(scalMulResult instanceof VectorResult)
+		{
+			
+			scalMulResult = (VectorResult)scalMulResult; 
+			
+			Vector scalMulVector = (Vector)scalMulResult.getResult(); 
+			
+			if(scalMulVector instanceof StringVector)
+			{
+			
+				System.out.println(scalMulVector.toString()); 
+				
+			}//end if 
+			
+			
+			
+		}//end if    
+		
+		
 	}//vectorDemo() 
 	
 	
 	
 	public static void matrixDemo(NumMatrix matrix)
 	{
-	
+		
+		System.out.println("Matrix Addition Demo"); 
 		//build a request class
 		MatrixOpRequest addMatrixDemo = new MatrixOpRequest(); 
 		
@@ -260,6 +317,7 @@ public class ProjectDemo
 		
 		Result opResult = addMatrixDemo.addition(matrix,matrix2);
 		
+		//add Matricies
 		if(opResult instanceof MatrixResult)
 		{
 			opResult = (MatrixResult)opResult; 
@@ -277,6 +335,55 @@ public class ProjectDemo
 		
 		}//end if 	
 	
+
+		//matrix scalar multiplication 
+		System.out.println();
+		System.out.println("Matrix Scalar Multiplication Demo"); 
+				
+		NumEntry scalMultEntry = new NumEntry(2,1);
+		
+		MatrixOpRequest scalMultRequest = new MatrixOpRequest(); 
+		
+		Result scalMultResult = scalMultRequest.scalarMultiplication(scalMultEntry,matrix);
+		 
+		if(scalMultResult instanceof MatrixResult)
+		{
+		
+			scalMultResult =(MatrixResult)scalMultResult; 
+			Matrix scalMultMatrix = (Matrix)scalMultResult.getResult(); 
+			if(scalMultMatrix instanceof StringMatrix)
+			{
+			
+				System.out.println(scalMultMatrix.toString()); 
+			
+			}//end if 
+		
+		}//end if
+		 
+		
+		//matrix multiplication 
+		System.out.println(); 
+		System.out.println("Matrix Multiplication Demo");
+		
+		MatrixOpRequest matrixMultRequest = new MatrixOpRequest(); 
+		
+		Result matrixMultResult = matrixMultRequest.matrixMultiplication(matrix,matrix);
+		
+		if(matrixMultResult instanceof MatrixResult)
+		{
+		
+			matrixMultResult = (MatrixResult)matrixMultResult; 
+			Matrix matrixMult = (Matrix)matrixMultResult.getResult();
+			if(matrixMult instanceof StringMatrix)
+			{
+				
+				System.out.println(matrixMult.toString()); 
+			
+			}//end if 
+		
+		}//end if 
+		
+		  
 	}//end matrixDemo() 
 	
 
