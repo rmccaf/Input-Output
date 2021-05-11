@@ -96,7 +96,7 @@ public class EntryOpsTest
 			System.out.println("stringSubtractionTest() FAILED.");  
 		
 		
-		File stringDivisionFile = testFileBuilder(4);
+		File stringDivisionFile = testFileBuilder(5);
 		Scanner stringDivisionScan = scanBuild(stringDivisionFile);
 		ArrayList<StringEntry> stringDivision = stringCaseBuild(stringDivisionScan);
 		File stringDivisionSolFile = solFileBuilder(8);
@@ -125,7 +125,9 @@ public class EntryOpsTest
 			case 3:
 				return new File("./TestCases/EntryOpsTests/SubtractionCases.txt");
 			case 4:
-				return new File("./TestCases/EntryOpsTests/DivisionCases.txt"); 
+				return new File("./TestCases/EntryOpsTests/DivisionCases.txt");
+			case 5: 
+				return new File("./TestCases/EntryOpsTests/BigDivisionCases.txt"); 
 			default:
 				return (File) null; 
 				
@@ -296,7 +298,7 @@ public class EntryOpsTest
 		for(int i  = 0 ; i < 10 ; i += 2 )
 		{
 			 
-			if(!EntryOps.addition(testCases.get(i),testCases.get(i+1)).getResult().equal(solCases.get(j)))
+			if(!(((StringEntry)EntryOps.addition(testCases.get(i),testCases.get(i+1)).getResult()).equal(solCases.get(j))))
 			{
 				System.out.println(EntryOps.addition(testCases.get(i),testCases.get(i+1)).toString()); 
 				debug("stringAdditionTest()", (j+1)); 
@@ -378,7 +380,7 @@ public class EntryOpsTest
 		for(int i = 0 ; i < length ; i += 2)
 		{
 		
-			if(!EntryOps.multiplication(testCases.get(i),testCases.get(i+1)).getResult().equal(solCases.get(j)))
+			if(!(((StringEntry)EntryOps.multiplication(testCases.get(i),testCases.get(i+1)).getResult()).equal(solCases.get(j))))
 			{
 			
 				debug("stringMultiplicationTest()", (j+1));
@@ -549,7 +551,7 @@ public class EntryOpsTest
 		int j = 0; 
 		
 		//check true cases
-		for(int i = 0 ; i < 10; i += 2)
+		for(int i = 0 ; i < 14; i += 2)
 		{
 		
 			Result localResult = EntryOps.division(testCases.get(i),testCases.get(i+1));
@@ -580,7 +582,7 @@ public class EntryOpsTest
 		}//end for 
 		
 		
-		Result divZeroCase = EntryOps.division(testCases.get(10), testCases.get(11) ); 
+		Result divZeroCase = EntryOps.division(testCases.get(14), testCases.get(15) ); 
 		
 		if(!( divZeroCase instanceof DivisionByZeroResult))
 			return false; 

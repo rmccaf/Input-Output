@@ -47,7 +47,7 @@ public class EntryOps
 	
 	
 	
-	public static EntryResult addition(StringEntry entryOne, StringEntry entryTwo)
+	public static Result addition(StringEntry entryOne, StringEntry entryTwo)
 	{
 			
 		BigInteger commonNum1 = entryOne.getNum().multiply(entryTwo.getDen()); 
@@ -103,12 +103,12 @@ public class EntryOps
 	}//end subtraction() 
 	
 
-	public static EntryResult subtraction(StringEntry entryOne, StringEntry entryTwo)
+	public static Result subtraction(StringEntry entryOne, StringEntry entryTwo)
 	{
 		
 		StringEntry negEntryTwo = (StringEntry) multiplication(entryTwo,new StringEntry("-1","1")).getResult();
 		
-		return new EntryResult(addition(entryOne,negEntryTwo).getResult());
+		return addition(entryOne,negEntryTwo);
 		
 	}//end subtraction() 	
 	
@@ -119,16 +119,18 @@ public class EntryOps
 		//check for multiplication over flow 
 		if(multOverflow(entryOne.getNum() , entryTwo.getNum()) || multOverflow(entryOne.getDen(),entryTwo.getDen()))
 			return new OverFlowResult(); 
-			
+		
+				
 		return new EntryResult (new NumEntry(entryOne.getNum() * entryTwo.getNum() , entryOne.getDen() * entryTwo.getDen() ) ) ; 	
 		
 	}//end multiplication 
 		
 	
 	
-	public static EntryResult multiplication(StringEntry entryOne, StringEntry entryTwo)
+	public static Result multiplication(StringEntry entryOne, StringEntry entryTwo)
 	{
-	
+
+		
 		return new EntryResult(new StringEntry(entryOne.getNum().multiply(entryTwo.getNum()).toString(),entryOne.getDen().multiply(entryTwo.getDen()).toString())); 
 	
 	}//end multiplication() 
@@ -150,7 +152,7 @@ public class EntryOps
 		if(entryTwo.getNum().equals(new BigInteger("0")))
 			return new DivisionByZeroResult();
 		
-		return new EntryResult(multiplication(entryOne,new StringEntry(entryTwo.getDen().toString(),entryTwo.getNum().toString())).getResult());
+		return multiplication(entryOne,new StringEntry(entryTwo.getDen().toString(),entryTwo.getNum().toString()));
 		
 	}//end division() 
 	
